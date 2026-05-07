@@ -1,0 +1,25 @@
+/* 1. Panggil inti Tailwind */
+@import "tailwindcss";
+
+/* 2. Panggil file warna buatan kita */
+@import "./theme.css";
+
+/* 3. Pengaturan Font (Sesuai dengan Plus Jakarta Sans di layout.tsx) */
+@theme inline {
+  --font-sans: var(--font-jakarta), ui-sans-serif, system-ui, sans-serif;
+}
+
+/* 4. Pengaturan Base Layer (Default untuk seluruh HTML) */
+@layer base {
+  * {
+    /* Memberikan warna default untuk border jika komponen memanggil class border */
+    @apply border-border outline-ring/50;
+  }
+
+  body {
+    /* Mengecat latar belakang web dengan warna dari theme.css */
+    @apply bg-background text-foreground;
+    /* Menerapkan font dari @theme inline di atas */
+    font-family: var(--font-sans);
+  }
+}
