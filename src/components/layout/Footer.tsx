@@ -39,8 +39,8 @@ export function Footer() {
   return (
     <footer className="relative pt-20 pb-10 overflow-hidden bg-[#020617]">
       {/* Efek Latar Belakang */}
-      <div className="absolute inset-0 bg-gradient-to-b from-[#042F2E]/30 to-transparent pointer-events-none"></div>
-      <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-primary/30 to-transparent"></div>
+      <div className="absolute inset-0 bg-linear-to-b from-[#042F2E]/30 to-transparent pointer-events-none"></div>
+      <div className="absolute top-0 left-0 right-0 h-px bg-linear-to-r from-transparent via-primary/30 to-transparent"></div>
       
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         <div className="grid md:grid-cols-4 gap-12 text-white/70">
