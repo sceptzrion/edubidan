@@ -84,9 +84,12 @@ export default function AboutPage() {
           <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="grid md:grid-cols-12 gap-12 items-center">
               
-              {/* Sisi Kiri: Statement (Tanpa Link) */}
-              <div className="md:col-span-5 relative">
-                <div className="absolute -left-6 -top-6 w-12 h-12 border-t-4 border-l-4 border-primary rounded-tl-xl"></div>
+              {/* Sisi Kiri: Statement */}
+              {/* Di mobile kita tambah padding (pl-4 pt-4), di desktop kita kembalikan normal (md:pl-0 md:pt-0) */}
+              <div className="md:col-span-5 relative pl-4 pt-4 md:pl-0 md:pt-0">
+                {/* Di mobile garis nempel di pojok (top-0 left-0), di desktop baru melayang keluar (-left-6 -top-6) */}
+                <div className="absolute top-0 left-0 md:-left-6 md:-top-6 w-10 h-10 md:w-12 md:h-12 border-t-4 border-l-4 border-primary rounded-tl-xl"></div>
+                
                 <h2 className="text-3xl lg:text-4xl font-bold text-foreground leading-tight">
                   Menjembatani Aksesibilitas dalam Pembelajaran Kebidanan
                 </h2>
