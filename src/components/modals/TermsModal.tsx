@@ -54,7 +54,6 @@ export function TermsModal({ isOpen, onClose, onAgree }: TermsModalProps) {
         <div className="flex items-center justify-between p-6 md:p-8 border-b border-border shrink-0">
           <div>
             <h2 className="text-xl font-bold text-foreground">Syarat & Ketentuan</h2>
-            <p className="text-xs text-muted-foreground mt-1">Terakhir diperbarui: 1 April 2026</p>
           </div>
           <button 
             onClick={onClose} 
