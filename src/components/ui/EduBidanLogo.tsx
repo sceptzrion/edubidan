@@ -1,6 +1,5 @@
 import React from "react";
 
-// Mendefinisikan interface props agar TypeScript lebih rapi
 interface EduBidanLogoProps {
   size?: "sm" | "md" | "lg";
   showText?: boolean;
@@ -14,34 +13,61 @@ export function EduBidanLogo({
   variant = "default",
   hideTextOnMobile = false
 }: EduBidanLogoProps) {
-  const sizes = { sm: "w-9 h-9", md: "w-11 h-11", lg: "w-16 h-16" };
+  // Menggunakan ukuran pixel yang persis (tidak lagi pakai scale/padding)
+  const dimensions = { sm: 36, md: 44, lg: 64 };
   const textSizes = { sm: "text-xl", md: "text-2xl", lg: "text-4xl" };
-  const iconScale = { sm: 0.55, md: 0.7, lg: 1 };
+  
+  const currentDim = dimensions[size];
   const isWhite = variant === "white";
 
   return (
     <div className="flex items-center gap-2.5">
-      {/* Box logo dibiarkan menggunakan hex agar warna gradien identitas brand tetap konsisten */}
-      <div className={`${sizes[size]} rounded-2xl bg-linear-to-br from-[#0D9488] via-[#14B8A6] to-[#5EEAD4] flex items-center justify-center relative shadow-md shadow-primary/20`}>
-        <svg
-          viewBox="0 0 48 48"
-          fill="none"
-          style={{ width: `${iconScale[size] * 36}px`, height: `${iconScale[size] * 36}px` }}
-        >
-          {/* Mother & baby silhouette with stethoscope heart */}
-          <path d="M24 6C20.5 6 18 8.5 18 11.5C18 14.5 20.5 17 24 17C27.5 17 30 14.5 30 11.5C30 8.5 27.5 6 24 6Z" fill="white" opacity="0.95" />
-          <path d="M16 20C14 21 13 23.5 13 26V34C13 35.5 14 37 16 37.5L20 38.5V42H28V38.5L32 37.5C34 37 35 35.5 34 26C35 23.5 34 21 32 20C30.5 19.2 27.5 18.5 24 18.5C20.5 18.5 17.5 19.2 16 20Z" fill="white" opacity="0.9" />
-          {/* Baby circle */}
-          <circle cx="33" cy="30" r="5.5" fill="white" opacity="0.85" />
-          <circle cx="33" cy="28.5" r="2" fill="white" opacity="0.5" />
-          {/* Heart/medical cross accent */}
-          <path d="M22 28C22 26.5 23 25.5 24 25.5C25 25.5 26 26.5 26 28C26 30 24 32 24 32C24 32 22 30 22 28Z" fill="#0D9488" opacity="0.7" />
-          {/* Stethoscope line */}
-          <path d="M20 22C18.5 24 18 26 18.5 28" stroke="white" strokeWidth="1.2" strokeLinecap="round" opacity="0.5" />
-        </svg>
-      </div>
+      {/* SVG Container Asli dari Figma dengan efek Drop Shadow Tailwind */}
+      <svg 
+        width={currentDim} 
+        height={currentDim} 
+        viewBox="0 0 48 48" 
+        fill="none" 
+        xmlns="http://www.w3.org/2000/svg"
+        className="drop-shadow-md"
+      >
+        {/* Definisi Gradien EduBidan untuk menggantikan warna solid Figma */}
+        <defs>
+          <linearGradient id="brandGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stopColor="#0D9488" />
+            <stop offset="50%" stopColor="#14B8A6" />
+            <stop offset="100%" stopColor="#5EEAD4" />
+          </linearGradient>
+        </defs>
+
+        {/* Rounded square background (Bentuk Asli) */}
+        <rect width="48" height="48" rx="12" fill="url(#brandGradient)" />
+        
+        {/* Stethoscope head (circle) representing medical */}
+        <circle cx="24" cy="20" r="7" stroke="white" strokeWidth="2.2" fill="none" />
+        
+        {/* Cross inside circle - medical symbol */}
+        <line x1="24" y1="16" x2="24" y2="24" stroke="white" strokeWidth="2.2" strokeLinecap="round" />
+        <line x1="20" y1="20" x2="28" y2="20" stroke="white" strokeWidth="2.2" strokeLinecap="round" />
+        
+        {/* Stethoscope tube going down */}
+        <path d="M17 20C14.5 20 13 22 13 24.5V28C13 30.2 14.8 32 17 32H19" stroke="white" strokeWidth="2" strokeLinecap="round" />
+        <path d="M31 20C33.5 20 35 22 35 24.5V28C35 30.2 33.2 32 31 32H29" stroke="white" strokeWidth="2" strokeLinecap="round" />
+        
+        {/* Mother & baby symbol at bottom */}
+        <circle cx="24" cy="33" r="3.5" fill="white" opacity="0.9" />
+        <circle cx="24" cy="33" r="1.8" fill="#0D9488" />
+        
+        {/* Book/education accent - small open book */}
+        <path d="M20.5 37L24 35.5L27.5 37" stroke="white" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" opacity="0.7" />
+        
+        {/* Notification dot - accent */}
+        <circle cx="36" cy="12" r="3.5" fill="#F97316" />
+        <path d="M34.8 12L35.6 12.8L37.2 11.2" stroke="white" strokeWidth="1" strokeLinecap="round" strokeLinejoin="round" />
+      </svg>
+
+      {/* Teks Logo */}
       {showText && (
-        // jika hideTextOnMobile true, maka di layar kecil di-hidden, di md (tablet ke atas) di-block
         <span className={`${textSizes[size]} tracking-tight font-black ${hideTextOnMobile ? "hidden sm:block" : "block"}`}>
           <span className={isWhite ? "text-white" : "text-primary"}>Edu</span>
           <span className={isWhite ? "text-white/80" : "text-[#134E4A]"}>Bidan</span>
