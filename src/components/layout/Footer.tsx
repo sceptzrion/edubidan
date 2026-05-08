@@ -33,11 +33,34 @@ export function Footer() {
 
   const handleAboutClick = () => {
     if (pathname === "/about") {
-      // Jika sudah di halaman about, scroll mulus ke paling atas
       window.scrollTo({ top: 0, behavior: "smooth" });
     } else {
-      // Jika di halaman lain, pindah ke halaman about
       router.push("/about");
+    }
+  };
+
+  const handleHelpClick = () => {
+    if (pathname === "/help") {
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    } else {
+      router.push("/help");
+    }
+  };
+
+  const handleTermsClick = () => {
+    if (pathname === "/terms") {
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    } else {
+      router.push("/terms");
+    }
+  };
+
+  // Logika cerdas untuk Kebijakan Privasi
+  const handlePrivacyClick = () => {
+    if (pathname === "/privacy") {
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    } else {
+      router.push("/privacy");
     }
   };
 
@@ -49,14 +72,12 @@ export function Footer() {
 
   return (
     <footer className="relative pt-20 pb-10 overflow-hidden bg-[#020617]">
-      {/* Efek Latar Belakang */}
       <div className="absolute inset-0 bg-linear-to-b from-[#042F2E]/30 to-transparent pointer-events-none"></div>
       <div className="absolute top-0 left-0 right-0 h-px bg-linear-to-r from-transparent via-primary/30 to-transparent"></div>
       
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         <div className="grid md:grid-cols-4 gap-12 text-white/70">
           
-          {/* Kolom 1: Branding */}
           <div className="space-y-6">
             <EduBidanLogo size="sm" variant="white" />
             <p className="text-sm leading-relaxed text-slate-400">
@@ -77,27 +98,23 @@ export function Footer() {
             </div>
           </div>
 
-          {/* Kolom 2: Platform */}
           <div>
             <h4 className="text-sm font-bold text-white uppercase tracking-wider mb-6">Platform</h4>
             <div className="space-y-3 text-sm">
               <p onClick={handleAboutClick} className="hover:text-primary cursor-pointer transition-colors">Tentang Kami</p>
-              <p onClick={() => router.push("/register")} className="hover:text-primary cursor-pointer transition-colors">Buat Akun</p>
-              <p className="hover:text-primary cursor-pointer transition-colors">Pusat Bantuan</p>
+              <p onClick={() => router.push("/register")} className="hover:text-primary cursor-pointer transition-colors">Mulai Belajar</p>
             </div>
           </div>
 
-          {/* Kolom 3: Dukungan */}
           <div>
             <h4 className="text-sm font-bold text-white uppercase tracking-wider mb-6">Dukungan</h4>
             <div className="space-y-3 text-sm">
-              <p className="hover:text-primary cursor-pointer transition-colors text-slate-400">Syarat & Ketentuan</p>
-              <p className="hover:text-primary cursor-pointer transition-colors text-slate-400">Kebijakan Privasi</p>
-              <p className="hover:text-primary cursor-pointer transition-colors text-slate-400">Cookie Policy</p>
+              <p onClick={handleHelpClick} className="hover:text-primary cursor-pointer transition-colors text-slate-400">Pusat Bantuan</p>
+              <p onClick={handlePrivacyClick} className="hover:text-primary cursor-pointer transition-colors text-slate-400">Kebijakan Privasi</p>
+              <p onClick={handleTermsClick} className="hover:text-primary cursor-pointer transition-colors text-slate-400">Syarat & Ketentuan</p>
             </div>
           </div>
 
-          {/* Kolom 4: Kontak */}
           <div>
             <h4 className="text-sm font-bold text-white uppercase tracking-wider mb-6">Kontak</h4>
             <div className="space-y-4 text-sm">
@@ -127,7 +144,6 @@ export function Footer() {
 
         </div>
 
-        {/* Copyright */}
         <div className="mt-16 pt-8 border-t border-white/5 flex flex-col md:flex-row justify-between items-center gap-4">
           <p className="text-xs text-slate-500">
             &copy; 2026 EduBidan. Seluruh hak cipta dilindungi.
