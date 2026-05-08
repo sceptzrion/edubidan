@@ -23,7 +23,7 @@ export function Navbar() {
           {!isHomePage && (
             <button 
               onClick={() => router.push("/")} 
-              className="p-2 rounded-lg hover:bg-muted text-muted-foreground hover:text-foreground transition-colors"
+              className="p-2 -ml-2 rounded-lg hover:bg-muted text-muted-foreground hover:text-foreground transition-colors shrink-0"
               aria-label="Kembali ke Beranda"
             >
               <ArrowLeft size={20} />
@@ -43,7 +43,8 @@ export function Navbar() {
               }
             }}
           >
-            <EduBidanLogo size="sm" />
+            {/* Sinyal hideTextOnMobile dikirim ke komponen Logo  */}
+            <EduBidanLogo size="sm" hideTextOnMobile={!isHomePage} />
           </Link>
         </div>
 
@@ -65,13 +66,11 @@ export function Navbar() {
           </div>
         )}
 
-        {/* KANAN: Action Buttons (Selalu Muncul - Sesuai style aslimu) */}
+        {/* KANAN: Action Buttons (Selalu Muncul) */}
         <div className="flex items-center gap-3">
           
-          {/* ThemeToggle dipanggil polosan tanpa props */}
           <ThemeToggle />
           
-          {/* Tombol Masuk */}
           <button 
             onClick={() => router.push("/login")} 
             className="text-sm text-primary hover:underline font-semibold"
@@ -79,7 +78,6 @@ export function Navbar() {
             Masuk
           </button>
           
-          {/* Tombol Daftar */}
           <button 
             onClick={() => router.push("/register")} 
             className="text-sm bg-primary text-primary-foreground px-4 py-2 rounded-lg hover:opacity-90 transition-opacity font-semibold"
