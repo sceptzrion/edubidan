@@ -15,7 +15,6 @@ export function FaqItem({ question, answer, isOpen, onClick }: FaqItemProps) {
         onClick={onClick} 
         className="w-full flex items-center justify-between p-5 text-left focus:outline-none" // P-5 sesuai Figma
       >
-        {/* Font disesuaikan: Semibold text-base (16px) */}
         <span className="text-base font-semibold text-foreground pr-4">
           {question}
         </span>
@@ -27,7 +26,6 @@ export function FaqItem({ question, answer, isOpen, onClick }: FaqItemProps) {
       
       <div className={`grid transition-all duration-300 ease-in-out ${isOpen ? "grid-rows-[1fr] opacity-100" : "grid-rows-[0fr] opacity-0"}`}>
         <div className="overflow-hidden">
-          {/* Font Answer disesuaikan: text-sm (14px) sesuai Figma */}
           <p className="px-5 pb-5 text-sm text-muted-foreground leading-relaxed">
             {answer}
           </p>

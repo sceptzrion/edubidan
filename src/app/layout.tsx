@@ -25,6 +25,7 @@ export default function RootLayout({
     <html
       lang="id"
       className={`${jakartaSans.variable} ${jakartaSans.className} h-full scroll-smooth antialiased`}
+      data-scroll-behavior="smooth"
     >
       <body className="min-h-full flex flex-col bg-white text-slate-900">
         {children}

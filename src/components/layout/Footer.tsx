@@ -1,7 +1,7 @@
 "use client";
 
 import React from "react";
-import { useRouter } from "next/navigation";
+import { useRouter, usePathname } from "next/navigation";
 import { EduBidanLogo } from "@/components/ui/EduBidanLogo";
 import { Mail, Phone, MapPin, Heart } from "lucide-react";
 
@@ -29,6 +29,17 @@ const YoutubeIcon = ({ size = 16 }: { size?: number }) => (
 
 export function Footer() {
   const router = useRouter();
+  const pathname = usePathname();
+
+  const handleAboutClick = () => {
+    if (pathname === "/about") {
+      // Jika sudah di halaman about, scroll mulus ke paling atas
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    } else {
+      // Jika di halaman lain, pindah ke halaman about
+      router.push("/about");
+    }
+  };
 
   const socialLinks = [
     { Icon: InstagramIcon, href: "#" },
@@ -49,7 +60,7 @@ export function Footer() {
           <div className="space-y-6">
             <EduBidanLogo size="sm" variant="white" />
             <p className="text-sm leading-relaxed text-slate-400">
-              Platform edukasi kebidanan digital terdepan untuk mencetak bidan cerdas, kompeten, dan siap praktik di era digital.
+              Media pembelajaran digital penunjang untuk membantu mahasiswa kebidanan mengulas kembali praktik asuhan kebidanan dasar.
             </p>
             <div className="flex gap-3">
               {socialLinks.map((item, i) => {
@@ -70,8 +81,8 @@ export function Footer() {
           <div>
             <h4 className="text-sm font-bold text-white uppercase tracking-wider mb-6">Platform</h4>
             <div className="space-y-3 text-sm">
-              <p onClick={() => router.push("#about")} className="hover:text-primary cursor-pointer transition-colors">Tentang Kami</p>
-              <p onClick={() => router.push("/register")} className="hover:text-primary cursor-pointer transition-colors">Mulai Belajar</p>
+              <p onClick={handleAboutClick} className="hover:text-primary cursor-pointer transition-colors">Tentang Kami</p>
+              <p onClick={() => router.push("/register")} className="hover:text-primary cursor-pointer transition-colors">Buat Akun</p>
               <p className="hover:text-primary cursor-pointer transition-colors">Pusat Bantuan</p>
             </div>
           </div>
@@ -122,7 +133,7 @@ export function Footer() {
             &copy; 2026 EduBidan. Seluruh hak cipta dilindungi.
           </p>
           <div className="flex items-center gap-1 text-xs text-slate-500">
-            Dibuat dengan <Heart size={12} className="text-rose-500 fill-rose-500" /> untuk Bidan Indonesia
+            Dibuat dengan <Heart size={12} className="text-rose-500 fill-rose-500" /> untuk Pendidikan Bidan
           </div>
         </div>
       </div>

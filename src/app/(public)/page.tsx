@@ -8,8 +8,6 @@ import { AboutCard } from "@/components/sections/landing/AboutCard";
 import { FeatureCard } from "@/components/sections/landing/FeatureCard";
 import { StepCard } from "@/components/sections/landing/StepCard";
 import { FaqItem } from "@/components/sections/landing/FaqItem";
-
-// Import ikon Lucide yang dibutuhkan
 import { GraduationCap, ArrowRight, Users, BookOpen, Award, Shield, Heart, Star, Clock, Stethoscope, Baby, UserPlus, PlayCircle, ClipboardCheck, Rocket } from "lucide-react";
 
 // Konstanta gambar Hero
@@ -22,65 +20,55 @@ const IMG_BREASTFEED = "https://images.unsplash.com/photo-1632053002434-b203dc8e
 
 // Data untuk section About 
 const aboutData = [
-  { icon: <Shield size={28} />, title: "Visi Kami", description: "Menjadi ruang belajar digital tepercaya yang membantu mahasiswa kebidanan tumbuh percaya diri, kompeten, dan siap melayani ibu serta bayi di mana pun mereka berada." },
-  { icon: <Heart size={28} />, title: "Misi Kami", description: "Menyediakan materi pembelajaran berbasis bukti ilmiah terkini, mudah diakses, dan dirancang oleh praktisi berpengalaman." },
-  { icon: <Star size={28} />, title: "Nilai Kami", description: "Integritas, inovasi, dan empati adalah fondasi setiap konten dan fitur yang kami kembangkan untuk mendukung profesi kebidanan." },
+  { icon: <Shield size={28} />, title: "Visi Platform", description: "Menyediakan ruang belajar digital yang praktis untuk membantu mahasiswa kebidanan memperkuat pemahaman dasar materi asuhan kebidanan." },
+  { icon: <Heart size={28} />, title: "Misi Platform", description: "Menyajikan ringkasan materi pembelajaran yang terstruktur, mudah diakses, dan dilengkapi dengan evaluasi mandiri." },
+  { icon: <Star size={28} />, title: "Fokus Kami", description: "Menghadirkan antarmuka yang ramah pengguna agar proses belajar mengulas materi perkuliahan menjadi lebih efisien dan terarah." },
 ];
 
 // Data untuk section Features
 const featuresData = [
-  { img: IMG_PRENATAL, icon: <Stethoscope size={22} />, title: "Pemeriksaan Kehamilan", desc: "Pelajari teknik pemeriksaan antenatal care (ANC) lengkap dengan simulasi kasus dan checklist standar WHO.", duration: "24 Video", lessons: "12 Modul" },
-  { img: IMG_BABY, icon: <Baby size={22} />, title: "Perawatan Bayi Baru Lahir", desc: "Kuasai penanganan neonatus dari golden hour hingga perawatan rutin dengan panduan berbasis evidence-based practice.", duration: "18 Video", lessons: "9 Modul" },
-  { img: IMG_BREASTFEED, icon: <Heart size={22} />, title: "Teknik Menyusui", desc: "Pelajari manajemen laktasi, posisi menyusui yang benar, dan solusi masalah umum dalam proses menyusui.", duration: "15 Video", lessons: "8 Modul" },
+  { img: IMG_PRENATAL, icon: <Stethoscope size={22} />, title: "Pemeriksaan Kehamilan", desc: "Pelajari langkah-langkah dasar pemeriksaan antenatal care (ANC) beserta panduan pengamatan standar.", duration: "2 Video", lessons: "4 Modul" },
+  { img: IMG_BABY, icon: <Baby size={22} />, title: "Perawatan Bayi Baru Lahir", desc: "Panduan dasar penanganan neonatus dan perawatan rutin bayi baru lahir sebagai materi pengayaan mandiri.", duration: "3 Video", lessons: "5 Modul" },
+  { img: IMG_BREASTFEED, icon: <Heart size={22} />, title: "Teknik Menyusui", desc: "Materi ringkas tentang manajemen laktasi, posisi menyusui, dan penanganan keluhan umum pada ibu menyusui.", duration: "2 Video", lessons: "4 Modul" },
 ];
 
 // Data untuk section Alur Belajar
 const stepsData = [
-  { icon: <UserPlus size={28} />, title: "1. Buat Akun", desc: "Daftar secara gratis dan lengkapi profil akademik Anda." },
-  { icon: <PlayCircle size={28} />, title: "2. Tonton Materi", desc: "Akses ratusan video pembelajaran interaktif kapan saja." },
-  { icon: <ClipboardCheck size={28} />, title: "3. Kerjakan Kuis", desc: "Uji pemahaman Anda melalui kuis di setiap akhir modul." },
-  { icon: <Award size={28} />, title: "4. Raih Sertifikat", desc: "Unduh sertifikat resmi setelah menyelesaikan seluruh materi." }
+  { icon: <UserPlus size={28} />, title: "1. Buat Akun", desc: "Daftar secara gratis dan lengkapi profil Anda untuk memulai sesi belajar." },
+  { icon: <PlayCircle size={28} />, title: "2. Pelajari Materi", desc: "Akses modul dan video pembelajaran yang telah disediakan kapan saja." },
+  { icon: <ClipboardCheck size={28} />, title: "3. Kerjakan Kuis", desc: "Uji tingkat pemahaman Anda melalui kuis mandiri di akhir setiap modul." },
+  { icon: <Award size={28} />, title: "4. Lihat Evaluasi", desc: "Pantau skor pencapaian Anda untuk mengukur perkembangan penguasaan materi." }
 ];
 
 // Data untuk FAQ
 const faqsData = [
   { 
     q: "Apakah platform EduBidan berbayar?", 
-    a: "Untuk saat ini, seluruh layanan dan modul utama di EduBidan dapat diakses sepenuhnya secara gratis. Ke depannya, kami berencana mengembangkan fitur dan materi premium khusus untuk menunjang pembelajaran tingkat lanjut." 
+    a: "Tidak. EduBidan saat ini dikembangkan sebagai purwarupa (prototipe) media pembelajaran untuk keperluan akademik, sehingga seluruh fitur dan modul di dalamnya dapat diakses secara gratis." 
   },
   { 
     q: "Siapa pengguna utama dari platform ini?", 
-    a: "Platform ini difokuskan sebagai media pembelajaran penunjang bagi mahasiswa kebidanan. Materi yang disusun bertujuan untuk membantu mahasiswa memahami praktik asuhan kebidanan dasar sebelum terjun ke lapangan." 
+    a: "Platform ini ditujukan bagi mahasiswa kebidanan sebagai media penunjang belajar mandiri. Materi di dalamnya dirancang untuk membantu mengulas kembali praktik asuhan kebidanan dasar." 
   },
   { 
     q: "Apakah ada evaluasi setelah mempelajari materi?", 
-    a: "Tentu. Setiap modul diakhiri dengan kuis interaktif untuk mengukur tingkat pemahaman Anda. Anda dapat langsung melihat skor akhir dan mengulang kuis untuk terus melatih penguasaan materi secara mandiri." 
+    a: "Ya, di akhir setiap modul terdapat kuis untuk mengukur tingkat pemahaman Anda. Anda dapat langsung melihat skor akhir dan mengulang kuis tersebut untuk keperluan evaluasi mandiri." 
   },
   { 
-    q: "Bagaimana cara mengakses materi jika koneksi lambat?", 
-    a: "Saat ini seluruh fitur utama seperti video interaktif dan kuis membutuhkan koneksi internet (online). Namun, kami menyediakan ringkasan materi berformat PDF yang bisa diunduh untuk dipelajari secara offline." 
+    q: "Apakah aplikasi ini bisa diakses tanpa koneksi internet (offline)?", 
+    a: "Saat ini, EduBidan merupakan aplikasi berbasis web yang membutuhkan koneksi internet aktif. Pastikan perangkat Anda terhubung ke internet untuk mengakses materi dan mengerjakan kuis dengan lancar." 
   },
 ];
 
 export default function LandingPage() {
   const router = useRouter();
-  const [isDark, setIsDark] = useState(false);
   const [openFaq, setOpenFaq] = useState<number | null>(null);
-
-  const handleToggleDark = () => {
-    if (!isDark) {
-      document.documentElement.classList.add('dark');
-    } else {
-      document.documentElement.classList.remove('dark');
-    }
-    setIsDark(!isDark);
-  };
 
   return (
     <div className="min-h-screen font-sans transition-colors duration-300 bg-background text-foreground">
       
-      {/* Navbar */}
-      <Navbar isDark={isDark} onToggleDark={handleToggleDark} />
+      {/* Navbar sekarang dipanggil tanpa props */}
+      <Navbar />
 
       <main>
         {/* --- HERO SECTION --- */}
@@ -92,19 +80,19 @@ export default function LandingPage() {
               <div>
                 <div className="inline-flex items-center gap-2 bg-primary/10 text-primary font-semibold px-4 py-1.5 rounded-full text-sm mb-6">
                   <GraduationCap size={16} />
-                  Platform Edukasi Kebidanan #1
+                  Media Belajar Interaktif
                 </div>
                 
                 <h1 className="text-4xl lg:text-5xl tracking-tight mb-6 font-extrabold leading-[1.15]">
-                  Transformasi Digital
+                  Media Pembelajaran
                   <br />
                   <span className="text-primary">Pendidikan Kebidanan</span>
                   <br />
-                  Indonesia
+                  Interaktif
                 </h1>
                 
                 <p className="text-muted-foreground text-lg mb-8 max-w-lg leading-relaxed">
-                  Belajar kapan saja, di mana saja dengan materi berbasis video interaktif, kuis adaptif, dan sertifikasi profesional dari para ahli kebidanan terkemuka.
+                  Akses materi dasar pendidikan kebidanan dengan mudah melalui ringkasan pembelajaran, video penunjang, dan kuis interaktif untuk menguji pemahaman Anda secara mandiri.
                 </p>
                 
                 <div className="flex flex-wrap gap-4">
@@ -140,7 +128,7 @@ export default function LandingPage() {
                 Tentang <span className="text-primary">EduBidan</span>
               </h2>
               <p className="text-muted-foreground text-lg leading-relaxed">
-                EduBidan lahir dari gabungan kata <strong className="text-foreground font-semibold">"Edukasi"</strong> yang melambangkan pencerahan, transformasi digital, dan ilmu pengetahuan, serta <strong className="text-foreground font-semibold">"Bidan"</strong> yang merepresentasikan asuhan, kepedulian medis, dan awal kehidupan baru.
+                EduBidan dikembangkan sebagai platform pembelajaran digital pendamping. Platform ini bertujuan untuk membantu mahasiswa kebidanan dalam mengulas kembali materi-materi praktik asuhan kebidanan dasar di mana pun dan kapan pun.
               </p>
             </div>
             
@@ -151,6 +139,7 @@ export default function LandingPage() {
                   icon={item.icon}
                   title={item.title}
                   description={item.description}
+                  onClick={() => router.push("/about")}
                 />
               ))}
             </div>
@@ -160,10 +149,11 @@ export default function LandingPage() {
         {/* --- FEATURES SECTION --- */}
         <section id="features" className="py-20 bg-background">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            
             <div className="text-center mb-16">
-              <h2 className="text-3xl font-bold mb-4 text-foreground">Tiga Topik Inti Pembelajaran</h2>
+              <h2 className="text-3xl font-bold mb-4 text-foreground">Tiga Topik Pembelajaran</h2>
               <p className="text-muted-foreground max-w-2xl mx-auto text-lg leading-relaxed">
-                Kurikulum fokus pada tiga kompetensi utama kebidanan, dirancang oleh dosen praktisi agar setiap materi runtut, ringkas, dan langsung relevan dengan praktik di lapangan.
+                Materi difokuskan pada pengenalan kompetensi dasar kebidanan, disusun secara ringkas agar mudah dipelajari sebagai penunjang kegiatan akademik.
               </p>
             </div>
             
@@ -180,6 +170,7 @@ export default function LandingPage() {
                 />
               ))}
             </div>
+            
           </div>
         </section>
 
@@ -189,11 +180,10 @@ export default function LandingPage() {
             <div className="text-center mb-16">
               <h2 className="text-3xl font-bold mb-4 text-foreground">Alur Pembelajaran</h2>
               <p className="text-muted-foreground max-w-2xl mx-auto text-lg leading-relaxed">
-                Mulai perjalanan karir kebidanan Anda hanya dengan 4 langkah mudah.
+                Panduan singkat menggunakan platform EduBidan untuk proses belajar yang lebih terarah.
               </p>
             </div>
             
-            {/* Grid Looping StepCard */}
             <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
               {stepsData.map((step, index) => (
                 <StepCard
@@ -237,23 +227,19 @@ export default function LandingPage() {
           <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
             <div className="bg-linear-to-br from-primary to-teal-600 rounded-3xl p-10 md:p-14 shadow-2xl shadow-primary/20 relative overflow-hidden">
               
-              {/* Efek Lingkaran Latar Belakang */}
               <div className="absolute top-0 right-0 -mr-16 -mt-16 w-64 h-64 rounded-full bg-white/10 blur-3xl"></div>
               
               <div className="relative z-10 flex flex-col items-center">
-                {/* Ikon sesuai referensi Newsletter Figma (size 40-48) */}
                 <div className="w-16 h-16 bg-white/20 backdrop-blur-md rounded-2xl flex items-center justify-center mb-6 text-white shadow-inner">
                   <Rocket size={32} />
                 </div>
 
-                {/* Heading disesuaikan: text-2xl ke 3xl (lebih seimbang untuk CTA) */}
                 <h2 className="text-2xl md:text-3xl font-bold text-white mb-4">
-                  Siap Memulai Perjalanan Anda?
+                  Siap Mengulas Materi Kebidanan?
                 </h2>
                 
-                {/* Deskripsi: text-sm sesuai referensi Figma */}
                 <p className="text-white/80 text-sm md:text-base mb-10 max-w-xl mx-auto leading-relaxed">
-                  Bergabunglah sekarang dan tingkatkan pemahaman asuhan kebidanan Anda melalui metode pembelajaran digital yang interaktif dan mudah diakses.
+                  Buat akun sekarang untuk mengakses ringkasan materi dan mulai mengukur pemahaman Anda melalui kuis interaktif.
                 </p>
                 
                 <div className="flex flex-col sm:flex-row gap-4 justify-center w-full sm:w-auto">
@@ -261,10 +247,10 @@ export default function LandingPage() {
                     onClick={() => router.push("/register")} 
                     className="bg-white text-primary px-8 py-3.5 rounded-xl hover:bg-slate-50 transition-all font-bold shadow-lg text-sm"
                   >
-                    Daftar Sekarang — Gratis
+                    Buat Akun — Gratis
                   </button>
                   <button 
-                    onClick={() => document.getElementById("about")?.scrollIntoView({ behavior: "smooth" })} 
+                    onClick={() => router.push("/about")} 
                     className="bg-white/10 text-white border border-white/20 px-8 py-3.5 rounded-xl hover:bg-white/20 transition-all font-bold backdrop-blur-sm text-sm"
                   >
                     Kenali Kami Lebih Jauh
@@ -277,7 +263,6 @@ export default function LandingPage() {
 
       </main>
 
-      {/* Panggil Footer */}
       <Footer />
 
     </div>
