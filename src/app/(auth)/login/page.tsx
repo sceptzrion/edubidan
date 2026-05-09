@@ -142,7 +142,10 @@ export default function LoginPage() {
 
             {/* Tombol Masuk */}
             <button 
-              onClick={() => console.log("Login clicked", { email, pass })} 
+              onClick={() => {
+                console.log("Login clicked", { email, pass });
+                router.push("/dashboard");
+              }} 
               className="w-full bg-primary text-primary-foreground py-3.5 mt-4 rounded-xl hover:opacity-90 transition-all font-bold text-base shadow-lg shadow-primary/20"
             >
               Masuk
