@@ -8,7 +8,7 @@ import { AboutCard } from "@/components/sections/landing/AboutCard";
 import { FeatureCard } from "@/components/sections/landing/FeatureCard";
 import { StepCard } from "@/components/sections/landing/StepCard";
 import { FaqItem } from "@/components/sections/landing/FaqItem";
-import { GraduationCap, ArrowRight, Users, BookOpen, Award, Shield, Heart, Star, Clock, Stethoscope, Baby, UserPlus, PlayCircle, ClipboardCheck, Rocket } from "lucide-react";
+import { GraduationCap, ArrowRight, Users, BookOpen, Award, Shield, Heart, Star, Clock, Stethoscope, Baby, UserPlus, PlayCircle, ClipboardCheck, Rocket, Video, CheckCircle2 } from "lucide-react";
 
 // Konstanta gambar Hero
 const IMG_HERO = "https://images.unsplash.com/photo-1645684922842-87793d0b25df?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=1080";
@@ -104,10 +104,19 @@ export default function LandingPage() {
                   </button>
                 </div>
                 
-                <div className="flex items-center gap-6 mt-10 text-sm text-muted-foreground font-medium">
-                  <div className="flex items-center gap-2"><Users size={16} className="text-primary" /> 5,000+ Mahasiswa</div>
-                  <div className="flex items-center gap-2"><BookOpen size={16} className="text-primary" /> 120+ Modul</div>
-                  <div className="flex items-center gap-2"><Award size={16} className="text-primary" /> Bersertifikat</div>
+                <div className="flex flex-wrap items-center gap-6 mt-10 text-sm text-muted-foreground font-medium">
+                  <div className="flex items-center gap-2">
+                    <BookOpen size={16} className="text-primary" /> 
+                    Ringkasan Modul
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <Video size={16} className="text-primary" /> 
+                    Video Penunjang
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <CheckCircle2 size={16} className="text-primary" /> 
+                    Kuis Evaluasi
+                  </div>
                 </div>
               </div>
               
