@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
-import { useRouter } from "next/navigation";
+import { useRouter, useParams } from "next/navigation";
 import { ArrowLeft, BookOpen, HelpCircle, Mail, Search, Users } from "lucide-react";
 import { ModuleDetailHeader } from "@/components/dashboard/student/ModuleDetailHeader";
 import { PlaylistItem } from "@/components/dashboard/student/PlaylistItem";
@@ -24,7 +24,7 @@ const playlistData: PlaylistDataType[] = [
   { id: 1, kind: "materi", title: "Pengantar ANC Terpadu", duration: "12:30 Menit", objectivesCount: 3, toolsCount: 2, isCompleted: true },
   { id: 2, kind: "materi", title: "Anamnesis Ibu Hamil", duration: "15:45 Menit", objectivesCount: 4, toolsCount: 2, isCompleted: true },
   { id: 3, kind: "kuis", title: "Kuis Cek Pemahaman: Anamnesis", duration: "10 Soal • 15 Menit", isCompleted: false },
-  { id: 4, kind: "materi", title: "Pemeriksaan Leopold", duration: "14:15 Menit", objectivesCount: 3, toolsCount: 4, isCompleted: false },
+  { id: 4, kind: "materi", title: "Pemeriksaan Fisik Head to Toe", duration: "14:15 Menit", objectivesCount: 3, toolsCount: 4, isCompleted: false },
   { id: 5, kind: "kuis", title: "Evaluasi Akhir Modul", duration: "25 Soal • 45 Menit", isCompleted: false },
 ];
 
@@ -53,6 +53,7 @@ const moduleInfo = {
 
 export default function StudentModuleDetail() {
   const router = useRouter();
+  const params = useParams(); // REVISI: Mengambil parameter URL
   const [tab, setTab] = useState<"pembelajaran" | "tugas" | "peserta">("pembelajaran");
   const [searchQuery, setSearchQuery] = useState("");
 
@@ -136,7 +137,8 @@ export default function StudentModuleDetail() {
             <PlaylistItem 
               key={item.id} 
               item={item} 
-              onClick={() => console.log(`Buka Pembelajaran ${item.id}`)} 
+              // REVISI: Mengarahkan pengguna ke halaman lesson
+              onClick={() => router.push(`/dashboard/modules/${params.id}/lesson/${item.id}`)} 
             />
           )) : (
             <p className="text-center text-sm text-muted-foreground py-10">Pencarian tidak ditemukan.</p>
@@ -151,7 +153,8 @@ export default function StudentModuleDetail() {
             <TaskItem 
               key={item.id} 
               item={item} 
-              onClick={() => console.log(`Kerjakan Tugas ${item.id}`)} 
+              // REVISI: Mengarahkan pengguna ke halaman lesson (standby kuis)
+              onClick={() => router.push(`/dashboard/modules/${params.id}/lesson/${item.id}`)} 
             />
           )) : (
             <p className="text-center text-sm text-muted-foreground py-10">Pencarian tidak ditemukan.</p>
