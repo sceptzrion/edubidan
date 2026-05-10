@@ -25,14 +25,15 @@ export function QuizStandby({
         {title}
       </h2>
       
+      {/* REVISI: Teks diperpendek, info batas lulus dihilangkan */}
       <p className="text-xs sm:text-base text-muted-foreground font-medium mb-8 max-w-md mx-auto leading-relaxed">
-        Ini adalah evaluasi untuk mengukur pemahaman Anda sejauh ini. Jawab semua pertanyaan dengan memilih satu jawaban yang paling tepat. Nilai minimum kelulusan adalah 70%.
+        Ini adalah evaluasi untuk mengukur pemahaman Anda sejauh ini. Jawab semua pertanyaan dengan memilih satu jawaban yang paling tepat.
       </p>
       
       <div className="flex flex-wrap justify-center gap-3 sm:gap-4 mb-8 w-full">
         <div className="flex-1 sm:flex-none bg-muted/50 px-4 py-3 sm:px-6 sm:py-4 rounded-xl sm:rounded-2xl border border-border/50">
           <p className="text-[10px] sm:text-xs text-muted-foreground font-bold uppercase tracking-wider mb-0.5 sm:mb-1">Jumlah Soal</p>
-          <p className="text-lg sm:text-xl font-extrabold text-foreground">{questionCount} Soal</p>
+          <p className="text-lg sm:text-xl font-extrabold text-foreground">{questionCount}</p>
         </div>
         <div className="flex-1 sm:flex-none bg-muted/50 px-4 py-3 sm:px-6 sm:py-4 rounded-xl sm:rounded-2xl border border-border/50">
           <p className="text-[10px] sm:text-xs text-muted-foreground font-bold uppercase tracking-wider mb-0.5 sm:mb-1">Batas Waktu</p>
@@ -40,10 +41,7 @@ export function QuizStandby({
         </div>
       </div>
 
-      {/* REVISI: Area Tombol (Desktop: Kiri-Tengah-Kanan) */}
       <div className="flex flex-col sm:flex-row items-center justify-center gap-4 sm:gap-8 w-full mt-2">
-        
-        {/* Tombol Sebelumnya (Hanya Desktop) */}
         <button 
           onClick={onPrev} 
           disabled={!onPrev} 
@@ -52,7 +50,6 @@ export function QuizStandby({
           <ChevronLeft size={18} /> {prevLabel || "Sebelumnya"}
         </button>
 
-        {/* Tombol Utama */}
         <button 
           onClick={onStartQuiz} 
           className="w-full sm:w-auto bg-amber-500 text-white px-8 sm:px-10 py-3.5 sm:py-4 rounded-xl text-sm sm:text-base font-extrabold hover:bg-amber-600 transition-all shadow-lg shadow-amber-500/20 hover:-translate-y-1 shrink-0"
@@ -60,7 +57,6 @@ export function QuizStandby({
           Buka Halaman Kuis
         </button>
 
-        {/* Tombol Selanjutnya (Hanya Desktop) */}
         <button 
           onClick={onNext} 
           disabled={!onNext} 
@@ -70,24 +66,22 @@ export function QuizStandby({
         </button>
       </div>
 
-      {/* REVISI: Area Tombol (Hanya Mobile: Di Bawah) */}
       <div className="flex sm:hidden items-center justify-between w-full mt-4 pt-4 border-t border-border/50">
         <button 
           onClick={onPrev} 
           disabled={!onPrev} 
           className={`flex items-center gap-1.5 text-xs font-bold text-muted-foreground hover:text-foreground transition-colors ${!onPrev ? "invisible" : ""}`}
         >
-          <ChevronLeft size={16} /> Sebelumnya
+          <ChevronLeft size={16} /> Prev
         </button>
         <button 
           onClick={onNext} 
           disabled={!onNext} 
           className={`flex items-center gap-1.5 text-xs font-bold text-muted-foreground hover:text-foreground transition-colors ${!onNext ? "invisible" : ""}`}
         >
-          Selanjutnya <ChevronRight size={16} />
+          Next <ChevronRight size={16} />
         </button>
       </div>
-
     </div>
   );
 }
