@@ -6,14 +6,12 @@ import { EduBidanLogo } from "@/components/ui/EduBidanLogo";
 import { ThemeToggle } from "@/components/ui/ThemeToggle";
 import { ArrowLeft, Clock, LayoutGrid } from "lucide-react";
 
-// Komponen Modular
 import { QuizExitModal } from "@/components/dashboard/student/lesson/QuizExitModal";
 import { QuizStartScreen } from "@/components/dashboard/student/quiz/QuizStartScreen";
 import { QuizResultScreen } from "@/components/dashboard/student/quiz/QuizResultScreen";
 import { QuizQuestionCard } from "@/components/dashboard/student/quiz/QuizQuestionCard";
 import { QuizNavigator } from "@/components/dashboard/student/quiz/QuizNavigator";
 
-// --- DUMMY DATA SOAL KUIS ---
 const questions = [
   { id: 1, question: "Pada pemeriksaan Leopold I, bagian apa yang biasanya teraba di fundus uteri pada presentasi kepala?", options: ["Kepala janin", "Bokong janin", "Punggung janin", "Ekstremitas janin"], correct: 1 },
   { id: 2, question: "Berapa frekuensi denyut jantung janin (DJJ) normal?", options: ["100-110 x/menit", "120-160 x/menit", "170-200 x/menit", "80-100 x/menit"], correct: 1 },
@@ -32,6 +30,9 @@ export default function FullscreenQuizPage() {
   const [showResult, setShowResult] = useState(false);
   const [isExitModalOpen, setIsExitModalOpen] = useState(false);
   const [showGridMobile, setShowGridMobile] = useState(false);
+  
+  // STATE BARU: Review Mode
+  const [isReviewMode, setIsReviewMode] = useState(false);
 
   useEffect(() => {
     document.body.style.overflow = "hidden";
@@ -39,10 +40,13 @@ export default function FullscreenQuizPage() {
   }, []);
 
   const handleTopLeftClick = () => {
-    if (!isStarted || showResult) {
-      router.back(); 
+    if (isReviewMode) {
+       setIsReviewMode(false);
+       setShowResult(true);
+    } else if (!isStarted || showResult) {
+       router.back(); 
     } else {
-      setIsExitModalOpen(true);
+       setIsExitModalOpen(true);
     }
   };
 
@@ -52,6 +56,7 @@ export default function FullscreenQuizPage() {
     setAnswers(newAnswers);
   };
 
+  const correctAnswersArray = questions.map(q => q.correct);
   const score = answers.filter((a, i) => a === questions[i].correct).length;
   const percentage = Math.round((score / questions.length) * 100);
   const passed = percentage >= 70;
@@ -69,10 +74,12 @@ export default function FullscreenQuizPage() {
         <div className="flex items-center gap-2 sm:gap-4">
           <button 
             onClick={handleTopLeftClick} 
-            className="flex items-center gap-1.5 sm:gap-2 text-xs sm:text-sm font-bold text-muted-foreground hover:text-red-500 transition-colors bg-muted/50 hover:bg-red-500/10 px-2.5 py-1.5 sm:px-3 sm:py-2 rounded-lg"
+            className="flex items-center gap-1.5 sm:gap-2 text-xs sm:text-sm font-bold text-muted-foreground hover:text-foreground transition-colors bg-muted/50 hover:bg-muted px-2.5 py-1.5 sm:px-3 sm:py-2 rounded-lg"
           >
             <ArrowLeft size={16} className="w-4 h-4 sm:w-5 sm:h-5" />
-            <span className="hidden sm:inline">{isStarted && !showResult ? "Submit & Keluar" : "Keluar"}</span>
+            <span className="hidden sm:inline">
+              {isReviewMode ? "Kembali ke Hasil" : (isStarted && !showResult ? "Submit & Keluar" : "Keluar")}
+            </span>
           </button>
           <ThemeToggle />
           <div className="w-px h-5 sm:h-6 bg-border hidden sm:block" />
@@ -80,18 +87,18 @@ export default function FullscreenQuizPage() {
         </div>
         
         <div className="hidden md:block text-sm font-extrabold text-foreground absolute left-1/2 -translate-x-1/2 truncate max-w-md text-center">
-          Kuis Cek Pemahaman: Anamnesis
+          {isReviewMode ? "Ulasan Kuis Cek Pemahaman" : "Kuis Cek Pemahaman: Anamnesis"}
         </div>
         
         <div className="flex items-center gap-2 sm:gap-4">
-          {isStarted && !showResult && (
+          {(isStarted && !showResult) || isReviewMode ? (
             <button 
               onClick={() => setShowGridMobile(true)} 
               className="lg:hidden p-1.5 sm:p-2 rounded-lg border border-border bg-card text-muted-foreground hover:text-foreground hover:bg-muted transition-colors"
             >
               <LayoutGrid size={16} className="sm:w-5 sm:h-5" />
             </button>
-          )}
+          ) : null}
           <div className="flex items-center gap-1.5 sm:gap-2 bg-amber-500/10 text-amber-600 px-2.5 py-1.5 sm:px-3 sm:py-1.5 rounded-lg border border-amber-500/20 shadow-sm shadow-amber-500/5">
             <Clock size={14} className="sm:w-4 sm:h-4" />
             <span className="text-xs sm:text-sm font-extrabold font-mono tracking-wider">15:00</span>
@@ -111,7 +118,7 @@ export default function FullscreenQuizPage() {
             <QuizResultScreen 
               passed={passed} percentage={percentage} score={score} 
               totalQuestions={questions.length} 
-              onRetry={() => { setAnswers(Array(questions.length).fill(null)); setFlagged(Array(questions.length).fill(false)); setCurrentQ(0); setShowResult(false); }} 
+              onReview={() => { setIsReviewMode(true); setShowResult(false); setCurrentQ(0); }} 
               onExit={() => router.back()} 
             />
           ) : (
@@ -120,24 +127,27 @@ export default function FullscreenQuizPage() {
               question={questions[currentQ].question} options={questions[currentQ].options}
               selectedAnswer={answers[currentQ]} isFlagged={flagged[currentQ]}
               isSubmitDisabled={answers.includes(null)}
+              isReviewMode={isReviewMode} correctAnswer={questions[currentQ].correct}
               onSelectOption={handleSelectOption}
               onFlag={() => { const f = [...flagged]; f[currentQ] = !f[currentQ]; setFlagged(f); }}
               onPrev={() => setCurrentQ(Math.max(0, currentQ - 1))}
               onNext={() => setCurrentQ(currentQ + 1)}
               onSubmit={() => setShowResult(true)}
+              onExitReview={() => { setIsReviewMode(false); setShowResult(true); }}
             />
           )}
         </div>
 
-        {/* REVISI: Bungkus QuizNavigator dengan kondisi isStarted dan !showResult */}
-        {isStarted && !showResult && (
+        {((isStarted && !showResult) || isReviewMode) && (
           <QuizNavigator 
             totalQuestions={questions.length} answers={answers} flagged={flagged} currentQ={currentQ}
-            showMobile={showGridMobile} onCloseMobile={() => setShowGridMobile(false)}
+            showMobile={showGridMobile} isReviewMode={isReviewMode} correctAnswers={correctAnswersArray}
+            onCloseMobile={() => setShowGridMobile(false)}
             onNavigate={(i) => setCurrentQ(i)}
             onPrev={() => setCurrentQ(Math.max(0, currentQ - 1))}
             onNext={() => setCurrentQ(currentQ + 1)}
             onSubmit={() => setShowResult(true)}
+            onExitReview={() => { setIsReviewMode(false); setShowResult(true); }}
           />
         )}
       </main>
