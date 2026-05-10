@@ -11,16 +11,16 @@ import { Playlist } from "@/components/dashboard/student/lesson/Playlist";
 import { QuizStandby } from "@/components/dashboard/student/lesson/QuizStandby";
 import { QuizWarning } from "@/components/dashboard/student/lesson/QuizWarning";
 
-type LessonItem = { id: number; kind: "materi" | "kuis"; title: string; duration: string; completed: boolean };
+type LessonItem = { id: number; kind: "materi" | "kuis"; title: string; questions?: string; duration: string; completed: boolean; };
 
 const lessonList: LessonItem[] = [
   { id: 1, kind: "materi", title: "Pengantar ANC Terpadu", duration: "12:30", completed: true },
   { id: 2, kind: "materi", title: "Anamnesis Ibu Hamil", duration: "15:45", completed: true },
-  { id: 3, kind: "kuis", title: "Kuis Cek Pemahaman: Anamnesis", duration: "10 mnt", completed: true },
+  { id: 3, kind: "kuis", title: "Kuis Cek Pemahaman: Anamnesis", questions: "10", duration: "15:00", completed: true },
   { id: 4, kind: "materi", title: "Pemeriksaan Fisik Head to Toe", duration: "18:00", completed: false },
   { id: 5, kind: "materi", title: "Pemeriksaan Leopold", duration: "14:15", completed: false },
   { id: 6, kind: "materi", title: "Auskultasi DJJ", duration: "11:30", completed: false },
-  { id: 7, kind: "kuis", title: "Kuis Akhir Modul", duration: "20 mnt", completed: false },
+  { id: 7, kind: "kuis", title: "Kuis Akhir Modul", questions: "20", duration: "15", completed: false },
 ];
 
 const OBJECTIVES = [
@@ -128,8 +128,8 @@ export default function LessonPage() {
             /* STANDBY KUIS (Tanpa Warning karena sudah dipindah ke atas) */
             <QuizStandby 
                 title={activeItem.title}
-                questionCount={activeItem.duration}
-                timeLimit="15 Menit"
+                questionCount={activeItem.questions || "0"}
+                timeLimit={activeItem.duration}
                 onStartQuiz={() => router.push(`/dashboard/modules/${params.id}/quiz/${activeItem.id}`)}
                 
                 // REVISI: Melempar prop navigasi

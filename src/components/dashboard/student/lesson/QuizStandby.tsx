@@ -32,7 +32,7 @@ export function QuizStandby({
       <div className="flex flex-wrap justify-center gap-3 sm:gap-4 mb-8 w-full">
         <div className="flex-1 sm:flex-none bg-muted/50 px-4 py-3 sm:px-6 sm:py-4 rounded-xl sm:rounded-2xl border border-border/50">
           <p className="text-[10px] sm:text-xs text-muted-foreground font-bold uppercase tracking-wider mb-0.5 sm:mb-1">Jumlah Soal</p>
-          <p className="text-lg sm:text-xl font-extrabold text-foreground">{questionCount}</p>
+          <p className="text-lg sm:text-xl font-extrabold text-foreground">{questionCount} Soal</p>
         </div>
         <div className="flex-1 sm:flex-none bg-muted/50 px-4 py-3 sm:px-6 sm:py-4 rounded-xl sm:rounded-2xl border border-border/50">
           <p className="text-[10px] sm:text-xs text-muted-foreground font-bold uppercase tracking-wider mb-0.5 sm:mb-1">Batas Waktu</p>
