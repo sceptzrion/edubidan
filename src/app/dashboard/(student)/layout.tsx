@@ -17,6 +17,9 @@ export default function StudentLayout({ children }: { children: React.ReactNode 
   const [showAccount, setShowAccount] = useState(false);
   const [showNotif, setShowNotif] = useState(false);
 
+  // LOGIKA TAMBAHAN: Deteksi halaman kuis untuk fullscreen
+  const isQuizPage = pathname.includes("/quiz/");
+
   const menuItems = [
     { icon: LayoutDashboard, label: "Beranda", path: "/dashboard" },
     { icon: BookOpen, label: "Modul", path: "/dashboard/modules" },
@@ -33,6 +36,17 @@ export default function StudentLayout({ children }: { children: React.ReactNode 
     { id: 1, title: "Modul baru", desc: "Materi Asuhan Persalinan Normal (APN) siap.", time: "10 mnt lalu", read: false },
     { id: 2, title: "Pengingat Evaluasi", desc: "Ayo kerjakan kuis Pemeriksaan Kehamilan.", time: "2 jam lalu", read: false },
   ];
+
+  // =========================================================================
+  // RENDER KHUSUS HALAMAN KUIS (FULLSCREEN)
+  // =========================================================================
+  if (isQuizPage) {
+    return (
+      <div className="min-h-screen bg-background">
+        {children}
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen flex bg-background font-sans text-foreground transition-colors duration-300">
@@ -112,7 +126,6 @@ export default function StudentLayout({ children }: { children: React.ReactNode 
               </button>
               
               {showNotif && (
-                // REVISI MOBILE: Lebar w-[280px] di HP, w-80 di Desktop
                 <div className="absolute right-0 lg:right-auto lg:left-1/2 lg:-translate-x-1/2 top-full mt-2 w-70 sm:w-80 bg-card border border-border rounded-2xl shadow-xl z-50 animate-in slide-in-from-top-2 duration-200">
                   <div className="px-4 py-3 sm:px-5 sm:py-4 border-b border-border flex items-center justify-between bg-muted/30 rounded-t-2xl">
                     <span className="text-sm sm:text-base font-bold text-foreground">Notifikasi</span>
@@ -149,7 +162,6 @@ export default function StudentLayout({ children }: { children: React.ReactNode 
               </button>
               
               {showAccount && (
-                // REVISI MOBILE: Lebar w-48 di HP, w-56 di Desktop
                 <div className="absolute right-0 top-full mt-2 w-48 sm:w-56 bg-card border border-border rounded-2xl shadow-xl py-1.5 sm:py-2 z-50 animate-in slide-in-from-top-2 duration-200">
                   {/* Header Info Akun */}
                   <div className="px-3 py-2 sm:px-4 sm:py-3 border-b border-border mb-1">
@@ -180,7 +192,8 @@ export default function StudentLayout({ children }: { children: React.ReactNode 
         </header>
 
         {/* KONTEN DINAMIS HALAMAN */}
-        <main className="flex-1 overflow-y-auto bg-background p-4 md:p-8 pb-24 md:pb-8 scrollbar-thin scrollbar-thumb-border scrollbar-track-transparent">
+        {/* REVISI: padding dikecilkan di mobile agar tidak nabrak di iPhone SE */}
+        <main className="flex-1 overflow-y-auto bg-background p-3 sm:p-4 md:p-8 pb-20 sm:pb-24 md:pb-8 scrollbar-thin scrollbar-thumb-border scrollbar-track-transparent">
           <div className="absolute top-0 right-0 -mr-20 -mt-20 w-72 h-72 rounded-full bg-primary/5 blur-3xl pointer-events-none" />
           <div className="max-w-6xl mx-auto relative z-10">
              {children}
