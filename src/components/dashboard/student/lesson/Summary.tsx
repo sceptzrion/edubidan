@@ -46,7 +46,7 @@ export function Summary({ title, duration, onPrev, onNext, nextLabel }: SummaryP
         <button 
           onClick={onPrev} 
           disabled={!onPrev} 
-          className="w-full sm:w-auto flex items-center justify-center gap-2 text-xs sm:text-sm font-bold text-muted-foreground hover:text-foreground disabled:opacity-30 transition-colors py-2 sm:py-0"
+          className="disabled:text-transparent disabled:hidden disabled:sm:block w-full sm:w-auto flex items-center justify-center gap-2 text-xs sm:text-sm font-bold text-muted-foreground hover:text-foreground disabled:opacity-30 transition-colors py-2 sm:py-0"
         >
           <ChevronLeft size={16} className="sm:w-4.5 sm:h-4.5" /> Pelajaran Sebelumnya
         </button>
