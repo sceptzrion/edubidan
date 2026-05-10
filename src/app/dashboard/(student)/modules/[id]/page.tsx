@@ -3,11 +3,11 @@
 import React, { useState, useEffect } from "react";
 import { useRouter, useParams } from "next/navigation";
 import { ArrowLeft, BookOpen, HelpCircle, Mail, Search, Users } from "lucide-react";
-import { ModuleDetailHeader } from "@/components/dashboard/student/ModuleDetailHeader";
-import { PlaylistItem } from "@/components/dashboard/student/PlaylistItem";
-import { TaskItem } from "@/components/dashboard/student/TaskItem";
-import { InstructorCard } from "@/components/dashboard/student/InstructorCard";
-import { ParticipantItem } from "@/components/dashboard/student/ParticipantItem";
+import { ModuleDetailHeader } from "@/components/dashboard/student/modules/ModuleDetailHeader";
+import { PlaylistItem } from "@/components/dashboard/student/modules/PlaylistItem";
+import { TaskItem } from "@/components/dashboard/student/modules/TaskItem";
+import { InstructorCard } from "@/components/dashboard/student/modules/InstructorCard";
+import { ParticipantItem } from "@/components/dashboard/student/modules/ParticipantItem";
 
 // --- DUMMY DATA ---
 type PlaylistDataType = {

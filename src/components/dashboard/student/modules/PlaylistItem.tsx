@@ -45,11 +45,11 @@ export function PlaylistItem({ item, onClick }: PlaylistItemProps) {
         
         {/* REVISI: Info bawah jadi text-[10px] di HP */}
         <div className="text-[10px] sm:text-xs font-bold text-muted-foreground mt-1 sm:mt-1.5 flex flex-wrap items-center gap-x-3 sm:gap-x-4 gap-y-1">
-          <span className="flex items-center gap-1 sm:gap-1.5"><Clock size={10} className="sm:w-[13px] sm:h-[13px] text-primary/70" /> {item.duration}</span>
+          <span className="flex items-center gap-1 sm:gap-1.5"><Clock size={10} className="sm:w-3.25 sm:h-3.25 text-primary/70" /> {item.duration}</span>
           {isMateri && (
             <>
-              <span className="flex items-center gap-1 sm:gap-1.5"><Target size={10} className="sm:w-[13px] sm:h-[13px] text-primary/70" /> {item.objectivesCount} Tujuan</span>
-              <span className="flex items-center gap-1 sm:gap-1.5"><Wrench size={10} className="sm:w-[13px] sm:h-[13px] text-primary/70" /> {item.toolsCount} Alat</span>
+              <span className="flex items-center gap-1 sm:gap-1.5"><Target size={10} className="sm:w-3.25 sm:h-3.25 text-primary/70" /> {item.objectivesCount} Tujuan</span>
+              <span className="flex items-center gap-1 sm:gap-1.5"><Wrench size={10} className="sm:w-3.25 sm:h-3.25 text-primary/70" /> {item.toolsCount} Alat</span>
             </>
           )}
         </div>

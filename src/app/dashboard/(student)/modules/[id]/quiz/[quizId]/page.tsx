@@ -6,11 +6,11 @@ import { EduBidanLogo } from "@/components/ui/EduBidanLogo";
 import { ThemeToggle } from "@/components/ui/ThemeToggle";
 import { ArrowLeft, Clock, LayoutGrid } from "lucide-react";
 
-import { QuizExitModal } from "@/components/dashboard/student/lesson/QuizExitModal";
-import { QuizStartScreen } from "@/components/dashboard/student/quiz/QuizStartScreen";
-import { QuizResultScreen } from "@/components/dashboard/student/quiz/QuizResultScreen";
-import { QuizQuestionCard } from "@/components/dashboard/student/quiz/QuizQuestionCard";
-import { QuizNavigator } from "@/components/dashboard/student/quiz/QuizNavigator";
+import { QuizExitModal } from "@/components/dashboard/student/modules/lesson/QuizExitModal";
+import { QuizStartScreen } from "@/components/dashboard/student/modules/quiz/QuizStartScreen";
+import { QuizResultScreen } from "@/components/dashboard/student/modules/quiz/QuizResultScreen";
+import { QuizQuestionCard } from "@/components/dashboard/student/modules/quiz/QuizQuestionCard";
+import { QuizNavigator } from "@/components/dashboard/student/modules/quiz/QuizNavigator";
 
 const questions = [
   { id: 1, question: "Pada pemeriksaan Leopold I, bagian apa yang biasanya teraba di fundus uteri pada presentasi kepala?", options: ["Kepala janin", "Bokong janin", "Punggung janin", "Ekstremitas janin"], correct: 1 },

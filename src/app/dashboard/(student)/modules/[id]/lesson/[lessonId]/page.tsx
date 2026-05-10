@@ -4,12 +4,12 @@ import React, { useState, useEffect } from "react";
 import { useRouter, useParams } from "next/navigation";
 import { Play, Pause, ArrowLeft, Volume2, Maximize2, SkipForward } from "lucide-react";
 
-import { Summary } from "@/components/dashboard/student/lesson/Summary";
-import { Objectives } from "@/components/dashboard/student/lesson/Objectives";
-import { Tools } from "@/components/dashboard/student/lesson/Tools";
-import { Playlist } from "@/components/dashboard/student/lesson/Playlist";
-import { QuizStandby } from "@/components/dashboard/student/lesson/QuizStandby";
-import { QuizWarning } from "@/components/dashboard/student/lesson/QuizWarning";
+import { Summary } from "@/components/dashboard/student/modules/lesson/Summary";
+import { Objectives } from "@/components/dashboard/student/modules/lesson/Objectives";
+import { Tools } from "@/components/dashboard/student/modules/lesson/Tools";
+import { Playlist } from "@/components/dashboard/student/modules/lesson/Playlist";
+import { QuizStandby } from "@/components/dashboard/student/modules/lesson/QuizStandby";
+import { QuizWarning } from "@/components/dashboard/student/modules/lesson/QuizWarning";
 
 type LessonItem = { id: number; kind: "materi" | "kuis"; title: string; questions?: string; duration: string; completed: boolean; };
 
