@@ -2,7 +2,7 @@
 
 import React, { useEffect } from "react";
 import { useRouter } from "next/navigation";
-import { BookOpen, FileText, GraduationCap, ClipboardList, Plus } from "lucide-react";
+import { BookOpen, FileText, GraduationCap, BarChart3, ClipboardList, Plus } from "lucide-react";
 import { StatCard } from "@/components/dashboard/shared/StatCard";
 import { ActionWidget } from "@/components/dashboard/lecturer/ActionWidget";
 import { ActivityItem } from "@/components/dashboard/lecturer/ActivityItem";
@@ -14,11 +14,12 @@ export default function LecturerDashboardHome() {
     document.title = "Dashboard Dosen | EduBidan";
   }, []);
 
+  // REVISI: Tipografi disesuaikan, Ikon Rata-rata skor diganti jadi BarChart3
   const stats = [
-    { label: "Modul Publik", value: "3", icon: BookOpen, color: "bg-primary/15 text-primary border-primary/20" },
-    { label: "Total Materi", value: "12", icon: FileText, color: "bg-teal-500/15 text-teal-600 border-teal-500/20" },
-    { label: "Mahasiswa Terdaftar", value: "45", icon: GraduationCap, color: "bg-blue-500/15 text-blue-600 border-blue-500/20" },
-    { label: "Evaluasi Menunggu", value: "8", icon: ClipboardList, color: "bg-amber-500/15 text-amber-500 border-amber-500/20" },
+    { label: "Modul Saya", value: "8", icon: BookOpen, color: "bg-primary/15 text-primary border-primary/20" },
+    { label: "Total Materi", value: "47", icon: FileText, color: "bg-teal-500/15 text-teal-600 border-teal-500/20" },
+    { label: "Mahasiswa Terdaftar", value: "326", icon: GraduationCap, color: "bg-blue-500/15 text-blue-600 border-blue-500/20" },
+    { label: "Rata-rata Skor", value: "82", icon: BarChart3, color: "bg-amber-500/15 text-amber-500 border-amber-500/20" },
   ];
 
   const recentActivities = [
