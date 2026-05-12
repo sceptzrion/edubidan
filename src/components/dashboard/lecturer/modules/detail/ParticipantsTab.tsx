@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { UserMinus, AlertTriangle, Download } from "lucide-react";
+import { UserMinus, AlertTriangle, Download, Mail } from "lucide-react";
 
 type Peserta = { id: number; name: string; nim: string; progress: number };
 const initialPeserta: Peserta[] = [
@@ -20,6 +20,11 @@ export function ParticipantsTab() {
     setPeserta(peserta.filter(p => p.id !== kickTarget.id));
     setKickTarget(null);
     setReason("");
+  };
+
+  const handleEmail = (nim: string) => {
+    // Simulasi membuka email client default
+    window.location.href = `mailto:student_${nim}@edubidan.id?subject=Informasi%20Modul%20Pembelajaran`;
   };
 
   return (
@@ -70,13 +75,25 @@ export function ParticipantsTab() {
                       <span className="text-xs font-bold text-muted-foreground w-9 text-right">{p.progress}%</span>
                     </div>
                   </td>
+                  
+                  {/* KOLOM AKSI (EMAIL & KELUARKAN) */}
                   <td className="p-4 sm:px-6 text-right">
-                    <button 
-                      onClick={() => setKickTarget(p)} 
-                      className="text-[10px] sm:text-xs text-red-500 hover:text-red-600 hover:bg-red-500/10 px-3 py-1.5 rounded-lg flex items-center gap-1.5 ml-auto font-bold transition-colors"
-                    >
-                      <UserMinus size={14} /> <span className="hidden sm:inline">Keluarkan</span>
-                    </button>
+                    <div className="flex items-center justify-end gap-1.5 sm:gap-2">
+                      <button 
+                        onClick={() => handleEmail(p.nim)}
+                        className="p-2 sm:p-2.5 text-muted-foreground hover:text-primary hover:bg-primary/10 rounded-xl transition-colors"
+                        title="Kirim Email ke Mahasiswa"
+                      >
+                        <Mail size={18} />
+                      </button>
+                      <button 
+                        onClick={() => setKickTarget(p)} 
+                        className="p-2 sm:p-2.5 text-muted-foreground hover:text-red-500 hover:bg-red-500/10 rounded-xl transition-colors"
+                        title="Keluarkan Peserta"
+                      >
+                        <UserMinus size={18} />
+                      </button>
+                    </div>
                   </td>
                 </tr>
               ))}
