@@ -34,7 +34,7 @@ export default function AdminHomePage() {
       {/* GREETING & CTA */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-8 sm:mb-10">
         <div>
-          <h1 className="text-3xl sm:text-4xl font-extrabold text-foreground mb-2">Dashboard Admin</h1>
+          <h1 className="text-3xl font-extrabold text-foreground mb-2">Dashboard Admin</h1>
           <p className="text-sm font-medium text-muted-foreground">Monitoring performa dan kelola akses pengguna EduBidan.</p>
         </div>
         <button 
