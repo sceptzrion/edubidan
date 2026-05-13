@@ -38,7 +38,7 @@ export default function AdminHomePage() {
           <p className="text-sm font-medium text-muted-foreground">Monitoring performa dan kelola akses pengguna EduBidan.</p>
         </div>
         <button 
-          onClick={() => router.push("/dashboard/admin/students")}
+          onClick={() => router.push("/dashboard/admin/users")}
           className="bg-primary text-primary-foreground px-6 py-3.5 rounded-2xl font-extrabold text-sm hover:bg-primary/90 transition-all hover:-translate-y-1 active:scale-95 shadow-lg shadow-primary/20 flex items-center justify-center gap-2"
         >
           <Users size={18} /> Kelola Pengguna
