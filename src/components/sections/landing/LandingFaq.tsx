@@ -11,7 +11,7 @@ interface LandingFaqProps {
 }
 
 export function LandingFaq({ faqs }: LandingFaqProps) {
-  const [openFaq, setOpenFaq] = useState<number | null>(0);
+  const [openFaq, setOpenFaq] = useState<number | null>(null);
 
   return (
     <div className="space-y-4">

@@ -1,3 +1,5 @@
+import { siteConfig } from "@/config/site";
+
 export const privacySections = [
   {
     title: "1. Informasi yang Dikumpulkan",
@@ -36,8 +38,7 @@ export const privacySections = [
   },
   {
     title: "8. Kontak",
-    content:
-      "Pertanyaan atau permintaan terkait privasi dapat dikirimkan melalui email admin@edubidan.id.",
+    content: `Pertanyaan atau permintaan terkait privasi dapat dikirimkan melalui email ${siteConfig.contact.email}.`,
   },
 ];
 
@@ -79,7 +80,6 @@ export const termsSections = [
   },
   {
     title: "8. Kontak dan Bantuan",
-    content:
-      "Pertanyaan terkait penggunaan EduBidan dapat dikirimkan melalui email admin@edubidan.id.",
+    content: `Pertanyaan terkait penggunaan EduBidan dapat dikirimkan melalui email ${siteConfig.contact.email}.`,
   },
 ];

@@ -55,7 +55,7 @@ export function Navbar() {
               Tentang
             </a>
             <a href="#features" className="text-muted-foreground hover:text-foreground transition-colors text-sm">
-              Topik Belajar
+              Fokus Materi
             </a>
             <a href="#alur-belajar" className="text-sm font-medium transition-colors text-muted-foreground hover:text-foreground">
               Alur Belajar

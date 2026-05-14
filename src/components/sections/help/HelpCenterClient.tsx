@@ -6,6 +6,7 @@ import { Mail, Search } from "lucide-react";
 import { CategoryCard } from "@/components/sections/help/CategoryCard";
 import { HelpFaqItem } from "@/components/sections/help/HelpFaqItem";
 import { helpCategories, helpFaqs } from "@/data/public/help-content";
+import { siteConfig } from "@/config/site";
 
 export function HelpCenterClient() {
   const [search, setSearch] = useState("");
@@ -143,13 +144,14 @@ export function HelpCenterClient() {
                 Masih Butuh Bantuan?
               </h3>
               <p className="text-sm text-muted-foreground">
-                Hubungi admin EduBidan jika kendala belum terjawab.
+                Hubungi admin EduBidan melalui {siteConfig.contact.email} jika kendala belum
+                terjawab.
               </p>
             </div>
           </div>
 
           <a
-            href="mailto:admin@edubidan.id"
+            href={siteConfig.links.email}
             className="w-full md:w-auto shrink-0 bg-primary text-primary-foreground px-6 py-3.5 rounded-xl font-semibold hover:opacity-90 transition-opacity flex items-center justify-center gap-2 shadow-sm text-sm"
           >
             <Mail size={18} />

@@ -61,7 +61,7 @@ export function LandingCta() {
                 onClick={() => router.push("/register")}
                 className="bg-white text-primary px-8 py-3.5 rounded-xl hover:bg-slate-50 transition-all font-bold shadow-lg text-sm"
               >
-                Buat Akun Mahasiswa
+                Buat Akun
               </button>
 
               <button
