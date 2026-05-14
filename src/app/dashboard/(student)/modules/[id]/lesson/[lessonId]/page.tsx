@@ -17,7 +17,7 @@ import { QuizStandby } from "@/components/dashboard/student/modules/lesson/QuizS
 import { QuizWarning } from "@/components/dashboard/student/modules/lesson/QuizWarning";
 import { Summary } from "@/components/dashboard/student/modules/lesson/Summary";
 import { Tools } from "@/components/dashboard/student/modules/lesson/Tools";
-import { getLearningItem } from "@/data/learning-modules";
+import { getLearningItem } from "@/data/learning/learning-modules";
 
 export default function LessonPage() {
   const router = useRouter();

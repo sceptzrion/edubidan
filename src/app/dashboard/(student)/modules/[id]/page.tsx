@@ -12,7 +12,7 @@ import { TaskItem } from "@/components/dashboard/student/modules/TaskItem";
 import {
   getLearningModule,
   getModuleContentSummary,
-} from "@/data/learning-modules";
+} from "@/data/learning/learning-modules";
 
 type DetailTab = "pembelajaran" | "evaluasi" | "peserta";
 

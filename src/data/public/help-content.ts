@@ -1,3 +1,5 @@
+import { siteConfig } from "@/config/site";
+
 import {
   BookOpen,
   ClipboardCheck,
@@ -123,6 +125,6 @@ export const helpFaqs = [
   {
     category: "Teknis",
     q: "Bagaimana cara melaporkan bug?",
-    a: "Laporkan kendala melalui email admin@edubidan.id dengan menyertakan deskripsi masalah, perangkat yang digunakan, dan halaman yang bermasalah.",
+    a: `Laporkan kendala melalui email ${siteConfig.contact.email} dengan menyertakan deskripsi masalah, perangkat yang digunakan, dan halaman yang bermasalah.`,
   },
 ];

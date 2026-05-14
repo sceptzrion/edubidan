@@ -11,7 +11,7 @@ import { siteConfig } from "@/config/site";
 export function HelpCenterClient() {
   const [search, setSearch] = useState("");
   const [activeCategory, setActiveCategory] = useState("Semua");
-  const [openFaq, setOpenFaq] = useState<number | null>(0);
+  const [openFaq, setOpenFaq] = useState<number | null>(null);
 
   const filteredFaqs = useMemo(() => {
     const keyword = search.trim().toLowerCase();

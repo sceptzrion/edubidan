@@ -11,7 +11,7 @@ import { QuizResultScreen } from "@/components/dashboard/student/modules/quiz/Qu
 import { QuizStartScreen } from "@/components/dashboard/student/modules/quiz/QuizStartScreen";
 import { EduBidanLogo } from "@/components/ui/EduBidanLogo";
 import { ThemeToggle } from "@/components/ui/ThemeToggle";
-import { getLearningItem } from "@/data/learning-modules";
+import { getLearningItem } from "@/data/learning/learning-modules";
 
 export default function FullscreenQuizPage() {
   const router = useRouter();

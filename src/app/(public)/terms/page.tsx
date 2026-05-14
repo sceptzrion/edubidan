@@ -1,8 +1,8 @@
 import type { Metadata } from "next";
 import { Scale } from "lucide-react";
 
-import { Navbar } from "@/components/layout/Navbar";
-import { Footer } from "@/components/layout/Footer";
+import { Navbar } from "@/components/layout/public/Navbar";
+import { Footer } from "@/components/layout/public/Footer";
 import { termsSections } from "@/data/public/legal-content";
 
 export const metadata: Metadata = {

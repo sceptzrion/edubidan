@@ -1,8 +1,8 @@
 import type { Metadata } from "next";
 import { ShieldCheck } from "lucide-react";
 
-import { Navbar } from "@/components/layout/Navbar";
-import { Footer } from "@/components/layout/Footer";
+import { Navbar } from "@/components/layout/public/Navbar";
+import { Footer } from "@/components/layout/public/Footer";
 import { privacySections } from "@/data/public/legal-content";
 
 export const metadata: Metadata = {

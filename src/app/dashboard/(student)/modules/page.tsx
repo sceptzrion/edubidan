@@ -6,7 +6,7 @@ import { BookOpen, Grid3X3, List, Plus, Search } from "lucide-react";
 
 import { JoinModuleModal } from "@/components/dashboard/student/modules/JoinModuleModal";
 import { ModuleCard } from "@/components/dashboard/student/modules/ModuleCard";
-import { learningModules } from "@/data/learning-modules";
+import { learningModules } from "@/data/learning/learning-modules";
 
 export default function StudentModulesPage() {
   const router = useRouter();

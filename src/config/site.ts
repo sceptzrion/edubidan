@@ -1,19 +1,23 @@
+const adminEmail = "admin@edubidan.id";
+const adminPhone = "+62 812 3456 7890";
+const adminWhatsapp = "6281234567890";
+
 export const siteConfig = {
   name: "EduBidan",
   description:
     "Platform pembelajaran digital kebidanan berbasis web untuk materi video, kuis evaluasi, progres belajar, dan rekap nilai.",
 
   contact: {
-    email: "admin@edubidan.id",
-    phone: "+62 812 3456 7890",
-    whatsapp: "6281234567890",
+    email: adminEmail,
+    phone: adminPhone,
+    whatsapp: adminWhatsapp,
     location: "Karawang, Jawa Barat, Indonesia",
     locationShort: "Karawang, Jawa Barat",
   },
 
   links: {
-    email: "mailto:admin@edubidan.id",
-    whatsapp: "https://wa.me/6281234567890",
+    email: `mailto:${adminEmail}`,
+    whatsapp: `https://wa.me/${adminWhatsapp}`,
     instagram: "#",
     facebook: "#",
     youtube: "#",
