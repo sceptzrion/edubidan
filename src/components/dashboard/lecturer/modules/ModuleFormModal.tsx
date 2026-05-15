@@ -13,7 +13,6 @@ import type {
 interface ModuleFormModalProps {
   isOpen: boolean;
   editing: LecturerModule | null;
-  topics: string[];
   onClose: () => void;
   onSave: (form: LecturerModuleFormValue) => void;
 }
@@ -23,7 +22,6 @@ const statusOptions: LecturerModuleStatus[] = ["Draft", "Publik"];
 export function ModuleFormModal({
   isOpen,
   editing,
-  topics,
   onClose,
   onSave,
 }: ModuleFormModalProps) {
@@ -31,7 +29,6 @@ export function ModuleFormModal({
   const [error, setError] = useState("");
   const [form, setForm] = useState<LecturerModuleFormValue>({
     title: "",
-    topic: topics[0] ?? "",
     status: "Draft",
   });
 
@@ -50,13 +47,11 @@ export function ModuleFormModal({
     if (editing) {
       setForm({
         title: editing.title,
-        topic: editing.topic,
         status: editing.status,
       });
     } else {
       setForm({
         title: "",
-        topic: topics[0] ?? "",
         status: "Draft",
       });
     }
@@ -64,7 +59,7 @@ export function ModuleFormModal({
     return () => {
       document.body.style.overflow = previousOverflow;
     };
-  }, [editing, isOpen, topics]);
+  }, [editing, isOpen]);
 
   const handleSave = () => {
     if (!form.title.trim()) {
@@ -141,30 +136,6 @@ export function ModuleFormModal({
                 {error}
               </p>
             )}
-          </div>
-
-          <div>
-            <label
-              htmlFor="moduleTopic"
-              className="text-xs sm:text-sm mb-2.5 block font-bold text-foreground"
-            >
-              Topik Modul
-            </label>
-
-            <select
-              id="moduleTopic"
-              value={form.topic}
-              onChange={(event) =>
-                setForm({ ...form, topic: event.target.value })
-              }
-              className="w-full px-4 py-3 sm:py-3.5 rounded-xl sm:rounded-2xl bg-card border border-border text-foreground text-sm font-bold outline-none focus:border-primary focus:ring-1 focus:ring-primary transition-all appearance-none cursor-pointer shadow-sm"
-            >
-              {topics.map((topic) => (
-                <option key={topic} value={topic}>
-                  {topic}
-                </option>
-              ))}
-            </select>
           </div>
 
           <div>

@@ -9,7 +9,6 @@ import {
   filterLecturerModules,
   generateLecturerModuleCode,
   lecturerModules,
-  lecturerModuleTopics,
   type LecturerModule,
   type LecturerModuleFormValue,
 } from "@/data/learning/lecturer-modules";
@@ -45,7 +44,7 @@ export default function LecturerModulesPage() {
       const newModule: LecturerModule = {
         id: Date.now(),
         title: form.title || "Modul Baru",
-        topic: form.topic,
+        topic: "Materi Kebidanan",
         materialCount: 0,
         status: form.status,
         updated: "Hari ini",
@@ -92,7 +91,6 @@ export default function LecturerModulesPage() {
       <ModuleFormModal
         isOpen={open}
         editing={editing}
-        topics={lecturerModuleTopics}
         onClose={handleCloseModal}
         onSave={handleSave}
       />

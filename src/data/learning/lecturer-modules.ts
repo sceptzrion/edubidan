@@ -13,7 +13,6 @@ export interface LecturerModule {
 
 export interface LecturerModuleFormValue {
   title: string;
-  topic: string;
   status: LecturerModuleStatus;
 }
 
