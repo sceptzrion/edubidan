@@ -323,3 +323,31 @@ export function getStudentModuleCards() {
     };
   });
 }
+
+export function toModulePlaylistItem(item: LearningItem) {
+  return {
+    id: item.id,
+    kind: item.kind,
+    title: item.title,
+    duration:
+      item.kind === "kuis"
+        ? `${item.questions?.length ?? 0} Soal • ${
+            item.timeLimitMinutes ?? item.estimatedMinutes
+          } Menit`
+        : item.duration,
+    objectivesCount: item.objectives?.length ?? 0,
+    toolsCount: item.tools?.length ?? 0,
+    isCompleted: item.isCompleted,
+  };
+}
+
+export function toModuleTaskItem(item: LearningItem) {
+  return {
+    id: item.id,
+    title: item.title,
+    duration: `${item.questions?.length ?? 0} Soal • ${
+      item.timeLimitMinutes ?? item.estimatedMinutes
+    } Menit`,
+    isCompleted: item.isCompleted,
+  };
+}
