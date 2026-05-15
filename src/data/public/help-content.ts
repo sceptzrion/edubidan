@@ -110,7 +110,7 @@ export const helpFaqs = [
   {
     category: "Teknis",
     q: "Apakah EduBidan bisa digunakan offline?",
-    a: "Belum. EduBidan adalah aplikasi berbasis web, sehingga membutuhkan koneksi internet untuk mengakses materi, video, dan kuis.",
+    a: "Belum untuk versi awal. Pengguna membutuhkan koneksi internet untuk mengakses materi, video pembelajaran, dan kuis evaluasi.",
   },
   {
     category: "Teknis",

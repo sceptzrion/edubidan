@@ -114,7 +114,7 @@ export const landingFaqs = [
   {
     question: "Apakah materi bisa diakses offline?",
     answer:
-      "Belum. EduBidan adalah aplikasi web, sehingga pengguna membutuhkan koneksi internet untuk mengakses materi dan mengerjakan kuis.",
+      "Belum untuk versi awal. Pengguna membutuhkan koneksi internet untuk mengakses materi, menonton video, dan mengerjakan kuis evaluasi.",
   },
 ];
 

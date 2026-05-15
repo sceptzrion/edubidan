@@ -41,11 +41,11 @@ export default function LandingPage() {
                 </div>
 
                 <h1 className="text-4xl lg:text-5xl tracking-tight mb-6 font-extrabold leading-[1.15]">
-                  Media Pembelajaran
+                  Platform Digital
                   <br />
-                  <span className="text-primary">Pendidikan Kebidanan</span>
+                  <span className="text-primary">Pembelajaran Kebidanan</span>
                   <br />
-                  Berbasis Web
+                  Interaktif
                 </h1>
 
                 <p className="text-muted-foreground text-lg mb-8 max-w-lg leading-relaxed">

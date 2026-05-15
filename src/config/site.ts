@@ -5,7 +5,7 @@ const adminWhatsapp = "6281234567890";
 export const siteConfig = {
   name: "EduBidan",
   description:
-    "Platform pembelajaran digital kebidanan berbasis web untuk materi video, kuis evaluasi, progres belajar, dan rekap nilai.",
+    "Platform pembelajaran digital kebidanan untuk materi video, kuis evaluasi, progres belajar, dan rekap nilai.",
 
   contact: {
     email: adminEmail,

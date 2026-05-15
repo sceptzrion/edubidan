@@ -46,7 +46,7 @@ export const termsSections = [
   {
     title: "1. Ketentuan Umum",
     content:
-      "Dengan menggunakan EduBidan, pengguna menyetujui bahwa platform ini merupakan purwarupa media pembelajaran kebidanan berbasis web untuk keperluan akademik.",
+      "Dengan menggunakan EduBidan, pengguna menyetujui bahwa platform ini merupakan purwarupa media pembelajaran kebidanan digital untuk keperluan akademik.",
   },
   {
     title: "2. Akun Pengguna",
