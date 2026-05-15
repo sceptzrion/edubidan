@@ -1,4 +1,4 @@
-import { LayoutDashboard, BookOpen, Settings, Award, LucideIcon } from "lucide-react";
+import { BookOpen, LayoutDashboard, LucideIcon, Settings } from "lucide-react";
 
 export interface MenuItem {
   icon: LucideIcon;
