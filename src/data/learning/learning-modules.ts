@@ -351,3 +351,16 @@ export function toModuleTaskItem(item: LearningItem) {
     isCompleted: item.isCompleted,
   };
 }
+
+export function toLessonPlaylistItem(item: LearningItem) {
+  return {
+    id: item.id,
+    kind: item.kind,
+    title: item.title,
+    duration:
+      item.kind === "kuis"
+        ? `${item.timeLimitMinutes ?? item.estimatedMinutes} Menit`
+        : item.duration,
+    completed: item.isCompleted,
+  };
+}
