@@ -89,7 +89,7 @@ export function ProfileTab() {
       )}
 
       <form onSubmit={handleSubmit}>
-        <div className="flex flex-col sm:flex-row sm:items-center gap-4 sm:gap-6 mb-8">
+        <div className="flex flex-col items-center sm:flex-row sm:items-center gap-4 sm:gap-6 mb-8">
           <div className="relative shrink-0 w-fit">
             <div className="w-20 h-20 sm:w-24 sm:h-24 rounded-full bg-linear-to-br from-primary to-teal-400 flex items-center justify-center text-white text-2xl sm:text-3xl font-extrabold shadow-sm overflow-hidden">
               {avatarUrl ? (
@@ -122,15 +122,15 @@ export function ProfileTab() {
           </div>
 
           <div className="min-w-0">
-            <p className="text-base sm:text-lg font-extrabold text-foreground">
+            <p className="text-base text-center sm:text-left sm:text-lg font-extrabold text-foreground">
               Ikhsan Rizqi
             </p>
 
-            <p className="text-xs sm:text-sm text-muted-foreground font-medium mt-0.5">
+            <p className="text-xs text-center sm:text-left sm:text-sm text-muted-foreground font-medium mt-0.5">
               Mahasiswa UNSIKA
             </p>
 
-            <div className="flex flex-wrap gap-2 mt-3">
+            <div className="flex flex-wrap place-content-center sm:place-content-start gap-2 mt-3">
               <button
                 type="button"
                 onClick={handleUploadClick}
@@ -152,7 +152,7 @@ export function ProfileTab() {
               )}
             </div>
 
-            <p className="text-[11px] text-muted-foreground font-medium mt-2 leading-relaxed">
+            <p className="text-[11px] text-center sm:text-left text-muted-foreground font-medium mt-2 leading-relaxed">
               Pilih foto yang jelas agar profil mudah dikenali.
             </p>
           </div>
