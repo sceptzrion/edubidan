@@ -75,7 +75,7 @@ export default function LecturerSettingsPage() {
               <div className="relative">
                 <Mail size={16} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-muted-foreground" />
                 <input 
-                  defaultValue="rina.h@edubidan.id" 
+                  defaultValue="rina.hartati@staff.unsika.ac.id" 
                   type="email"
                   className="w-full pl-10 pr-4 py-3 rounded-xl bg-muted/30 border border-border text-sm font-medium text-foreground outline-none focus:border-primary focus:ring-1 focus:ring-primary transition-all" 
                 />

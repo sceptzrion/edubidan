@@ -1,4 +1,10 @@
-import { LayoutDashboard, BookOpen, ClipboardList, Settings, LucideIcon } from "lucide-react";
+import {
+  BookOpen,
+  ClipboardList,
+  LayoutDashboard,
+  Settings,
+  type LucideIcon,
+} from "lucide-react";
 
 export interface LecturerMenuItem {
   icon: LucideIcon;
@@ -9,6 +15,14 @@ export interface LecturerMenuItem {
 export const lecturerMenuItems: LecturerMenuItem[] = [
   { icon: LayoutDashboard, label: "Beranda", path: "/dashboard/lecturer" },
   { icon: BookOpen, label: "Modul", path: "/dashboard/lecturer/modules" },
-  { icon: ClipboardList, label: "Rekap Nilai", path: "/dashboard/lecturer/gradebook" },
-  { icon: Settings, label: "Pengaturan", path: "/dashboard/lecturer/settings" },
+  {
+    icon: ClipboardList,
+    label: "Rekap Nilai",
+    path: "/dashboard/lecturer/gradebook",
+  },
+  {
+    icon: Settings,
+    label: "Pengaturan",
+    path: "/dashboard/lecturer/settings",
+  },
 ];
