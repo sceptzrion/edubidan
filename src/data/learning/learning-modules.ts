@@ -295,3 +295,31 @@ export function getModuleContentSummary(items: LearningItem[]) {
 
   return `${materialCount} Materi, ${quizCount} Kuis`;
 }
+
+export function getModuleItemCounts(items: LearningItem[]) {
+  const materialCount = items.filter((item) => item.kind === "materi").length;
+  const quizCount = items.filter((item) => item.kind === "kuis").length;
+
+  return {
+    materialCount,
+    quizCount,
+  };
+}
+
+export function getStudentModuleCards() {
+  return learningModules.map((module) => {
+    const { materialCount, quizCount } = getModuleItemCounts(module.items);
+
+    return {
+      id: module.id,
+      title: module.title,
+      desc: module.description,
+      img: module.thumbnail,
+      progress: module.progress,
+      lessons: materialCount,
+      quizzes: quizCount,
+      duration: module.estimatedTime,
+      instructor: module.instructor.name,
+    };
+  });
+}

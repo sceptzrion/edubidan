@@ -1,5 +1,5 @@
-import React, { useState } from "react";
-import { X, KeyRound, CheckCircle2, BookOpen } from "lucide-react";
+import { useState } from "react";
+import { BookOpen, CheckCircle2, KeyRound, X } from "lucide-react";
 
 interface JoinModuleModalProps {
   isOpen: boolean;
