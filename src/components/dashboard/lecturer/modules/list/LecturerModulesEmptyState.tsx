@@ -20,7 +20,7 @@ export function LecturerModulesEmptyState({
 
       <p className="text-xs sm:text-sm font-medium text-muted-foreground leading-relaxed">
         {search.trim()
-          ? "Coba gunakan judul, topik, atau kode modul yang lain."
+          ? "Coba gunakan judul atau kode modul yang lain."
           : "Belum ada modul pembelajaran yang dibuat."}
       </p>
     </div>

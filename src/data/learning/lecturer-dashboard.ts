@@ -75,17 +75,17 @@ export function getLecturerDashboardData() {
 
   const recentActivities: LecturerRecentActivity[] = [
     {
-      text: "Sari Dewi menyelesaikan Kuis Pemahaman Pemeriksaan Kehamilan",
+      text: "Sari Dewi menyelesaikan salah satu kuis evaluasi modul",
       highlight: "Skor: 90",
       time: "10 menit lalu",
     },
     {
-      text: "Modul Pemeriksaan Kehamilan Dasar berhasil dipublikasi",
+      text: "Salah satu modul pembelajaran berhasil dipublikasi",
       highlight: "Publik",
       time: "2 jam lalu",
     },
     {
-      text: "5 mahasiswa baru bergabung pada modul Perawatan Bayi Baru Lahir",
+      text: "5 mahasiswa baru bergabung pada modul pembelajaran",
       highlight: "Info",
       time: "1 hari lalu",
     },

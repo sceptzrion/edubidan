@@ -17,41 +17,41 @@ export interface LecturerNotification {
 export function getLecturerNotifications(): LecturerNotification[] {
   return [
     {
-      id: "submission-quiz-anc",
+      id: "submission-quiz-latest",
       type: "submission",
       title: "Pengumpulan Kuis",
       description:
-        "12 mahasiswa telah mengerjakan Kuis Pemahaman Pemeriksaan Kehamilan.",
+        "12 mahasiswa telah mengerjakan kuis evaluasi pada salah satu modul.",
       time: "Baru saja",
       href: "/dashboard/lecturer/gradebook/1",
       read: false,
     },
     {
-      id: "module-progress-anc",
+      id: "module-progress-latest",
       type: "progress",
       title: "Progres Mahasiswa",
       description:
-        "Mayoritas mahasiswa sudah menyelesaikan lebih dari 70% modul ANC Terpadu.",
+        "Mayoritas mahasiswa sudah menyelesaikan lebih dari 70% salah satu modul.",
       time: "Hari ini",
       href: "/dashboard/lecturer/modules/1",
       read: false,
     },
     {
-      id: "participant-newborn",
+      id: "participant-latest",
       type: "participant",
       title: "Mahasiswa Bergabung",
       description:
-        "5 mahasiswa baru bergabung pada modul Perawatan Bayi Baru Lahir.",
+        "5 mahasiswa baru bergabung pada salah satu modul pembelajaran.",
       time: "Kemarin",
       href: "/dashboard/lecturer/modules/2",
       read: true,
     },
     {
-      id: "module-published-newborn",
+      id: "module-published-latest",
       type: "module",
       title: "Modul Dipublikasi",
       description:
-        "Modul APGAR Score & Resusitasi sudah tersedia untuk mahasiswa.",
+        "Salah satu modul sudah tersedia untuk diakses mahasiswa.",
       time: "1 hari lalu",
       href: "/dashboard/lecturer/modules/2",
       read: true,

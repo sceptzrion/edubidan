@@ -45,7 +45,7 @@ export function LecturerModulesHeader({
         <input
           value={search}
           onChange={(event) => onSearchChange(event.target.value)}
-          placeholder="Cari judul, topik, atau kode modul..."
+          placeholder="Cari judul atau kode modul..."
           className="w-full pl-11 pr-4 py-3 sm:py-3.5 rounded-xl sm:rounded-2xl bg-card border border-border focus:border-primary focus:ring-1 focus:ring-primary outline-none text-xs sm:text-sm font-bold text-foreground transition-all shadow-sm"
         />
       </div>

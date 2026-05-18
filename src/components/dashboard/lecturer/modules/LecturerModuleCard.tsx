@@ -48,7 +48,7 @@ export function LecturerModuleCard({
 
         <div className="absolute inset-0 bg-linear-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
 
-        <div className="absolute top-3 left-3 z-10">
+        <div className="absolute top-3 right-3 z-10">
           <span
             className={`px-3 py-1.5 rounded-lg text-[10px] sm:text-xs font-extrabold shadow-md backdrop-blur-md ${
               module.status === "Publik"
@@ -57,12 +57,6 @@ export function LecturerModuleCard({
             }`}
           >
             {module.status}
-          </span>
-        </div>
-
-        <div className="absolute top-3 right-3 z-10">
-          <span className="hidden sm:inline-block text-xs font-bold bg-background/60 backdrop-blur-sm border border-border/30 px-3 py-1.5 rounded-lg shrink-0 text-foreground shadow-sm">
-            {module.topic}
           </span>
         </div>
       </div>
@@ -88,6 +82,7 @@ export function LecturerModuleCard({
             <span className="block text-[10px] sm:text-xs text-muted-foreground font-medium">
               Kode Modul
             </span>
+
             <span className="block text-xs sm:text-sm font-mono font-extrabold text-primary tracking-widest truncate">
               {module.code}
             </span>
