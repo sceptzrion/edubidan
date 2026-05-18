@@ -3,7 +3,6 @@ export type LecturerModuleStatus = "Publik" | "Draft";
 export interface LecturerModule {
   id: number;
   title: string;
-  topic: string;
   materialCount: number;
   status: LecturerModuleStatus;
   updated: string;
@@ -16,17 +15,10 @@ export interface LecturerModuleFormValue {
   status: LecturerModuleStatus;
 }
 
-export const lecturerModuleTopics = [
-  "Pemeriksaan Kehamilan",
-  "Perawatan Bayi Baru Lahir",
-  "Teknik Menyusui",
-];
-
 export const lecturerModules: LecturerModule[] = [
   {
     id: 1,
     title: "ANC Terpadu Trimester 1",
-    topic: "Pemeriksaan Kehamilan",
     materialCount: 6,
     status: "Publik",
     updated: "20 Apr 2026",
@@ -37,7 +29,6 @@ export const lecturerModules: LecturerModule[] = [
   {
     id: 2,
     title: "APGAR Score & Resusitasi",
-    topic: "Perawatan Bayi Baru Lahir",
     materialCount: 4,
     status: "Publik",
     updated: "18 Apr 2026",
@@ -48,7 +39,6 @@ export const lecturerModules: LecturerModule[] = [
   {
     id: 3,
     title: "Inisiasi Menyusu Dini",
-    topic: "Teknik Menyusui",
     materialCount: 3,
     status: "Draft",
     updated: "15 Apr 2026",
@@ -80,7 +70,6 @@ export function filterLecturerModules(
   return modules.filter((module) => {
     return (
       module.title.toLowerCase().includes(keyword) ||
-      module.topic.toLowerCase().includes(keyword) ||
       module.code.toLowerCase().includes(keyword)
     );
   });

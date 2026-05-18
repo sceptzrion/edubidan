@@ -44,7 +44,6 @@ export default function LecturerModulesPage() {
       const newModule: LecturerModule = {
         id: Date.now(),
         title: form.title || "Modul Baru",
-        topic: "Materi Kebidanan",
         materialCount: 0,
         status: form.status,
         updated: "Hari ini",
