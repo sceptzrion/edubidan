@@ -21,8 +21,23 @@ function Field({
   required?: boolean;
   children: ReactNode;
 }) {
+  return (
+    <div>
+      <label className="text-xs sm:text-sm mb-2 block font-bold text-foreground">
+        {label} {required && <span className="text-red-500 ml-0.5">*</span>}
+      </label>
 
-export function UserFormModal({ mode, user, onClose, onSave }: UserFormModalProps) {
+      {children}
+    </div>
+  );
+}
+
+export function UserFormModal({
+  mode,
+  user,
+  onClose,
+  onSave,
+}: UserFormModalProps) {
   const [form, setForm] = useState<Partial<AdminUser>>(
     user ?? {
       name: "",
@@ -35,44 +50,56 @@ export function UserFormModal({ mode, user, onClose, onSave }: UserFormModalProp
       avgScore: 0,
       role: "Mahasiswa",
       identityNo: "",
-      joined: new Date().toLocaleDateString("id-ID", { day: "2-digit", month: "short", year: "numeric" }),
+      joined: new Date().toLocaleDateString("id-ID", {
+        day: "2-digit",
+        month: "short",
+        year: "numeric",
+      }),
     }
   );
-  const [generatePwd, setGeneratePwd] = useState(true);
-  const [showPwd, setShowPwd] = useState(false);
+
+  const [generatePassword, setGeneratePassword] = useState(true);
+  const [showPassword, setShowPassword] = useState(false);
+
+  const emailPlaceholder =
+    form.role === "Dosen"
+      ? "nama@staff.unsika.ac.id"
+      : "nama@student.unsika.ac.id";
 
   return (
     <div className="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-200 p-4">
       <div className="bg-card rounded-3xl border border-border w-full max-w-2xl max-h-[90vh] overflow-y-auto shadow-2xl animate-in zoom-in-95 duration-200">
-
-        {/* Header */}
         <div className="p-6 sm:p-8 border-b border-border flex items-center justify-between sticky top-0 bg-card/95 backdrop-blur z-10">
           <div>
             <h2 className="text-xl font-extrabold text-foreground">
               {mode === "add" ? "Tambah Pengguna Baru" : "Edit Data Pengguna"}
             </h2>
+
             <p className="text-xs sm:text-sm font-medium text-muted-foreground mt-1">
               {mode === "add"
-                ? "Daftarkan akun Dosen atau Mahasiswa ke sistem."
+                ? "Daftarkan akun dosen atau mahasiswa ke sistem."
                 : "Perbarui informasi dan hak akses pengguna."}
             </p>
           </div>
+
           <button
             type="button"
             onClick={onClose}
             className="p-2 hover:bg-muted rounded-xl text-muted-foreground hover:text-foreground transition-colors"
+            aria-label="Tutup modal"
           >
             <X size={20} />
           </button>
         </div>
 
-        {/* Body */}
         <div className="p-6 sm:p-8 space-y-6">
           <div className="grid sm:grid-cols-2 gap-5">
             <Field label="Nama Lengkap" required>
               <input
                 value={form.name ?? ""}
-                onChange={(e) => setForm({ ...form, name: e.target.value })}
+                onChange={(event) =>
+                  setForm({ ...form, name: event.target.value })
+                }
                 placeholder="Contoh: Sari Dewi"
                 className="w-full px-4 py-3 rounded-xl bg-muted/30 border border-border outline-none focus:border-primary focus:ring-1 focus:ring-primary text-sm font-medium transition-all"
               />
@@ -81,14 +108,23 @@ export function UserFormModal({ mode, user, onClose, onSave }: UserFormModalProp
             <Field label="Peran Akun" required>
               <div className="relative">
                 <select
-                  value={form.role}
-                  onChange={(e) => setForm({ ...form, role: e.target.value as "Mahasiswa" | "Dosen" })}
+                  value={form.role ?? "Mahasiswa"}
+                  onChange={(event) =>
+                    setForm({
+                      ...form,
+                      role: event.target.value as AdminUser["role"],
+                    })
+                  }
                   className="w-full pl-4 pr-10 py-3 rounded-xl bg-muted/30 border border-border outline-none focus:border-primary focus:ring-1 focus:ring-primary text-sm font-bold appearance-none cursor-pointer transition-all"
                 >
                   <option value="Mahasiswa">Mahasiswa</option>
                   <option value="Dosen">Dosen</option>
                 </select>
-                <Shield size={16} className="absolute right-4 top-1/2 -translate-y-1/2 text-muted-foreground pointer-events-none" />
+
+                <Shield
+                  size={16}
+                  className="absolute right-4 top-1/2 -translate-y-1/2 text-muted-foreground pointer-events-none"
+                />
               </div>
             </Field>
 
@@ -96,16 +132,27 @@ export function UserFormModal({ mode, user, onClose, onSave }: UserFormModalProp
               <input
                 type="email"
                 value={form.email ?? ""}
-                onChange={(e) => setForm({ ...form, email: e.target.value })}
-                placeholder="nama@email.com"
+                onChange={(event) =>
+                  setForm({ ...form, email: event.target.value })
+                }
+                placeholder={emailPlaceholder}
                 className="w-full px-4 py-3 rounded-xl bg-muted/30 border border-border outline-none focus:border-primary focus:ring-1 focus:ring-primary text-sm font-medium transition-all"
               />
             </Field>
 
-            <Field label={form.role === "Dosen" ? "Nomor Induk Dosen (NIDN/NIP)" : "Nomor Induk Mahasiswa (NIM)"} required>
+            <Field
+              label={
+                form.role === "Dosen"
+                  ? "Nomor Induk Dosen (NIDN/NIP)"
+                  : "Nomor Induk Mahasiswa (NIM)"
+              }
+              required
+            >
               <input
                 value={form.identityNo ?? ""}
-                onChange={(e) => setForm({ ...form, identityNo: e.target.value })}
+                onChange={(event) =>
+                  setForm({ ...form, identityNo: event.target.value })
+                }
                 placeholder="Masukkan nomor identitas"
                 className="w-full px-4 py-3 rounded-xl bg-muted/30 border border-border outline-none focus:border-primary focus:ring-1 focus:ring-primary text-sm font-mono transition-all"
               />
@@ -114,7 +161,9 @@ export function UserFormModal({ mode, user, onClose, onSave }: UserFormModalProp
             <Field label="Institusi / Kampus">
               <input
                 value={form.institution ?? ""}
-                onChange={(e) => setForm({ ...form, institution: e.target.value })}
+                onChange={(event) =>
+                  setForm({ ...form, institution: event.target.value })
+                }
                 placeholder="Nama kampus asal"
                 className="w-full px-4 py-3 rounded-xl bg-muted/30 border border-border outline-none focus:border-primary focus:ring-1 focus:ring-primary text-sm font-medium transition-all"
               />
@@ -122,8 +171,13 @@ export function UserFormModal({ mode, user, onClose, onSave }: UserFormModalProp
 
             <Field label="Status Akun">
               <select
-                value={form.status}
-                onChange={(e) => setForm({ ...form, status: e.target.value as "Aktif" | "Nonaktif" })}
+                value={form.status ?? "Aktif"}
+                onChange={(event) =>
+                  setForm({
+                    ...form,
+                    status: event.target.value as AdminUser["status"],
+                  })
+                }
                 className="w-full px-4 py-3 rounded-xl bg-muted/30 border border-border outline-none focus:border-primary focus:ring-1 focus:ring-primary text-sm font-bold transition-all"
               >
                 <option value="Aktif">Aktif</option>
@@ -132,42 +186,47 @@ export function UserFormModal({ mode, user, onClose, onSave }: UserFormModalProp
             </Field>
           </div>
 
-          {/* Password Section */}
           <div className="rounded-2xl border border-border p-5 bg-card shadow-sm relative overflow-hidden">
             <div className="absolute left-0 top-0 bottom-0 w-1 bg-amber-500" />
+
             <div className="flex items-center gap-2 mb-4">
               <Key size={18} className="text-amber-500" />
+
               <span className="text-sm font-extrabold text-foreground">
                 {mode === "add" ? "Kredensial Login" : "Reset Kata Sandi"}
               </span>
             </div>
+
             <label className="flex items-center gap-3 text-sm font-medium text-muted-foreground mb-4 cursor-pointer hover:text-foreground transition-colors">
               <input
                 type="checkbox"
-                checked={generatePwd}
-                onChange={(e) => setGeneratePwd(e.target.checked)}
+                checked={generatePassword}
+                onChange={(event) => setGeneratePassword(event.target.checked)}
                 className="w-4 h-4 rounded border-border text-amber-500 focus:ring-amber-500 bg-card"
               />
-              <span>Buat password otomatis dan kirim via Email</span>
+
+              <span>Buat kata sandi otomatis dan kirim melalui email</span>
             </label>
 
-            {!generatePwd && (
+            {!generatePassword && (
               <div className="animate-in fade-in slide-in-from-top-2 duration-300">
                 <label className="text-xs font-bold text-muted-foreground mb-2 block uppercase tracking-wider">
-                  Password Manual
+                  Kata Sandi Manual
                 </label>
+
                 <div className="relative">
                   <input
-                    type={showPwd ? "text" : "password"}
-                    placeholder="Min. 8 karakter..."
+                    type={showPassword ? "text" : "password"}
+                    placeholder="Minimal 8 karakter..."
                     className="w-full px-4 py-3 pr-24 rounded-xl bg-muted/30 border border-border outline-none focus:border-amber-500 focus:ring-1 focus:ring-amber-500 text-sm font-medium transition-all"
                   />
+
                   <button
                     type="button"
-                    onClick={() => setShowPwd(!showPwd)}
+                    onClick={() => setShowPassword(!showPassword)}
                     className="absolute right-4 top-1/2 -translate-y-1/2 text-xs font-extrabold text-amber-500 hover:text-amber-600 transition-colors"
                   >
-                    {showPwd ? "SEMBUNYIKAN" : "TAMPILKAN"}
+                    {showPassword ? "SEMBUNYIKAN" : "TAMPILKAN"}
                   </button>
                 </div>
               </div>
@@ -175,7 +234,6 @@ export function UserFormModal({ mode, user, onClose, onSave }: UserFormModalProp
           </div>
         </div>
 
-        {/* Footer */}
         <div className="p-6 border-t border-border flex gap-3 sm:gap-4 bg-muted/10 rounded-b-3xl">
           <button
             type="button"
@@ -184,6 +242,7 @@ export function UserFormModal({ mode, user, onClose, onSave }: UserFormModalProp
           >
             Batal
           </button>
+
           <button
             type="button"
             onClick={() => onSave(form)}
