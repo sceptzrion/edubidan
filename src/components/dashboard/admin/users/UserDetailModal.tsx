@@ -1,14 +1,24 @@
 "use client";
 
-import React, { useState } from "react";
+import { useState, type ReactNode } from "react";
 import {
-  X, Mail, Phone, Building2, Calendar, Award,
-  CheckCircle2, Shield, Lock, Key, Trash2,
+  Award,
+  Building2,
+  Calendar,
+  CheckCircle2,
+  Key,
+  Lock,
+  Mail,
+  Phone,
+  Shield,
+  Trash2,
+  X,
 } from "lucide-react";
-import { Student } from "@/components/dashboard/admin/users/UserFormModal";
+
+import type { AdminUser } from "@/data/learning/admin/admin-users";
 
 interface UserDetailModalProps {
-  user: Student;
+  user: AdminUser;
   onClose: () => void;
 }
 
@@ -19,7 +29,15 @@ const quizHistory = [
   { module: "Teknik Menyusui", quiz: "Kuis Manajemen Laktasi", score: 68, date: "25 Mar 2026", status: "Mengulang" },
 ];
 
-function Info({ icon, label, value }: { icon: React.ReactNode; label: string; value: string }) {
+function Info({
+  icon,
+  label,
+  value,
+}: {
+  icon: ReactNode;
+  label: string;
+  value: string;
+}) {
   return (
     <div className="p-4 rounded-2xl border border-border bg-muted/10 flex items-start gap-3">
       <div className="text-primary mt-0.5">{icon}</div>
@@ -34,7 +52,7 @@ function Info({ icon, label, value }: { icon: React.ReactNode; label: string; va
 function AccountRow({
   icon, title, desc, action, tone,
 }: {
-  icon: React.ReactNode;
+  icon: ReactNode;
   title: string;
   desc: string;
   action: string;
@@ -63,6 +81,7 @@ function AccountRow({
         </div>
       </div>
       <button
+        type="button"
         className={`w-full sm:w-auto px-5 py-2.5 rounded-xl text-xs sm:text-sm font-extrabold transition-all active:scale-95 whitespace-nowrap ${btnClass}`}
       >
         {action}
@@ -82,6 +101,7 @@ export function UserDetailModal({ user, onClose }: UserDetailModalProps) {
         <div className="p-6 border-b border-border flex items-center justify-between bg-card shrink-0">
           <h2 className="text-xl font-extrabold text-foreground">Detail Pengguna</h2>
           <button
+            type="button"
             onClick={onClose}
             className="p-2 hover:bg-muted rounded-xl text-muted-foreground hover:text-foreground transition-colors"
           >
@@ -137,6 +157,7 @@ export function UserDetailModal({ user, onClose }: UserDetailModalProps) {
             <div className="flex gap-2 sm:gap-6 border-b border-border mb-8 overflow-x-auto scrollbar-none">
               {(["profil", "nilai", "akun"] as const).map((t) => (
                 <button
+                  type="button"
                   key={t}
                   onClick={() => setTab(t)}
                   className={`px-2 py-3 text-xs sm:text-sm font-extrabold capitalize border-b-2 transition-all whitespace-nowrap ${

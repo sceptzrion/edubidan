@@ -1,43 +1,29 @@
 "use client";
 
-import React, { useState } from "react";
-import { X, Key, Shield } from "lucide-react";
+import { useState, type ReactNode } from "react";
+import { Key, Shield, X } from "lucide-react";
 
-export type Student = {
-  id: number;
-  name: string;
-  email: string;
-  phone?: string;
-  institution: string;
-  modules: number;
-  avgScore: number;
-  status: "Aktif" | "Nonaktif";
-  joined: string;
-  gender?: string;
-  role: "Mahasiswa" | "Dosen";
-  identityNo: string;
-};
+import type { AdminUser } from "@/data/learning/admin/admin-users";
 
 interface UserFormModalProps {
   mode: "add" | "edit";
-  user?: Student;
+  user?: AdminUser;
   onClose: () => void;
-  onSave: (data: Partial<Student>) => void;
+  onSave: (data: Partial<AdminUser>) => void;
 }
 
-function Field({ label, required, children }: { label: string; required?: boolean; children: React.ReactNode }) {
-  return (
-    <div>
-      <label className="text-xs sm:text-sm mb-2 block font-bold text-foreground">
-        {label} {required && <span className="text-red-500 ml-0.5">*</span>}
-      </label>
-      {children}
-    </div>
-  );
-}
+function Field({
+  label,
+  required,
+  children,
+}: {
+  label: string;
+  required?: boolean;
+  children: ReactNode;
+}) {
 
 export function UserFormModal({ mode, user, onClose, onSave }: UserFormModalProps) {
-  const [form, setForm] = useState<Partial<Student>>(
+  const [form, setForm] = useState<Partial<AdminUser>>(
     user ?? {
       name: "",
       email: "",
@@ -72,6 +58,7 @@ export function UserFormModal({ mode, user, onClose, onSave }: UserFormModalProp
             </p>
           </div>
           <button
+            type="button"
             onClick={onClose}
             className="p-2 hover:bg-muted rounded-xl text-muted-foreground hover:text-foreground transition-colors"
           >
@@ -191,12 +178,14 @@ export function UserFormModal({ mode, user, onClose, onSave }: UserFormModalProp
         {/* Footer */}
         <div className="p-6 border-t border-border flex gap-3 sm:gap-4 bg-muted/10 rounded-b-3xl">
           <button
+            type="button"
             onClick={onClose}
             className="flex-1 py-3.5 rounded-xl border border-border text-sm font-bold text-foreground hover:bg-muted transition-colors"
           >
             Batal
           </button>
           <button
+            type="button"
             onClick={() => onSave(form)}
             className="flex-1 py-3.5 rounded-xl bg-primary text-primary-foreground text-sm font-extrabold hover:bg-primary/90 transition-all hover:-translate-y-0.5 shadow-md shadow-primary/20"
           >
