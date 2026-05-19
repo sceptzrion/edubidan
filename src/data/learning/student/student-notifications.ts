@@ -1,4 +1,4 @@
-import { learningModules } from "@/data/learning/learning-modules";
+import { learningModules } from "@/data/learning/shared/learning-modules";
 
 export type StudentNotificationType = "quiz" | "module" | "result";
 

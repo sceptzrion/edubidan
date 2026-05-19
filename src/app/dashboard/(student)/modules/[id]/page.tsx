@@ -13,7 +13,7 @@ import type { DetailTab } from "@/components/dashboard/student/modules/detail/Mo
 import {
   getLearningModule,
   getModuleContentSummary,
-} from "@/data/learning/learning-modules";
+} from "@/data/learning/shared/learning-modules";
 
 export default function StudentModuleDetailPage() {
   const router = useRouter();

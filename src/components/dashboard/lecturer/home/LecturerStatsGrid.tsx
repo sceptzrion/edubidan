@@ -4,7 +4,7 @@ import { StatCard } from "@/components/dashboard/shared/StatCard";
 import type {
   LecturerDashboardStat,
   LecturerStatIconKey,
-} from "@/data/learning/lecturer-dashboard";
+} from "@/data/learning/lecturer/lecturer-dashboard";
 
 interface LecturerStatsGridProps {
   stats: LecturerDashboardStat[];

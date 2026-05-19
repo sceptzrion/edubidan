@@ -9,7 +9,7 @@ import {
   StudentModulesToolbar,
   type StudentModulesLayout,
 } from "@/components/dashboard/student/modules/list/StudentModulesToolbar";
-import { getStudentModuleCards } from "@/data/learning/learning-modules";
+import { getStudentModuleCards } from "@/data/learning/shared/learning-modules";
 
 export default function StudentModulesPage() {
   const [search, setSearch] = useState("");

@@ -1,6 +1,6 @@
 import { CheckCircle2, Target, Users } from "lucide-react";
 
-import type { LecturerQuizGeneralStats } from "@/data/learning/lecturer-quiz-preview";
+import type { LecturerQuizGeneralStats } from "@/data/learning/lecturer/lecturer-quiz-preview";
 
 interface LecturerQuizStatsGridProps {
   stats: LecturerQuizGeneralStats;

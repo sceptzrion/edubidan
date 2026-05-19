@@ -6,7 +6,7 @@ import { useRouter } from "next/navigation";
 import type {
   StudentNotification,
   StudentNotificationType,
-} from "@/data/learning/student-notifications";
+} from "@/data/learning/student/student-notifications";
 
 interface StudentNotificationMenuProps {
   isOpen: boolean;

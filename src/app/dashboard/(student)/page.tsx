@@ -3,7 +3,7 @@ import { PendingQuizSection } from "@/components/dashboard/student/home/PendingQ
 import { StudentDashboardHeader } from "@/components/dashboard/student/home/StudentDashboardHeader";
 import { StudentStatsGrid } from "@/components/dashboard/student/home/StudentStatsGrid";
 import { StudyTipsCard } from "@/components/dashboard/student/home/StudyTipsCard";
-import { getStudentDashboardData } from "@/data/learning/student-dashboard";
+import { getStudentDashboardData } from "@/data/learning/student/student-dashboard";
 
 export default function StudentDashboardHome() {
   const dashboardData = getStudentDashboardData();

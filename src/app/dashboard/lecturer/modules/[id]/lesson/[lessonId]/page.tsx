@@ -10,7 +10,7 @@ import { LecturerPreviewModeBadge } from "@/components/dashboard/lecturer/module
 import {
   getLecturerLessonPreviewDetail,
   getLecturerPreviewPlaylist,
-} from "@/data/learning/lecturer-content-preview";
+} from "@/data/learning/lecturer/lecturer-content-preview";
 
 export default function LecturerLessonPreviewPage() {
   const params = useParams<{ id: string; lessonId: string }>();

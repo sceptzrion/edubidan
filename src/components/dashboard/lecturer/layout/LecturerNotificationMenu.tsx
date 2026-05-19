@@ -12,7 +12,7 @@ import { useRouter } from "next/navigation";
 import type {
   LecturerNotification,
   LecturerNotificationType,
-} from "@/data/learning/lecturer-notifications";
+} from "@/data/learning/lecturer/lecturer-notifications";
 
 interface LecturerNotificationMenuProps {
   isOpen: boolean;

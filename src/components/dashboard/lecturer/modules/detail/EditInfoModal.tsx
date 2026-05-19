@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import { Save, X } from "lucide-react";
 import { createPortal } from "react-dom";
 
-import type { LecturerModuleDetailInfo } from "@/data/learning/lecturer-module-detail";
+import type { LecturerModuleDetailInfo } from "@/data/learning/lecturer/lecturer-module-detail";
 
 interface EditInfoModalProps {
   info: LecturerModuleDetailInfo;

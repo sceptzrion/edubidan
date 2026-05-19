@@ -3,7 +3,7 @@
 import { ChangeEvent, FormEvent, useEffect, useRef, useState } from "react";
 import { Camera, CheckCircle2, Image as ImageIcon, Trash2 } from "lucide-react";
 
-import { AvatarCropModal } from "@/components/dashboard/student/settings/AvatarCropModal";
+import { AvatarCropModal } from "@/components/dashboard/shared/AvatarCropModal";
 
 export function ProfileTab() {
   const fileInputRef = useRef<HTMLInputElement>(null);

@@ -12,7 +12,7 @@ import { LecturerQuizPreviewTabs } from "@/components/dashboard/lecturer/modules
 import {
   getLecturerQuizPreviewData,
   type LecturerQuizPreviewTab,
-} from "@/data/learning/lecturer-quiz-preview";
+} from "@/data/learning/lecturer/lecturer-quiz-preview";
 
 export default function LecturerQuizPreviewPage() {
   const params = useParams<{ id: string; quizId: string }>();

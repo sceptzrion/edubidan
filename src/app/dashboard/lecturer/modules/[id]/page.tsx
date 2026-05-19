@@ -12,7 +12,7 @@ import {
   LecturerModuleDetailTabs,
   type LecturerModuleDetailTab,
 } from "@/components/dashboard/lecturer/modules/detail/layout/LecturerModuleDetailTabs";
-import { lecturerModuleDetailInfo } from "@/data/learning/lecturer-module-detail";
+import { lecturerModuleDetailInfo } from "@/data/learning/lecturer/lecturer-module-detail";
 
 export default function LecturerModuleEditorPage() {
   const params = useParams<{ id: string }>();

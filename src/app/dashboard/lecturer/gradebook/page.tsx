@@ -1,6 +1,6 @@
 import { LecturerGradebookHeader } from "@/components/dashboard/lecturer/gradebook/LecturerGradebookHeader";
 import { LecturerGradebookModuleGrid } from "@/components/dashboard/lecturer/gradebook/LecturerGradebookModuleGrid";
-import { lecturerGradebookModules } from "@/data/learning/lecturer-gradebook";
+import { lecturerGradebookModules } from "@/data/learning/lecturer/lecturer-gradebook";
 
 export default function LecturerGradebookPage() {
   return (

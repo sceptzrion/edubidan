@@ -7,7 +7,7 @@ import { LecturerAccountMenu } from "@/components/dashboard/lecturer/layout/Lect
 import { LecturerNotificationMenu } from "@/components/dashboard/lecturer/layout/LecturerNotificationMenu";
 import { EduBidanLogo } from "@/components/ui/EduBidanLogo";
 import { ThemeToggle } from "@/components/ui/ThemeToggle";
-import { getLecturerNotifications } from "@/data/learning/lecturer-notifications";
+import { getLecturerNotifications } from "@/data/learning/lecturer/lecturer-notifications";
 
 interface LecturerTopbarProps {
   sidebarOpen: boolean;

@@ -4,7 +4,7 @@ import { useRouter } from "next/navigation";
 
 import { LecturerModuleCard } from "@/components/dashboard/lecturer/modules/LecturerModuleCard";
 import { LecturerModulesEmptyState } from "@/components/dashboard/lecturer/modules/list/LecturerModulesEmptyState";
-import type { LecturerModule } from "@/data/learning/lecturer-modules";
+import type { LecturerModule } from "@/data/learning/lecturer/lecturer-modules";
 
 interface LecturerModulesGridProps {
   modules: LecturerModule[];

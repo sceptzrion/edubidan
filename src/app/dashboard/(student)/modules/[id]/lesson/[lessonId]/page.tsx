@@ -10,7 +10,7 @@ import { QuizWarning } from "@/components/dashboard/student/modules/lesson/QuizW
 import {
   getLearningItem,
   toLessonPlaylistItem,
-} from "@/data/learning/learning-modules";
+} from "@/data/learning/shared/learning-modules";
 
 export default function LessonPage() {
   const router = useRouter();

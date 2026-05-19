@@ -1,6 +1,6 @@
 import { LecturerQuestionAnalysisCard } from "@/components/dashboard/lecturer/modules/quiz-preview/LecturerQuestionAnalysisCard";
 import { LecturerQuestionNavigator } from "@/components/dashboard/lecturer/modules/quiz-preview/LecturerQuestionNavigator";
-import type { LecturerQuizQuestionStat } from "@/data/learning/lecturer-quiz-preview";
+import type { LecturerQuizQuestionStat } from "@/data/learning/lecturer/lecturer-quiz-preview";
 
 interface LecturerQuizAnalysisTabProps {
   questions: LecturerQuizQuestionStat[];

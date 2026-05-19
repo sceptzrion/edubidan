@@ -3,7 +3,7 @@
 import { useState, type MouseEvent } from "react";
 import { BookOpen, Check, Copy, Edit3, Eye, Trash2 } from "lucide-react";
 
-import type { LecturerModule } from "@/data/learning/lecturer-modules";
+import type { LecturerModule } from "@/data/learning/lecturer/lecturer-modules";
 
 interface LecturerModuleCardProps {
   module: LecturerModule;

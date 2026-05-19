@@ -4,7 +4,7 @@ import { useRouter } from "next/navigation";
 
 import { TaskItem } from "@/components/dashboard/student/modules/TaskItem";
 import { ModuleDetailEmptyState } from "@/components/dashboard/student/modules/detail/ModuleDetailEmptyState";
-import { toModuleTaskItem } from "@/data/learning/learning-modules";
+import { toModuleTaskItem } from "@/data/learning/shared/learning-modules";
 import type { LearningItem } from "@/types/learning";
 
 interface ModuleEvaluationTabProps {

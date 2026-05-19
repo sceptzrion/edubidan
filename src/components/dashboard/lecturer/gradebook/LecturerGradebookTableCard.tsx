@@ -1,6 +1,6 @@
 import { LecturerGradebookTable } from "@/components/dashboard/lecturer/gradebook/LecturerGradebookTable";
 import { LecturerGradebookToolbar } from "@/components/dashboard/lecturer/gradebook/LecturerGradebookToolbar";
-import type { LecturerGradebookRow } from "@/data/learning/lecturer-gradebook";
+import type { LecturerGradebookRow } from "@/data/learning/lecturer/lecturer-gradebook";
 
 interface LecturerGradebookTableCardProps {
   search: string;

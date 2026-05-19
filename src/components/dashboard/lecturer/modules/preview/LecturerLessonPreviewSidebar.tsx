@@ -4,7 +4,7 @@ import { LecturerLessonToolsCard } from "@/components/dashboard/lecturer/modules
 import type {
   LecturerLessonPreviewDetail,
   LecturerPreviewPlaylistItem,
-} from "@/data/learning/lecturer-content-preview";
+} from "@/data/learning/lecturer/lecturer-content-preview";
 
 interface LecturerLessonPreviewSidebarProps {
   lesson: LecturerLessonPreviewDetail;

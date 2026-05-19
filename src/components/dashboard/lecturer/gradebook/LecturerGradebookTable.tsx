@@ -3,7 +3,7 @@ import { Search } from "lucide-react";
 import {
   PASS_THRESHOLD,
   type LecturerGradebookRow,
-} from "@/data/learning/lecturer-gradebook";
+} from "@/data/learning/lecturer/lecturer-gradebook";
 
 interface LecturerGradebookTableProps {
   quizzes: string[];

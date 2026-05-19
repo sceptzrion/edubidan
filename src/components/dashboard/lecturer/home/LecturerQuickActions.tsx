@@ -8,7 +8,7 @@ import type {
   LecturerActionBgIconKey,
   LecturerActionIconKey,
   LecturerQuickAction,
-} from "@/data/learning/lecturer-dashboard";
+} from "@/data/learning/lecturer/lecturer-dashboard";
 
 interface LecturerQuickActionsProps {
   actions: LecturerQuickAction[];

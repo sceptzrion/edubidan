@@ -1,6 +1,6 @@
 import { Trophy } from "lucide-react";
 
-import type { LecturerQuizLeaderboardItem } from "@/data/learning/lecturer-quiz-preview";
+import type { LecturerQuizLeaderboardItem } from "@/data/learning/lecturer/lecturer-quiz-preview";
 
 interface LecturerQuizLeaderboardProps {
   leaderboard: LecturerQuizLeaderboardItem[];

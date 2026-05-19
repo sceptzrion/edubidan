@@ -1,6 +1,6 @@
 import { GraduationCap } from "lucide-react";
 
-import type { LecturerGradebookDetail } from "@/data/learning/lecturer-gradebook";
+import type { LecturerGradebookDetail } from "@/data/learning/lecturer/lecturer-gradebook";
 
 interface LecturerGradebookDetailHeaderProps {
   data: LecturerGradebookDetail;

@@ -11,7 +11,7 @@ import {
   lecturerModules,
   type LecturerModule,
   type LecturerModuleFormValue,
-} from "@/data/learning/lecturer-modules";
+} from "@/data/learning/lecturer/lecturer-modules";
 
 export default function LecturerModulesPage() {
   const [modules, setModules] = useState<LecturerModule[]>(lecturerModules);

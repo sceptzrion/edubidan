@@ -2,7 +2,7 @@ import { LecturerDashboardHeader } from "@/components/dashboard/lecturer/home/Le
 import { LecturerQuickActions } from "@/components/dashboard/lecturer/home/LecturerQuickActions";
 import { LecturerRecentActivities } from "@/components/dashboard/lecturer/home/LecturerRecentActivities";
 import { LecturerStatsGrid } from "@/components/dashboard/lecturer/home/LecturerStatsGrid";
-import { getLecturerDashboardData } from "@/data/learning/lecturer-dashboard";
+import { getLecturerDashboardData } from "@/data/learning/lecturer/lecturer-dashboard";
 
 export default function LecturerDashboardHome() {
   const dashboardData = getLecturerDashboardData();

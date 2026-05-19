@@ -8,7 +8,7 @@ import type {
   LecturerModule,
   LecturerModuleFormValue,
   LecturerModuleStatus,
-} from "@/data/learning/lecturer-modules";
+} from "@/data/learning/lecturer/lecturer-modules";
 
 interface ModuleFormModalProps {
   isOpen: boolean;

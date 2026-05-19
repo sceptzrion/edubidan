@@ -9,7 +9,7 @@ import { LecturerGradebookTableCard } from "@/components/dashboard/lecturer/grad
 import {
   getLecturerGradebookDetail,
   getLecturerGradebookRows,
-} from "@/data/learning/lecturer-gradebook";
+} from "@/data/learning/lecturer/lecturer-gradebook";
 
 export default function LecturerGradebookDetailPage() {
   const params = useParams<{ id: string }>();

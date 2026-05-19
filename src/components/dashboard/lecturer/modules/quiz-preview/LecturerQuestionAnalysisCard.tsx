@@ -1,6 +1,6 @@
 import { BarChart3, CheckCircle2 } from "lucide-react";
 
-import type { LecturerQuizQuestionStat } from "@/data/learning/lecturer-quiz-preview";
+import type { LecturerQuizQuestionStat } from "@/data/learning/lecturer/lecturer-quiz-preview";
 
 interface LecturerQuestionAnalysisCardProps {
   question: LecturerQuizQuestionStat;

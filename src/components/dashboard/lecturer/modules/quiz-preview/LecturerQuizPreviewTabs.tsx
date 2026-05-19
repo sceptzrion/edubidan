@@ -1,6 +1,6 @@
 import { BarChart3, Target } from "lucide-react";
 
-import type { LecturerQuizPreviewTab } from "@/data/learning/lecturer-quiz-preview";
+import type { LecturerQuizPreviewTab } from "@/data/learning/lecturer/lecturer-quiz-preview";
 
 interface LecturerQuizPreviewTabsProps {
   activeTab: LecturerQuizPreviewTab;

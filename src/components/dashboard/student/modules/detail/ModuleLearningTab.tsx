@@ -4,7 +4,7 @@ import { useRouter } from "next/navigation";
 
 import { PlaylistItem } from "@/components/dashboard/student/modules/PlaylistItem";
 import { ModuleDetailEmptyState } from "@/components/dashboard/student/modules/detail/ModuleDetailEmptyState";
-import { toModulePlaylistItem } from "@/data/learning/learning-modules";
+import { toModulePlaylistItem } from "@/data/learning/shared/learning-modules";
 import type { LearningItem } from "@/types/learning";
 
 interface ModuleLearningTabProps {

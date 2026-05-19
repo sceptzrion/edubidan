@@ -3,7 +3,7 @@ import { LayoutGrid } from "lucide-react";
 import {
   isCriticalQuestion,
   type LecturerQuizQuestionStat,
-} from "@/data/learning/lecturer-quiz-preview";
+} from "@/data/learning/lecturer/lecturer-quiz-preview";
 
 interface LecturerQuestionNavigatorProps {
   questions: LecturerQuizQuestionStat[];

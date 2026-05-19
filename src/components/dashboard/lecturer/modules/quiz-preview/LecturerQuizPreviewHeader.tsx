@@ -1,6 +1,6 @@
 import { Clock, LayoutGrid } from "lucide-react";
 
-import type { LecturerQuizInfo } from "@/data/learning/lecturer-quiz-preview";
+import type { LecturerQuizInfo } from "@/data/learning/lecturer/lecturer-quiz-preview";
 
 interface LecturerQuizPreviewHeaderProps {
   quizInfo: LecturerQuizInfo;

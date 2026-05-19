@@ -5,7 +5,7 @@ import { Menu } from "lucide-react";
 
 import { EduBidanLogo } from "@/components/ui/EduBidanLogo";
 import { ThemeToggle } from "@/components/ui/ThemeToggle";
-import { getStudentNotifications } from "@/data/learning/student-notifications";
+import { getStudentNotifications } from "@/data/learning/student/student-notifications";
 import { StudentAccountMenu } from "@/components/dashboard/student/layout/StudentAccountMenu";
 import { StudentNotificationMenu } from "@/components/dashboard/student/layout/StudentNotificationMenu";
 

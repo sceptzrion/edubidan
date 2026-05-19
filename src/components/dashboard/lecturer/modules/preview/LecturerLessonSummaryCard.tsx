@@ -1,6 +1,6 @@
 import { Clock, User } from "lucide-react";
 
-import type { LecturerLessonPreviewDetail } from "@/data/learning/lecturer-content-preview";
+import type { LecturerLessonPreviewDetail } from "@/data/learning/lecturer/lecturer-content-preview";
 
 interface LecturerLessonSummaryCardProps {
   lesson: LecturerLessonPreviewDetail;

@@ -1,6 +1,6 @@
 import { Clock, Edit3, KeyRound, ListChecks, User } from "lucide-react";
 
-import type { LecturerModuleDetailInfo } from "@/data/learning/lecturer-module-detail";
+import type { LecturerModuleDetailInfo } from "@/data/learning/lecturer/lecturer-module-detail";
 
 interface LecturerModuleDetailHeaderProps {
   info: LecturerModuleDetailInfo;

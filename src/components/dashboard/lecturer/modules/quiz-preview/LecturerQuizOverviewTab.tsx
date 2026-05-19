@@ -3,7 +3,7 @@ import { LecturerQuizStatsGrid } from "@/components/dashboard/lecturer/modules/q
 import type {
   LecturerQuizGeneralStats,
   LecturerQuizLeaderboardItem,
-} from "@/data/learning/lecturer-quiz-preview";
+} from "@/data/learning/lecturer/lecturer-quiz-preview";
 
 interface LecturerQuizOverviewTabProps {
   stats: LecturerQuizGeneralStats;

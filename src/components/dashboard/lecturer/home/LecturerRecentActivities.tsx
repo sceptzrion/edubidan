@@ -1,5 +1,5 @@
 import { ActivityItem } from "@/components/dashboard/lecturer/ActivityItem";
-import type { LecturerRecentActivity } from "@/data/learning/lecturer-dashboard";
+import type { LecturerRecentActivity } from "@/data/learning/lecturer/lecturer-dashboard";
 
 interface LecturerRecentActivitiesProps {
   activities: LecturerRecentActivity[];

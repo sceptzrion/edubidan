@@ -2,7 +2,7 @@
 
 import { BookOpen, ClipboardList, GraduationCap } from "lucide-react";
 
-import type { LecturerGradebookModule } from "@/data/learning/lecturer-gradebook";
+import type { LecturerGradebookModule } from "@/data/learning/lecturer/lecturer-gradebook";
 
 interface LecturerGradebookModuleCardProps {
   module: LecturerGradebookModule;

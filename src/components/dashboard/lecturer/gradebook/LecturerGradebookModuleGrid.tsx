@@ -4,7 +4,7 @@ import { useRouter } from "next/navigation";
 import { BookOpen } from "lucide-react";
 
 import { LecturerGradebookModuleCard } from "@/components/dashboard/lecturer/gradebook/LecturerGradebookModuleCard";
-import type { LecturerGradebookModule } from "@/data/learning/lecturer-gradebook";
+import type { LecturerGradebookModule } from "@/data/learning/lecturer/lecturer-gradebook";
 
 interface LecturerGradebookModuleGridProps {
   modules: LecturerGradebookModule[];

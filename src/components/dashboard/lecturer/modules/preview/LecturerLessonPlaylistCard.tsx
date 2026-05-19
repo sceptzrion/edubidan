@@ -1,6 +1,6 @@
 import { HelpCircle, ListOrdered, Video } from "lucide-react";
 
-import type { LecturerPreviewPlaylistItem } from "@/data/learning/lecturer-content-preview";
+import type { LecturerPreviewPlaylistItem } from "@/data/learning/lecturer/lecturer-content-preview";
 
 interface LecturerLessonPlaylistCardProps {
   playlist: LecturerPreviewPlaylistItem[];

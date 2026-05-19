@@ -10,7 +10,7 @@ import { QuizNotFoundState } from "@/components/dashboard/student/modules/quiz/Q
 import { QuizQuestionCard } from "@/components/dashboard/student/modules/quiz/QuizQuestionCard";
 import { QuizResultScreen } from "@/components/dashboard/student/modules/quiz/QuizResultScreen";
 import { QuizStartScreen } from "@/components/dashboard/student/modules/quiz/QuizStartScreen";
-import { getLearningItem } from "@/data/learning/learning-modules";
+import { getLearningItem } from "@/data/learning/shared/learning-modules";
 import { useFullscreenLock } from "@/hooks/useFullscreenLock";
 import { useQuizSession } from "@/hooks/useQuizSession";
 
