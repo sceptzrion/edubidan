@@ -1,6 +1,7 @@
 "use client";
 
-import { useState, type ReactNode } from "react";
+import { useEffect, useState, type ReactNode } from "react";
+import { createPortal } from "react-dom";
 import { Key, Shield, X } from "lucide-react";
 
 import type { AdminUser } from "@/data/learning/admin/admin-users";
@@ -32,18 +33,13 @@ function Field({
   );
 }
 
-export function UserFormModal({
-  mode,
-  user,
-  onClose,
-  onSave,
-}: UserFormModalProps) {
-  const [form, setForm] = useState<Partial<AdminUser>>(
+function getInitialForm(user?: AdminUser): Partial<AdminUser> {
+  return (
     user ?? {
       name: "",
       email: "",
       phone: "",
-      institution: "",
+      institution: "Universitas Singaperbangsa Karawang",
       gender: "Perempuan",
       status: "Aktif",
       modules: 0,
@@ -57,28 +53,66 @@ export function UserFormModal({
       }),
     }
   );
+}
 
+export function UserFormModal({
+  mode,
+  user,
+  onClose,
+  onSave,
+}: UserFormModalProps) {
+  const [mounted, setMounted] = useState(false);
+  const [form, setForm] = useState<Partial<AdminUser>>(() =>
+    getInitialForm(user)
+  );
   const [generatePassword, setGeneratePassword] = useState(true);
   const [showPassword, setShowPassword] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  useEffect(() => {
+    const previousOverflow = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+
+    return () => {
+      document.body.style.overflow = previousOverflow;
+    };
+  }, []);
 
   const emailPlaceholder =
     form.role === "Dosen"
       ? "nama@staff.unsika.ac.id"
       : "nama@student.unsika.ac.id";
 
-  return (
-    <div className="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-200 p-4">
-      <div className="bg-card rounded-3xl border border-border w-full max-w-2xl max-h-[90vh] overflow-y-auto shadow-2xl animate-in zoom-in-95 duration-200">
-        <div className="p-6 sm:p-8 border-b border-border flex items-center justify-between sticky top-0 bg-card/95 backdrop-blur z-10">
+  const identityLabel =
+    form.role === "Dosen"
+      ? "Nomor Induk Dosen (NIDN/NIP)"
+      : "Nomor Induk Mahasiswa (NIM)";
+
+  if (!mounted) return null;
+
+  return createPortal(
+    <div className="fixed inset-0 z-9999 flex items-center justify-center p-4">
+      <button
+        type="button"
+        onClick={onClose}
+        className="absolute inset-0 bg-black/60 backdrop-blur-sm"
+        aria-label="Tutup modal pengguna"
+      />
+
+      <div className="relative z-10 bg-card rounded-3xl border border-border w-full max-w-2xl max-h-[90vh] overflow-hidden shadow-2xl animate-in zoom-in-95 duration-200 flex flex-col">
+        <div className="p-5 sm:p-6 border-b border-border flex items-center justify-between bg-card shrink-0">
           <div>
-            <h2 className="text-xl font-extrabold text-foreground">
+            <h2 className="text-lg sm:text-xl font-extrabold text-foreground">
               {mode === "add" ? "Tambah Pengguna Baru" : "Edit Data Pengguna"}
             </h2>
 
-            <p className="text-xs sm:text-sm font-medium text-muted-foreground mt-1">
+            <p className="text-xs sm:text-sm font-medium text-muted-foreground mt-1 leading-relaxed">
               {mode === "add"
                 ? "Daftarkan akun dosen atau mahasiswa ke sistem."
-                : "Perbarui informasi dan hak akses pengguna."}
+                : "Perbarui informasi identitas dan status akses pengguna."}
             </p>
           </div>
 
@@ -92,7 +126,7 @@ export function UserFormModal({
           </button>
         </div>
 
-        <div className="p-6 sm:p-8 space-y-6">
+        <div className="p-5 sm:p-6 space-y-6 overflow-y-auto scrollbar-thin bg-muted/10">
           <div className="grid sm:grid-cols-2 gap-5">
             <Field label="Nama Lengkap" required>
               <input
@@ -101,7 +135,7 @@ export function UserFormModal({
                   setForm({ ...form, name: event.target.value })
                 }
                 placeholder="Contoh: Sari Dewi"
-                className="w-full px-4 py-3 rounded-xl bg-muted/30 border border-border outline-none focus:border-primary focus:ring-1 focus:ring-primary text-sm font-medium transition-all"
+                className="w-full px-4 py-3 rounded-xl bg-card border border-border outline-none focus:border-primary focus:ring-1 focus:ring-primary text-sm font-medium transition-all"
               />
             </Field>
 
@@ -115,7 +149,7 @@ export function UserFormModal({
                       role: event.target.value as AdminUser["role"],
                     })
                   }
-                  className="w-full pl-4 pr-10 py-3 rounded-xl bg-muted/30 border border-border outline-none focus:border-primary focus:ring-1 focus:ring-primary text-sm font-bold appearance-none cursor-pointer transition-all"
+                  className="w-full pl-4 pr-10 py-3 rounded-xl bg-card border border-border outline-none focus:border-primary focus:ring-1 focus:ring-primary text-sm font-bold appearance-none cursor-pointer transition-all"
                 >
                   <option value="Mahasiswa">Mahasiswa</option>
                   <option value="Dosen">Dosen</option>
@@ -136,25 +170,18 @@ export function UserFormModal({
                   setForm({ ...form, email: event.target.value })
                 }
                 placeholder={emailPlaceholder}
-                className="w-full px-4 py-3 rounded-xl bg-muted/30 border border-border outline-none focus:border-primary focus:ring-1 focus:ring-primary text-sm font-medium transition-all"
+                className="w-full px-4 py-3 rounded-xl bg-card border border-border outline-none focus:border-primary focus:ring-1 focus:ring-primary text-sm font-medium transition-all"
               />
             </Field>
 
-            <Field
-              label={
-                form.role === "Dosen"
-                  ? "Nomor Induk Dosen (NIDN/NIP)"
-                  : "Nomor Induk Mahasiswa (NIM)"
-              }
-              required
-            >
+            <Field label={identityLabel} required>
               <input
                 value={form.identityNo ?? ""}
                 onChange={(event) =>
                   setForm({ ...form, identityNo: event.target.value })
                 }
                 placeholder="Masukkan nomor identitas"
-                className="w-full px-4 py-3 rounded-xl bg-muted/30 border border-border outline-none focus:border-primary focus:ring-1 focus:ring-primary text-sm font-mono transition-all"
+                className="w-full px-4 py-3 rounded-xl bg-card border border-border outline-none focus:border-primary focus:ring-1 focus:ring-primary text-sm font-mono transition-all"
               />
             </Field>
 
@@ -165,7 +192,7 @@ export function UserFormModal({
                   setForm({ ...form, institution: event.target.value })
                 }
                 placeholder="Nama kampus asal"
-                className="w-full px-4 py-3 rounded-xl bg-muted/30 border border-border outline-none focus:border-primary focus:ring-1 focus:ring-primary text-sm font-medium transition-all"
+                className="w-full px-4 py-3 rounded-xl bg-card border border-border outline-none focus:border-primary focus:ring-1 focus:ring-primary text-sm font-medium transition-all"
               />
             </Field>
 
@@ -178,7 +205,7 @@ export function UserFormModal({
                     status: event.target.value as AdminUser["status"],
                   })
                 }
-                className="w-full px-4 py-3 rounded-xl bg-muted/30 border border-border outline-none focus:border-primary focus:ring-1 focus:ring-primary text-sm font-bold transition-all"
+                className="w-full px-4 py-3 rounded-xl bg-card border border-border outline-none focus:border-primary focus:ring-1 focus:ring-primary text-sm font-bold transition-all"
               >
                 <option value="Aktif">Aktif</option>
                 <option value="Nonaktif">Nonaktif</option>
@@ -197,12 +224,12 @@ export function UserFormModal({
               </span>
             </div>
 
-            <label className="flex items-center gap-3 text-sm font-medium text-muted-foreground mb-4 cursor-pointer hover:text-foreground transition-colors">
+            <label className="flex items-start gap-3 text-sm font-medium text-muted-foreground mb-4 cursor-pointer hover:text-foreground transition-colors">
               <input
                 type="checkbox"
                 checked={generatePassword}
                 onChange={(event) => setGeneratePassword(event.target.checked)}
-                className="w-4 h-4 rounded border-border text-amber-500 focus:ring-amber-500 bg-card"
+                className="w-4 h-4 mt-0.5 rounded border-border text-amber-500 focus:ring-amber-500 bg-card"
               />
 
               <span>Buat kata sandi otomatis dan kirim melalui email</span>
@@ -234,7 +261,7 @@ export function UserFormModal({
           </div>
         </div>
 
-        <div className="p-6 border-t border-border flex gap-3 sm:gap-4 bg-muted/10 rounded-b-3xl">
+        <div className="p-5 sm:p-6 border-t border-border flex gap-3 sm:gap-4 bg-card shrink-0">
           <button
             type="button"
             onClick={onClose}
@@ -252,6 +279,7 @@ export function UserFormModal({
           </button>
         </div>
       </div>
-    </div>
+    </div>,
+    document.body
   );
 }

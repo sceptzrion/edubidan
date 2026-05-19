@@ -147,3 +147,44 @@ export function filterAdminUsers(
     return matchesRole && matchesStatus && matchesSearch;
   });
 }
+
+export type AdminQuizHistoryStatus = "Lulus" | "Mengulang";
+
+export interface AdminQuizHistoryItem {
+  module: string;
+  quiz: string;
+  score: number;
+  date: string;
+  status: AdminQuizHistoryStatus;
+}
+
+export const adminUserQuizHistory: AdminQuizHistoryItem[] = [
+  {
+    module: "ANC Terpadu Trimester 1",
+    quiz: "Kuis ANC Terpadu",
+    score: 92,
+    date: "10 Apr 2026",
+    status: "Lulus",
+  },
+  {
+    module: "ANC Terpadu Trimester 1",
+    quiz: "Kuis Leopold & DJJ",
+    score: 88,
+    date: "08 Apr 2026",
+    status: "Lulus",
+  },
+  {
+    module: "APGAR Score & Resusitasi",
+    quiz: "Kuis APGAR Score",
+    score: 76,
+    date: "02 Apr 2026",
+    status: "Lulus",
+  },
+  {
+    module: "Inisiasi Menyusu Dini",
+    quiz: "Kuis Manajemen Laktasi",
+    score: 68,
+    date: "25 Mar 2026",
+    status: "Mengulang",
+  },
+];
