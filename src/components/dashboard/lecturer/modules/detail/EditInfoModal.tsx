@@ -1,95 +1,199 @@
-import React, { useState, useRef, useEffect } from "react";
-import { createPortal } from "react-dom";
-import { X, Save, Upload, Plus, Trash2 } from "lucide-react";
+"use client";
 
-export function EditInfoModal({ info, onSave, onClose }: any) {
+import { useEffect, useState } from "react";
+import { Save, X } from "lucide-react";
+import { createPortal } from "react-dom";
+
+import type { LecturerModuleDetailInfo } from "@/data/learning/lecturer-module-detail";
+
+interface EditInfoModalProps {
+  info: LecturerModuleDetailInfo;
+  onSave: (value: LecturerModuleDetailInfo) => void;
+  onClose: () => void;
+}
+
+export function EditInfoModal({ info, onSave, onClose }: EditInfoModalProps) {
   const [mounted, setMounted] = useState(false);
-  const [form, setForm] = useState(info);
-  const fileRef = useRef<HTMLInputElement>(null);
+  const [form, setForm] = useState<LecturerModuleDetailInfo>(info);
+  const [objectiveText, setObjectiveText] = useState(info.objectives.join("\n"));
 
   useEffect(() => {
     setMounted(true);
-    document.body.style.overflow = "hidden";
-    return () => { document.body.style.overflow = "auto"; };
   }, []);
 
-  const updateObjective = (i: number, v: string) => {
-    const next = [...form.objectives];
-    next[i] = v;
-    setForm({ ...form, objectives: next });
+  useEffect(() => {
+    const previousOverflow = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+
+    return () => {
+      document.body.style.overflow = previousOverflow;
+    };
+  }, []);
+
+  const handleSave = () => {
+    const objectives = objectiveText
+      .split("\n")
+      .map((item) => item.trim())
+      .filter(Boolean);
+
+    onSave({
+      ...form,
+      objectives,
+    });
   };
-  const addObjective = () => setForm({ ...form, objectives: [...form.objectives, ""] });
-  const removeObjective = (i: number) => setForm({ ...form, objectives: form.objectives.filter((_: any, j: number) => j !== i) });
 
   if (!mounted) return null;
 
   return createPortal(
-    <div className="fixed inset-0 z-200 flex items-center justify-center p-4 sm:p-6">
-      <div className="absolute inset-0 bg-black/60 backdrop-blur-sm animate-in fade-in duration-200" onClick={onClose} />
-      
-      <div className="bg-card rounded-2xl sm:rounded-3xl border border-border w-full max-w-2xl max-h-[90vh] overflow-hidden flex flex-col relative z-10 shadow-2xl animate-in zoom-in-95 duration-200">
-        
-        <div className="flex items-center justify-between p-5 sm:p-6 border-b border-border shrink-0 bg-card">
-          <h2 className="text-lg sm:text-xl font-extrabold text-foreground">Edit Informasi Modul</h2>
-          <button onClick={onClose} className="p-2 hover:bg-muted text-muted-foreground hover:text-foreground rounded-xl transition-colors"><X size={20} /></button>
-        </div>
-        
-        <div className="p-5 sm:p-6 space-y-6 overflow-y-auto scrollbar-thin bg-muted/20">
+    <div className="fixed inset-0 z-9999 flex items-center justify-center p-4 sm:p-6">
+      <button
+        type="button"
+        onClick={onClose}
+        className="absolute inset-0 bg-black/60 backdrop-blur-sm animate-in fade-in duration-200"
+        aria-label="Tutup modal edit informasi modul"
+      />
+
+      <div className="relative z-10 w-full max-w-2xl bg-card border border-border rounded-2xl sm:rounded-3xl shadow-2xl overflow-hidden animate-in zoom-in-95 duration-200 flex flex-col max-h-[90vh]">
+        <div className="p-5 sm:p-6 border-b border-border flex items-center justify-between">
           <div>
-            <label className="text-xs sm:text-sm mb-2 block font-bold text-foreground">Gambar Cover/Banner</label>
-            <div className="rounded-xl sm:rounded-2xl overflow-hidden border border-border mb-3 aspect-16/5 bg-muted shadow-inner relative">
-              {form.banner && <img src={form.banner} alt="banner" className="w-full h-full object-cover" />}
-            </div>
-            <button onClick={() => fileRef.current?.click()} className="w-full border-2 border-dashed border-border bg-card rounded-xl py-4 flex items-center justify-center gap-2 hover:border-primary hover:bg-primary/5 hover:text-primary transition-colors text-xs sm:text-sm font-bold text-muted-foreground">
-              <Upload size={18} /> Klik untuk unggah gambar baru
-            </button>
-            <input ref={fileRef} type="file" accept="image/*" className="hidden" onChange={(e) => {
-              const f = e.target.files?.[0];
-              if (f) setForm({ ...form, banner: URL.createObjectURL(f) });
-            }} />
+            <h2 className="text-lg sm:text-xl font-extrabold text-foreground">
+              Edit Informasi Modul
+            </h2>
+            <p className="text-xs text-muted-foreground font-medium mt-1">
+              Perbarui judul, deskripsi, tujuan, dan status akses modul.
+            </p>
           </div>
 
-          <div>
-            <label className="text-xs sm:text-sm mb-2 block font-bold text-foreground">Estimasi Waktu Belajar</label>
-            <input value={form.estimatedTime} onChange={(e) => setForm({ ...form, estimatedTime: e.target.value })}
-              placeholder="Contoh: 6 Jam"
-              className="w-full px-4 py-3 rounded-xl bg-card border border-border text-foreground text-sm font-bold outline-none focus:border-primary focus:ring-1 focus:ring-primary shadow-sm" />
-          </div>
-
-          <div>
-            <label className="text-xs sm:text-sm mb-2 block font-bold text-foreground">Deskripsi Modul</label>
-            <textarea rows={4} value={form.description} onChange={(e) => setForm({ ...form, description: e.target.value })}
-              className="w-full px-4 py-3 rounded-xl bg-card border border-border text-foreground text-sm font-medium outline-none focus:border-primary focus:ring-1 focus:ring-primary shadow-sm resize-none leading-relaxed" />
-          </div>
-
-          <div>
-            <div className="flex items-center justify-between mb-3">
-              <label className="text-xs sm:text-sm font-bold text-foreground">Tujuan Pembelajaran Modul</label>
-              <button onClick={addObjective} className="text-xs sm:text-sm text-primary flex items-center gap-1 hover:underline font-extrabold">
-                <Plus size={14} /> Tambah Tujuan
-              </button>
-            </div>
-            <div className="space-y-3">
-              {form.objectives.map((o: string, i: number) => (
-                <div key={i} className="flex items-center gap-3">
-                  <span className="w-8 h-8 rounded-full bg-primary/10 text-primary text-xs sm:text-sm flex items-center justify-center shrink-0 font-extrabold">{i + 1}</span>
-                  <input value={o} onChange={(e) => updateObjective(i, e.target.value)}
-                    placeholder={`Tujuan ${i + 1}`}
-                    className="flex-1 px-4 py-2.5 rounded-xl bg-card border border-border text-foreground text-sm font-medium outline-none focus:border-primary shadow-sm" />
-                  <button onClick={() => removeObjective(i)} className="p-2.5 hover:bg-red-500/10 rounded-xl text-red-500 transition-colors"><Trash2 size={16} /></button>
-                </div>
-              ))}
-            </div>
-          </div>
-        </div>
-
-        <div className="p-4 sm:p-6 border-t border-border flex gap-3 shrink-0 bg-card rounded-b-2xl sm:rounded-3xl">
-          <button onClick={onClose} className="flex-1 py-3 rounded-xl border border-border text-xs sm:text-sm font-bold text-foreground hover:bg-muted transition-colors">Batal</button>
-          <button onClick={() => onSave(form)} className="flex-1 py-3 rounded-xl bg-primary text-primary-foreground text-xs sm:text-sm font-extrabold flex items-center justify-center gap-2 hover:bg-primary/90 shadow-md shadow-primary/20 transition-all hover:-translate-y-0.5">
-            <Save size={18} /> Simpan Perubahan
+          <button
+            type="button"
+            onClick={onClose}
+            className="p-2 rounded-xl hover:bg-muted text-muted-foreground hover:text-foreground transition-colors"
+            aria-label="Tutup"
+          >
+            <X size={20} />
           </button>
         </div>
 
+        <div className="p-5 sm:p-6 space-y-5 overflow-y-auto bg-muted/20 scrollbar-thin">
+          <div>
+            <label
+              htmlFor="moduleTitle"
+              className="text-xs sm:text-sm mb-2 block font-bold text-foreground"
+            >
+              Judul Modul
+            </label>
+            <input
+              id="moduleTitle"
+              value={form.title}
+              onChange={(event) =>
+                setForm({ ...form, title: event.target.value })
+              }
+              className="w-full px-4 py-3 rounded-xl bg-card border border-border outline-none focus:border-primary focus:ring-1 focus:ring-primary text-sm font-bold text-foreground"
+            />
+          </div>
+
+          <div>
+            <label
+              htmlFor="moduleDescription"
+              className="text-xs sm:text-sm mb-2 block font-bold text-foreground"
+            >
+              Deskripsi Modul
+            </label>
+            <textarea
+              id="moduleDescription"
+              value={form.description}
+              onChange={(event) =>
+                setForm({ ...form, description: event.target.value })
+              }
+              rows={4}
+              className="w-full px-4 py-3 rounded-xl bg-card border border-border outline-none focus:border-primary focus:ring-1 focus:ring-primary text-sm font-medium text-foreground resize-none leading-relaxed"
+            />
+          </div>
+
+          <div>
+            <label
+              htmlFor="moduleEstimatedTime"
+              className="text-xs sm:text-sm mb-2 block font-bold text-foreground"
+            >
+              Estimasi Durasi
+            </label>
+            <input
+              id="moduleEstimatedTime"
+              value={form.estimatedTime}
+              onChange={(event) =>
+                setForm({ ...form, estimatedTime: event.target.value })
+              }
+              placeholder="Contoh: 6 Jam"
+              className="w-full px-4 py-3 rounded-xl bg-card border border-border outline-none focus:border-primary focus:ring-1 focus:ring-primary text-sm font-bold text-foreground"
+            />
+          </div>
+
+          <div>
+            <label
+              htmlFor="moduleObjectives"
+              className="text-xs sm:text-sm mb-2 block font-bold text-foreground"
+            >
+              Tujuan Pembelajaran
+            </label>
+            <textarea
+              id="moduleObjectives"
+              value={objectiveText}
+              onChange={(event) => setObjectiveText(event.target.value)}
+              rows={5}
+              className="w-full px-4 py-3 rounded-xl bg-card border border-border outline-none focus:border-primary focus:ring-1 focus:ring-primary text-sm font-medium text-foreground resize-none leading-relaxed"
+              placeholder="Tulis satu tujuan pembelajaran per baris"
+            />
+            <p className="text-[10px] sm:text-xs text-muted-foreground mt-2 font-medium">
+              Tulis satu tujuan pembelajaran per baris.
+            </p>
+          </div>
+
+          <div>
+            <label className="text-xs sm:text-sm mb-2 block font-bold text-foreground">
+              Status Akses
+            </label>
+
+            <div className="flex gap-3">
+              {(["Draft", "Publik"] as const).map((status) => {
+                const isActive = form.status === status;
+
+                return (
+                  <button
+                    key={status}
+                    type="button"
+                    onClick={() => setForm({ ...form, status })}
+                    className={`flex-1 py-3 rounded-xl border-2 text-sm font-extrabold transition-all ${
+                      isActive
+                        ? "border-primary bg-primary/10 text-primary"
+                        : "border-border bg-card text-muted-foreground hover:bg-muted"
+                    }`}
+                  >
+                    {status}
+                  </button>
+                );
+              })}
+            </div>
+          </div>
+        </div>
+
+        <div className="p-4 sm:p-6 border-t border-border flex gap-3 bg-card">
+          <button
+            type="button"
+            onClick={onClose}
+            className="flex-1 py-3 rounded-xl border border-border text-xs sm:text-sm font-bold text-foreground hover:bg-muted transition-colors"
+          >
+            Batal
+          </button>
+
+          <button
+            type="button"
+            onClick={handleSave}
+            className="flex-1 py-3 rounded-xl bg-primary text-primary-foreground text-xs sm:text-sm font-extrabold hover:bg-primary/90 transition-all shadow-lg shadow-primary/20 flex items-center justify-center gap-2"
+          >
+            <Save size={17} />
+            Simpan Perubahan
+          </button>
+        </div>
       </div>
     </div>,
     document.body
