@@ -1,92 +1,77 @@
 "use client";
 
-import React, { useEffect } from "react";
-import { User, Camera, Mail, Phone, Save, Shield } from "lucide-react";
+import { useState } from "react";
+import { Bell, Shield, User, type LucideIcon } from "lucide-react";
 
-export default function AdminSettingsPage() {
-  useEffect(() => {
-    document.title = "Pengaturan Profil | EduBidan";
-  }, []);
+import { AdminNotificationTab } from "@/components/dashboard/admin/settings/AdminNotificationTab";
+import { AdminProfileTab } from "@/components/dashboard/admin/settings/AdminProfileTab";
+import { AdminSecurityTab } from "@/components/dashboard/admin/settings/AdminSecurityTab";
 
-  return (
-    <div className="animate-in fade-in slide-in-from-bottom-4 duration-500 max-w-3xl mx-auto">
-      
-      {/* HEADER */}
-      <div className="mb-8">
-        <h1 className="text-3xl sm:text-4xl font-extrabold text-foreground mb-2">Profil Admin</h1>
-        <p className="text-sm font-medium text-muted-foreground">Kelola informasi dasar dan kredensial akun administrator Anda.</p>
-      </div>
+type AdminSettingsTab = "profil" | "keamanan" | "notifikasi";
 
-      <div className="bg-card rounded-3xl border border-border shadow-sm overflow-hidden">
-        
-        {/* BANNER & FOTO PROFIL */}
-        <div className="p-6 sm:p-8 border-b border-border bg-muted/10">
-          <div className="flex flex-col sm:flex-row items-center sm:items-start gap-6">
-            <div className="relative group cursor-pointer">
-              <div className="w-24 h-24 rounded-3xl bg-linear-to-br from-indigo-500 to-purple-600 flex items-center justify-center text-white text-3xl font-extrabold shadow-lg group-hover:scale-105 transition-transform">
-                A
-              </div>
-              <div className="absolute -bottom-2 -right-2 w-9 h-9 bg-card rounded-xl flex items-center justify-center shadow-sm border border-border group-hover:bg-primary group-hover:text-white transition-colors group-hover:border-primary">
-                <Camera size={16} />
-              </div>
-            </div>
-            <div className="text-center sm:text-left mt-2 sm:mt-4">
-              <p className="text-xl font-extrabold text-foreground mb-1">Super Administrator</p>
-              <p className="text-sm font-bold text-primary bg-primary/10 px-3 py-1 rounded-lg inline-block">Akses Utama (Root)</p>
-            </div>
-          </div>
-        </div>
-        
-        {/* FORM PROFIL */}
-        <div className="p-6 sm:p-8">
-          <div className="grid sm:grid-cols-2 gap-5 sm:gap-6">
-            <Field label="Nama Lengkap">
-              <div className="relative">
-                <User size={16} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-muted-foreground" />
-                <input defaultValue="Super Administrator" className="w-full pl-10 pr-4 py-3 rounded-xl bg-muted/30 border border-border outline-none focus:border-primary focus:ring-1 focus:ring-primary text-sm font-medium transition-all" />
-              </div>
-            </Field>
-            <Field label="Alamat Email">
-              <div className="relative">
-                <Mail size={16} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-muted-foreground" />
-                <input type="email" defaultValue="admin@edubidan.id" className="w-full pl-10 pr-4 py-3 rounded-xl bg-muted/30 border border-border outline-none focus:border-primary focus:ring-1 focus:ring-primary text-sm font-medium transition-all" />
-              </div>
-            </Field>
-            <Field label="Peran (Role)">
-              <div className="relative">
-                <Shield size={16} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-muted-foreground" />
-                <input defaultValue="Super Admin" disabled className="w-full pl-10 pr-4 py-3 rounded-xl bg-muted/50 border border-border text-muted-foreground text-sm font-bold cursor-not-allowed" />
-              </div>
-            </Field>
-            <Field label="Nomor Telepon">
-              <div className="relative">
-                <Phone size={16} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-muted-foreground" />
-                <input type="tel" defaultValue="+62 21 1234 5678" className="w-full pl-10 pr-4 py-3 rounded-xl bg-muted/30 border border-border outline-none focus:border-primary focus:ring-1 focus:ring-primary text-sm font-medium transition-all" />
-              </div>
-            </Field>
-          </div>
-        </div>
-
-        {/* FOOTER ACTIONS */}
-        <div className="p-6 border-t border-border bg-muted/10 flex justify-end">
-          <button className="w-full sm:w-auto bg-primary text-primary-foreground px-8 py-3.5 rounded-xl text-sm font-extrabold hover:bg-primary/90 transition-all hover:-translate-y-0.5 shadow-lg shadow-primary/20 flex items-center justify-center gap-2">
-            <Save size={18} /> Simpan Profil
-          </button>
-        </div>
-        
-      </div>
-    </div>
-  );
+interface AdminSettingsTabItem {
+  id: AdminSettingsTab;
+  label: string;
+  icon: LucideIcon;
 }
 
-// Komponen Helper untuk Form Input
-function Field({ label, children }: { label: string; children: React.ReactNode }) {
+const tabs: AdminSettingsTabItem[] = [
+  { id: "profil", label: "Profil", icon: User },
+  { id: "keamanan", label: "Keamanan", icon: Shield },
+  { id: "notifikasi", label: "Notifikasi", icon: Bell },
+];
+
+export default function AdminSettingsPage() {
+  const [activeTab, setActiveTab] = useState<AdminSettingsTab>("profil");
+
   return (
-    <div>
-      <label className="text-xs sm:text-sm mb-2 block font-bold text-foreground">
-        {label}
-      </label>
-      {children}
+    <div className="animate-in fade-in slide-in-from-bottom-4 duration-500 pb-12">
+      <div className="mb-6 sm:mb-8">
+        <h1 className="text-2xl sm:text-3xl font-extrabold text-foreground mb-1.5 sm:mb-2">
+          Pengaturan
+        </h1>
+
+        <p className="text-xs sm:text-sm text-muted-foreground leading-relaxed">
+          Kelola informasi profil administrator, keamanan akun, dan preferensi
+          notifikasi sistem.
+        </p>
+      </div>
+
+      <div className="flex flex-col lg:flex-row gap-6 lg:gap-8">
+        <aside className="lg:w-64 shrink-0">
+          <div className="bg-card rounded-2xl border border-border p-1.5 sm:p-2 flex flex-row lg:flex-col gap-1 sm:gap-1.5 shadow-sm scrollbar-none">
+            {tabs.map((tab) => {
+              const Icon = tab.icon;
+              const isActive = activeTab === tab.id;
+
+              return (
+                <button
+                  key={tab.id}
+                  type="button"
+                  onClick={() => setActiveTab(tab.id)}
+                  className={`flex-1 lg:w-full flex items-center justify-center lg:justify-start gap-1.5 sm:gap-3 px-2 sm:px-4 py-2.5 sm:py-3 rounded-[10px] sm:rounded-xl text-[11px] sm:text-sm font-bold transition-all whitespace-nowrap ${
+                    isActive
+                      ? "bg-primary text-primary-foreground shadow-sm shadow-primary/20"
+                      : "text-muted-foreground hover:bg-muted hover:text-foreground"
+                  }`}
+                >
+                  <Icon
+                    size={16}
+                    className="w-4 h-4 sm:w-4.5 sm:h-4.5 shrink-0"
+                  />
+                  <span>{tab.label}</span>
+                </button>
+              );
+            })}
+          </div>
+        </aside>
+
+        <section className="flex-1 bg-card rounded-2xl sm:rounded-3xl border border-border p-5 sm:p-8 shadow-sm min-w-0">
+          {activeTab === "profil" && <AdminProfileTab />}
+          {activeTab === "keamanan" && <AdminSecurityTab />}
+          {activeTab === "notifikasi" && <AdminNotificationTab />}
+        </section>
+      </div>
     </div>
   );
 }
