@@ -2,6 +2,7 @@
 
 import { useMemo, useState } from "react";
 
+import { DeleteUserConfirmModal } from "@/components/dashboard/admin/users/DeleteUserConfirmModal";
 import { UserDetailModal } from "@/components/dashboard/admin/users/UserDetailModal";
 import { UserFormModal } from "@/components/dashboard/admin/users/UserFormModal";
 import { AdminUsersHeader } from "@/components/dashboard/admin/users/AdminUsersHeader";
@@ -26,6 +27,7 @@ export default function AdminUsersPage() {
     "Semua"
   );
   const [modal, setModal] = useState<AdminUserModalState>({ mode: null });
+  const [deleteTarget, setDeleteTarget] = useState<AdminUser | null>(null);
 
   const filteredUsers = useMemo(() => {
     return filterAdminUsers(users, search, roleFilter, statusFilter);
@@ -35,6 +37,7 @@ export default function AdminUsersPage() {
 
   const handleDeleteUser = (id: number) => {
     setUsers((currentUsers) => currentUsers.filter((user) => user.id !== id));
+    setDeleteTarget(null);
   };
 
   const handleSaveUser = (data: Partial<AdminUser>) => {
@@ -77,7 +80,7 @@ export default function AdminUsersPage() {
           users={filteredUsers}
           onView={(user) => setModal({ mode: "detail", user })}
           onEdit={(user) => setModal({ mode: "edit", user })}
-          onDelete={handleDeleteUser}
+          onDelete={(user) => setDeleteTarget(user)}
         />
       </div>
 
@@ -92,6 +95,14 @@ export default function AdminUsersPage() {
 
       {modal.mode === "detail" && modal.user && (
         <UserDetailModal user={modal.user} onClose={closeModal} />
+      )}
+
+      {deleteTarget && (
+        <DeleteUserConfirmModal
+          user={deleteTarget}
+          onClose={() => setDeleteTarget(null)}
+          onConfirm={handleDeleteUser}
+        />
       )}
     </div>
   );

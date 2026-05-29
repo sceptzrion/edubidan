@@ -8,7 +8,7 @@ interface AdminUsersTableProps {
   users: AdminUser[];
   onView: (user: AdminUser) => void;
   onEdit: (user: AdminUser) => void;
-  onDelete: (id: number) => void;
+  onDelete: (user: AdminUser) => void;
 }
 
 export function AdminUsersTable({

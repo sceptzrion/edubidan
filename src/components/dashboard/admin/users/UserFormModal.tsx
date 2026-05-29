@@ -2,7 +2,7 @@
 
 import { useEffect, useState, type ReactNode } from "react";
 import { createPortal } from "react-dom";
-import { Key, Shield, X } from "lucide-react";
+import { CheckCircle2, Key, Shield, X } from "lucide-react";
 
 import type { AdminUser } from "@/data/learning/admin/admin-users";
 
@@ -24,7 +24,7 @@ function Field({
 }) {
   return (
     <div>
-      <label className="text-xs sm:text-sm mb-2 block font-bold text-foreground">
+      <label className="text-xs sm:text-sm mb-2 block font-bold text-muted-foreground">
         {label} {required && <span className="text-red-500 ml-0.5">*</span>}
       </label>
 
@@ -55,6 +55,12 @@ function getInitialForm(user?: AdminUser): Partial<AdminUser> {
   );
 }
 
+const inputClassName =
+  "w-full px-4 py-3 rounded-xl bg-card border border-border outline-none focus:border-primary focus:ring-1 focus:ring-primary text-sm font-medium text-foreground placeholder:text-muted-foreground transition-all";
+
+const selectClassName =
+  "w-full px-4 py-3 rounded-xl bg-card border border-border outline-none focus:border-primary focus:ring-1 focus:ring-primary text-sm font-bold text-foreground cursor-pointer transition-all";
+
 export function UserFormModal({
   mode,
   user,
@@ -67,6 +73,7 @@ export function UserFormModal({
   );
   const [generatePassword, setGeneratePassword] = useState(true);
   const [showPassword, setShowPassword] = useState(false);
+  const [resetStatus, setResetStatus] = useState<"idle" | "sent">("idle");
 
   useEffect(() => {
     setMounted(true);
@@ -90,6 +97,14 @@ export function UserFormModal({
     form.role === "Dosen"
       ? "Nomor Induk Dosen (NIDN/NIP)"
       : "Nomor Induk Mahasiswa (NIM)";
+
+  const handleSendResetLink = () => {
+    setResetStatus("sent");
+
+    window.setTimeout(() => {
+      setResetStatus("idle");
+    }, 2500);
+  };
 
   if (!mounted) return null;
 
@@ -135,7 +150,7 @@ export function UserFormModal({
                   setForm({ ...form, name: event.target.value })
                 }
                 placeholder="Contoh: Sari Dewi"
-                className="w-full px-4 py-3 rounded-xl bg-card border border-border outline-none focus:border-primary focus:ring-1 focus:ring-primary text-sm font-medium transition-all"
+                className={inputClassName}
               />
             </Field>
 
@@ -149,7 +164,7 @@ export function UserFormModal({
                       role: event.target.value as AdminUser["role"],
                     })
                   }
-                  className="w-full pl-4 pr-10 py-3 rounded-xl bg-card border border-border outline-none focus:border-primary focus:ring-1 focus:ring-primary text-sm font-bold appearance-none cursor-pointer transition-all"
+                  className={`${selectClassName} appearance-none pr-10`}
                 >
                   <option value="Mahasiswa">Mahasiswa</option>
                   <option value="Dosen">Dosen</option>
@@ -170,7 +185,7 @@ export function UserFormModal({
                   setForm({ ...form, email: event.target.value })
                 }
                 placeholder={emailPlaceholder}
-                className="w-full px-4 py-3 rounded-xl bg-card border border-border outline-none focus:border-primary focus:ring-1 focus:ring-primary text-sm font-medium transition-all"
+                className={inputClassName}
               />
             </Field>
 
@@ -181,7 +196,7 @@ export function UserFormModal({
                   setForm({ ...form, identityNo: event.target.value })
                 }
                 placeholder="Masukkan nomor identitas"
-                className="w-full px-4 py-3 rounded-xl bg-card border border-border outline-none focus:border-primary focus:ring-1 focus:ring-primary text-sm font-mono transition-all"
+                className={`${inputClassName} font-mono`}
               />
             </Field>
 
@@ -192,7 +207,7 @@ export function UserFormModal({
                   setForm({ ...form, institution: event.target.value })
                 }
                 placeholder="Nama kampus asal"
-                className="w-full px-4 py-3 rounded-xl bg-card border border-border outline-none focus:border-primary focus:ring-1 focus:ring-primary text-sm font-medium transition-all"
+                className={inputClassName}
               />
             </Field>
 
@@ -205,7 +220,7 @@ export function UserFormModal({
                     status: event.target.value as AdminUser["status"],
                   })
                 }
-                className="w-full px-4 py-3 rounded-xl bg-card border border-border outline-none focus:border-primary focus:ring-1 focus:ring-primary text-sm font-bold transition-all"
+                className={selectClassName}
               >
                 <option value="Aktif">Aktif</option>
                 <option value="Nonaktif">Nonaktif</option>
@@ -213,52 +228,96 @@ export function UserFormModal({
             </Field>
           </div>
 
-          <div className="rounded-2xl border border-border p-5 bg-card shadow-sm relative overflow-hidden">
-            <div className="absolute left-0 top-0 bottom-0 w-1 bg-amber-500" />
+          {mode === "add" && (
+            <div className="rounded-2xl border border-border p-5 bg-card shadow-sm relative overflow-hidden">
+              <div className="absolute left-0 top-0 bottom-0 w-1 bg-amber-500" />
 
-            <div className="flex items-center gap-2 mb-4">
-              <Key size={18} className="text-amber-500" />
+              <div className="flex items-center gap-2 mb-4">
+                <Key size={18} className="text-amber-500" />
 
-              <span className="text-sm font-extrabold text-foreground">
-                {mode === "add" ? "Kredensial Login" : "Reset Kata Sandi"}
-              </span>
-            </div>
-
-            <label className="flex items-start gap-3 text-sm font-medium text-muted-foreground mb-4 cursor-pointer hover:text-foreground transition-colors">
-              <input
-                type="checkbox"
-                checked={generatePassword}
-                onChange={(event) => setGeneratePassword(event.target.checked)}
-                className="w-4 h-4 mt-0.5 rounded border-border text-amber-500 focus:ring-amber-500 bg-card"
-              />
-
-              <span>Buat kata sandi otomatis dan kirim melalui email</span>
-            </label>
-
-            {!generatePassword && (
-              <div className="animate-in fade-in slide-in-from-top-2 duration-300">
-                <label className="text-xs font-bold text-muted-foreground mb-2 block uppercase tracking-wider">
-                  Kata Sandi Manual
-                </label>
-
-                <div className="relative">
-                  <input
-                    type={showPassword ? "text" : "password"}
-                    placeholder="Minimal 8 karakter..."
-                    className="w-full px-4 py-3 pr-24 rounded-xl bg-muted/30 border border-border outline-none focus:border-amber-500 focus:ring-1 focus:ring-amber-500 text-sm font-medium transition-all"
-                  />
-
-                  <button
-                    type="button"
-                    onClick={() => setShowPassword(!showPassword)}
-                    className="absolute right-4 top-1/2 -translate-y-1/2 text-xs font-extrabold text-amber-500 hover:text-amber-600 transition-colors"
-                  >
-                    {showPassword ? "SEMBUNYIKAN" : "TAMPILKAN"}
-                  </button>
-                </div>
+                <span className="text-sm font-extrabold text-foreground">
+                  Kredensial Login
+                </span>
               </div>
-            )}
-          </div>
+
+              <label className="flex items-start gap-3 text-sm font-medium text-muted-foreground mb-4 cursor-pointer hover:text-foreground transition-colors">
+                <input
+                  type="checkbox"
+                  checked={generatePassword}
+                  onChange={(event) =>
+                    setGeneratePassword(event.target.checked)
+                  }
+                  className="w-4 h-4 mt-0.5 rounded border-border text-amber-500 focus:ring-amber-500 bg-card"
+                />
+
+                <span>Buat kata sandi otomatis dan kirim melalui email</span>
+              </label>
+
+              {!generatePassword && (
+                <div className="animate-in fade-in slide-in-from-top-2 duration-300">
+                  <label className="text-xs font-bold text-muted-foreground mb-2 block uppercase tracking-wider">
+                    Kata Sandi Manual
+                  </label>
+
+                  <div className="relative">
+                    <input
+                      type={showPassword ? "text" : "password"}
+                      placeholder="Minimal 8 karakter..."
+                      className="w-full px-4 py-3 pr-24 rounded-xl bg-card border border-border outline-none focus:border-amber-500 focus:ring-1 focus:ring-amber-500 text-sm font-medium text-foreground placeholder:text-muted-foreground transition-all"
+                    />
+
+                    <button
+                      type="button"
+                      onClick={() => setShowPassword(!showPassword)}
+                      className="absolute right-4 top-1/2 -translate-y-1/2 text-xs font-extrabold text-amber-500 hover:text-amber-600 transition-colors"
+                    >
+                      {showPassword ? "SEMBUNYIKAN" : "TAMPILKAN"}
+                    </button>
+                  </div>
+                </div>
+              )}
+            </div>
+          )}
+
+          {mode === "edit" && (
+            <div className="rounded-2xl border border-border p-5 bg-card shadow-sm relative overflow-hidden">
+              <div className="absolute left-0 top-0 bottom-0 w-1 bg-amber-500" />
+
+              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+                <div className="flex items-start gap-3">
+                  <div className="w-10 h-10 rounded-xl bg-amber-500/10 text-amber-500 flex items-center justify-center shrink-0">
+                    <Key size={18} />
+                  </div>
+
+                  <div>
+                    <p className="text-sm font-extrabold text-foreground">
+                      Reset Kata Sandi
+                    </p>
+
+                    <p className="text-xs sm:text-sm text-muted-foreground font-medium leading-relaxed mt-1">
+                      Kirim tautan reset kata sandi ke email pengguna tanpa
+                      mengubah data profil.
+                    </p>
+
+                    {resetStatus === "sent" && (
+                      <div className="mt-3 flex items-center gap-2 text-xs font-bold text-emerald-600">
+                        <CheckCircle2 size={15} />
+                        Link reset kata sandi berhasil dikirim.
+                      </div>
+                    )}
+                  </div>
+                </div>
+
+                <button
+                  type="button"
+                  onClick={handleSendResetLink}
+                  className="w-full sm:w-auto px-5 py-3 rounded-xl bg-amber-500/10 text-amber-600 border border-amber-500/20 text-xs sm:text-sm font-extrabold hover:bg-amber-500 hover:text-white transition-colors whitespace-nowrap"
+                >
+                  Kirim Link Reset
+                </button>
+              </div>
+            </div>
+          )}
         </div>
 
         <div className="p-5 sm:p-6 border-t border-border flex gap-3 sm:gap-4 bg-card shrink-0">

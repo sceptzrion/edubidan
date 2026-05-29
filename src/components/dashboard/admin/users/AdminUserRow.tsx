@@ -8,7 +8,7 @@ interface AdminUserRowProps {
   user: AdminUser;
   onView: (user: AdminUser) => void;
   onEdit: (user: AdminUser) => void;
-  onDelete: (id: number) => void;
+  onDelete: (user: AdminUser) => void;
 }
 
 export function AdminUserRow({
@@ -107,7 +107,7 @@ export function AdminUserRow({
 
           <button
             type="button"
-            onClick={() => onDelete(user.id)}
+            onClick={() => onDelete(user)}
             className="p-2 hover:bg-red-500/10 hover:text-red-500 rounded-xl transition-colors text-muted-foreground"
             title="Hapus"
             aria-label={`Hapus ${user.name}`}
