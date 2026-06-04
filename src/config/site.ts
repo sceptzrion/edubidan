@@ -1,6 +1,6 @@
-const adminEmail = "admin@edubidan.id";
-const adminPhone = "+62 812 3456 7890";
-const adminWhatsapp = "6281234567890";
+const supportEmail = "support@edubidan.my.id";
+const supportPhone = "+62 812 3456 7890";
+const supportWhatsapp = "6281234567890";
 
 export const siteConfig = {
   name: "EduBidan",
@@ -8,16 +8,16 @@ export const siteConfig = {
     "Platform pembelajaran digital kebidanan untuk materi video, kuis evaluasi, progres belajar, dan rekap nilai.",
 
   contact: {
-    email: adminEmail,
-    phone: adminPhone,
-    whatsapp: adminWhatsapp,
+    email: supportEmail,
+    phone: supportPhone,
+    whatsapp: supportWhatsapp,
     location: "Karawang, Jawa Barat, Indonesia",
     locationShort: "Karawang, Jawa Barat",
   },
 
   links: {
-    email: `mailto:${adminEmail}`,
-    whatsapp: `https://wa.me/${adminWhatsapp}`,
+    email: `mailto:${supportEmail}?subject=Pertanyaan%20Seputar%20EduBidan`,
+    whatsapp: `https://wa.me/${supportWhatsapp}`,
     instagram: "#",
     facebook: "#",
     youtube: "#",
