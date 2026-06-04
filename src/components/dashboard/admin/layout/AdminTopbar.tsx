@@ -1,30 +1,30 @@
 "use client";
 
 import { useState } from "react";
-import { Bell, ChevronDown, Menu } from "lucide-react";
+import { ChevronDown, Menu } from "lucide-react";
 
 import { AdminAccountMenu } from "@/components/dashboard/admin/layout/AdminAccountMenu";
-import { AdminNotificationMenu } from "@/components/dashboard/admin/layout/AdminNotificationMenu";
+import { DashboardNotificationMenu } from "@/components/dashboard/shared/DashboardNotificationMenu";
 import { EduBidanLogo } from "@/components/ui/EduBidanLogo";
 import { ThemeToggle } from "@/components/ui/ThemeToggle";
-import { getAdminNotifications } from "@/data/learning/admin/admin-notifications";
+import { getUserInitials } from "@/lib/auth/client-auth";
+import type { DashboardSessionUser } from "@/lib/auth/session-user";
 
 interface AdminTopbarProps {
+  currentUser: DashboardSessionUser;
   sidebarOpen: boolean;
   setSidebarOpen: (value: boolean) => void;
 }
 
 export function AdminTopbar({
+  currentUser,
   sidebarOpen,
   setSidebarOpen,
 }: AdminTopbarProps) {
   const [showAccount, setShowAccount] = useState(false);
   const [showNotification, setShowNotification] = useState(false);
 
-  const notifications = getAdminNotifications();
-  const hasUnreadNotification = notifications.some(
-    (notification) => !notification.read
-  );
+  const initials = getUserInitials(currentUser.name);
 
   const toggleAccountMenu = () => {
     setShowAccount((current) => !current);
@@ -60,28 +60,14 @@ export function AdminTopbar({
       <div className="flex items-center gap-2 md:gap-4">
         <ThemeToggle />
 
-        <div className="relative">
-          <button
-            type="button"
-            onClick={toggleNotificationMenu}
-            className="p-2.5 rounded-xl hover:bg-muted text-muted-foreground hover:text-foreground transition-colors relative"
-            aria-label="Buka notifikasi admin"
-            aria-expanded={showNotification}
-          >
-            <Bell size={20} />
-
-            {hasUnreadNotification && (
-              <span className="absolute top-2 right-2 w-2.5 h-2.5 rounded-full bg-red-500 border-2 border-card" />
-            )}
-          </button>
-
-          {showNotification && (
-            <AdminNotificationMenu
-              notifications={notifications}
-              onClose={() => setShowNotification(false)}
-            />
-          )}
-        </div>
+        <DashboardNotificationMenu
+          title="Notifikasi Admin"
+          emptyTitle="Belum ada notifikasi"
+          emptyDescription="Aktivitas sistem akan muncul di sini."
+          isOpen={showNotification}
+          onToggle={toggleNotificationMenu}
+          onClose={() => setShowNotification(false)}
+        />
 
         <div className="relative">
           <button
@@ -91,12 +77,21 @@ export function AdminTopbar({
             aria-label="Buka menu akun admin"
             aria-expanded={showAccount}
           >
-            <div className="w-8 h-8 md:w-9 md:h-9 rounded-full bg-linear-to-br from-indigo-500 to-purple-500 flex items-center justify-center text-white font-extrabold shadow-sm group-hover:scale-105 transition-transform">
-              A
+            <div className="w-8 h-8 md:w-9 md:h-9 overflow-hidden rounded-full bg-linear-to-br from-indigo-500 to-purple-500 flex items-center justify-center text-white font-extrabold shadow-sm group-hover:scale-105 transition-transform">
+              {currentUser.avatarUrl ? (
+                // eslint-disable-next-line @next/next/no-img-element
+                <img
+                  src={currentUser.avatarUrl}
+                  alt={currentUser.name}
+                  className="h-full w-full object-cover"
+                />
+              ) : (
+                initials
+              )}
             </div>
 
-            <span className="text-xs md:text-sm font-extrabold text-foreground hidden md:block">
-              Admin
+            <span className="max-w-32 truncate text-xs md:text-sm font-extrabold text-foreground hidden md:block">
+              {currentUser.name}
             </span>
 
             <ChevronDown
@@ -108,7 +103,10 @@ export function AdminTopbar({
           </button>
 
           {showAccount && (
-            <AdminAccountMenu onClose={() => setShowAccount(false)} />
+            <AdminAccountMenu
+              currentUser={currentUser}
+              onClose={() => setShowAccount(false)}
+            />
           )}
         </div>
       </div>

@@ -33,11 +33,17 @@ enum VideoSource {
 enum NotificationType {
   MATERI_BARU
   KUIS_BARU
+  HASIL_KUIS
   GABUNG_MODUL
   KUIS_DIKERJAKAN
   MODUL_DIPUBLIKASI
+  MODUL_DIPERBARUI
   MAHASISWA_BARU
   MAHASISWA_BERGABUNG
+  AKUN_DIBUAT
+  AKUN_DIAKTIFKAN
+  AKUN_DINONAKTIFKAN
+  SYSTEM_ALERT
 }
 
 enum OtpStatus {
@@ -62,6 +68,7 @@ model User {
   password        String   @db.VarChar(255)
   role            Role     @default(MAHASISWA)
   avatarUrl       String?  @db.VarChar(500)
+  avatarPublicId  String?  @db.VarChar(500)
   phoneNumber     String?  @db.VarChar(20)
   isActive        Boolean  @default(true)
   createdAt       DateTime @default(now())
@@ -78,7 +85,7 @@ model User {
   lessonProgress  LessonProgress[]
   notifPreference NotifPreference?
   
-  // 👇 TAMBAHKAN BARIS INI DI SINI 👇
+  // Relasi aktivitas
   activityLogs    ActivityLog[] 
 
   @@index([email])
@@ -132,6 +139,7 @@ model Module {
   title           String       @db.VarChar(200)
   description     String?      @db.Text
   bannerUrl       String?      @db.VarChar(500)
+  bannerPublicId  String?      @db.VarChar(500)
   accessCode      String       @unique @db.VarChar(20)
   status          ModuleStatus @default(DRAFT)
   estimatedMinutes Int?        // estimasi waktu belajar dalam menit
@@ -260,11 +268,12 @@ model Kuis {
 }
 
 model Soal {
-  id            Int    @id @default(autoincrement())
+  id            Int     @id @default(autoincrement())
   kuisId        Int
-  questionText  String @db.Text
+  questionText  String  @db.Text
   mediaUrl      String? @db.VarChar(500) // gambar/media pendukung soal (opsional)
-  order         Int    @default(0)
+  mediaPublicId String? @db.VarChar(500)
+  order         Int     @default(0)
 
   kuis          Kuis           @relation(fields: [kuisId], references: [id], onDelete: Cascade)
   options       SoalOption[]
@@ -352,29 +361,39 @@ model Enrollment {
 
 model Notification {
   id        Int              @id @default(autoincrement())
-  userId    Int              // penerima notifikasi
-  moduleId  Int?             // relasi ke modul jika ada
+  userId    Int
+  moduleId  Int?
   type      NotificationType
   title     String           @db.VarChar(200)
   body      String           @db.Text
+  href      String?          @db.VarChar(500)
   isRead    Boolean          @default(false)
+  readAt    DateTime?
   createdAt DateTime         @default(now())
 
   user   User    @relation(fields: [userId], references: [id], onDelete: Cascade)
   module Module? @relation(fields: [moduleId], references: [id], onDelete: SetNull)
 
   @@index([userId, isRead])
+  @@index([type])
   @@map("notifications")
 }
 
 // =============================================================================
-// PREFERENSI NOTIFIKASI MAHASISWA
+// PREFERENSI NOTIFIKASI
 // =============================================================================
 
 model NotifPreference {
-  id             Int     @id @default(autoincrement())
-  userId         Int     @unique
-  notifUpdateModul Boolean @default(true) // notifikasi update modul
+  id              Int     @id @default(autoincrement())
+  userId          Int     @unique
+
+  moduleUpdate    Boolean @default(true)
+  newMaterial     Boolean @default(true)
+  newQuiz         Boolean @default(true)
+  quizResult      Boolean @default(true)
+  quizActivity    Boolean @default(true)
+  accountActivity Boolean @default(true)
+  systemAlert     Boolean @default(true)
 
   user User @relation(fields: [userId], references: [id], onDelete: Cascade)
 

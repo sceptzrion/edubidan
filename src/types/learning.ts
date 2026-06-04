@@ -28,10 +28,15 @@ export interface LearningItem {
   estimatedMinutes: number;
   isCompleted: boolean;
   thumbnailUrl?: string;
+  videoSource?: "upload" | "embed";
+  videoUrl?: string;
   objectives?: string[];
   tools?: string[];
   questions?: QuizQuestion[];
   timeLimitMinutes?: number;
+  latestScore?: number | null;
+  latestCorrectCount?: number | null;
+  latestTotalQuestions?: number | null;
 }
 
 export interface LearningModule {

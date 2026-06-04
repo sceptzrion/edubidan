@@ -3,28 +3,73 @@
 import { Home, LogOut, User } from "lucide-react";
 import { useRouter } from "next/navigation";
 
+import { clearStoredUser, getUserInitials } from "@/lib/auth/client-auth";
+import type { DashboardSessionUser } from "@/lib/auth/session-user";
+
 interface AdminAccountMenuProps {
+  currentUser: DashboardSessionUser;
   onClose: () => void;
 }
 
-export function AdminAccountMenu({ onClose }: AdminAccountMenuProps) {
+export function AdminAccountMenu({
+  currentUser,
+  onClose,
+}: AdminAccountMenuProps) {
   const router = useRouter();
+  const initials = getUserInitials(currentUser.name);
 
   const navigateTo = (href: string) => {
     router.push(href);
     onClose();
   };
 
-  return (
-    <div className="absolute right-0 top-[calc(100%+8px)] w-48 sm:w-56 bg-card border border-border rounded-2xl shadow-xl py-1.5 sm:py-2 z-50 animate-in slide-in-from-top-2 duration-200 overflow-hidden">
-      <div className="px-3 py-2 sm:px-4 sm:py-3 border-b border-border mb-1 bg-muted/30">
-        <p className="text-xs sm:text-sm font-extrabold text-foreground">
-          Administrator
-        </p>
+  const handleLogout = async () => {
+    try {
+      await fetch("/api/auth/logout", {
+        method: "POST",
+        credentials: "same-origin",
+      });
+    } catch (error) {
+      console.error("Logout request failed:", error);
+    } finally {
+      clearStoredUser();
+      onClose();
+      router.replace("/");
+      router.refresh();
+    }
+  };
 
-        <p className="text-[10px] sm:text-xs font-medium text-muted-foreground mt-0.5 truncate">
-          admin@edubidan.id
-        </p>
+  return (
+    <div className="absolute right-0 top-[calc(100%+8px)] w-56 sm:w-64 bg-card border border-border rounded-2xl shadow-xl py-1.5 sm:py-2 z-50 animate-in slide-in-from-top-2 duration-200 overflow-hidden">
+      <div className="px-3 py-2 sm:px-4 sm:py-3 border-b border-border mb-1 bg-muted/30">
+        <div className="flex items-center gap-3">
+          <div className="h-10 w-10 overflow-hidden rounded-full bg-linear-to-br from-indigo-500 to-purple-500 flex items-center justify-center text-sm font-extrabold text-white shrink-0">
+            {currentUser.avatarUrl ? (
+              // eslint-disable-next-line @next/next/no-img-element
+              <img
+                src={currentUser.avatarUrl}
+                alt={currentUser.name}
+                className="h-full w-full object-cover"
+              />
+            ) : (
+              initials
+            )}
+          </div>
+
+          <div className="min-w-0">
+            <p className="truncate text-xs sm:text-sm font-extrabold text-foreground">
+              {currentUser.name}
+            </p>
+
+            <p className="truncate text-[10px] sm:text-xs font-medium text-muted-foreground mt-0.5">
+              {currentUser.email}
+            </p>
+
+            <span className="mt-1 inline-flex rounded-full bg-primary/10 px-2 py-0.5 text-[10px] font-extrabold text-primary">
+              Admin
+            </span>
+          </div>
+        </div>
       </div>
 
       <button
@@ -48,7 +93,7 @@ export function AdminAccountMenu({ onClose }: AdminAccountMenuProps) {
       <div className="border-t border-border mt-1 pt-1">
         <button
           type="button"
-          onClick={() => navigateTo("/")}
+          onClick={handleLogout}
           className="w-full flex items-center gap-2.5 sm:gap-3 px-3 py-2 sm:px-4 sm:py-2.5 text-xs sm:text-sm font-extrabold text-red-500 hover:text-red-600 hover:bg-red-500/10 transition-colors"
         >
           <LogOut size={16} className="sm:w-4.5 sm:h-4.5" />
