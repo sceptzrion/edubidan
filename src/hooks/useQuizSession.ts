@@ -5,29 +5,73 @@ import type { QuizQuestion } from "@/types/learning";
 interface UseQuizSessionParams {
   questions: QuizQuestion[];
   passingGrade?: number;
+  timeLimitMinutes?: number | null;
+  initialAnswers?: (number | null)[];
+  initialShowResult?: boolean;
+}
+
+function createEmptyAnswers(length: number) {
+  return Array<number | null>(length).fill(null);
+}
+
+function createEmptyFlags(length: number) {
+  return Array<boolean>(length).fill(false);
 }
 
 export function useQuizSession({
   questions,
   passingGrade = 70,
+  timeLimitMinutes = null,
+  initialAnswers,
+  initialShowResult = false,
 }: UseQuizSessionParams) {
-  const [isStarted, setIsStarted] = useState(false);
+  const [isStarted, setIsStarted] = useState(initialShowResult);
   const [currentQ, setCurrentQ] = useState(0);
-  const [answers, setAnswers] = useState<(number | null)[]>([]);
-  const [flagged, setFlagged] = useState<boolean[]>([]);
-  const [showResult, setShowResult] = useState(false);
+  const [answers, setAnswers] = useState<(number | null)[]>(
+    () => initialAnswers ?? createEmptyAnswers(questions.length)
+  );
+  const [flagged, setFlagged] = useState<boolean[]>(() =>
+    createEmptyFlags(questions.length)
+  );
+  const [showResult, setShowResult] = useState(initialShowResult);
   const [isReviewMode, setIsReviewMode] = useState(false);
   const [showGridMobile, setShowGridMobile] = useState(false);
+  const [remainingSeconds, setRemainingSeconds] = useState(
+    timeLimitMinutes && timeLimitMinutes > 0 ? timeLimitMinutes * 60 : null
+  );
 
   useEffect(() => {
-    setAnswers(Array(questions.length).fill(null));
-    setFlagged(Array(questions.length).fill(false));
-    setCurrentQ(0);
-    setIsStarted(false);
-    setShowResult(false);
-    setIsReviewMode(false);
-    setShowGridMobile(false);
-  }, [questions.length]);
+    const timeoutId = window.setTimeout(() => {
+      setAnswers(initialAnswers ?? createEmptyAnswers(questions.length));
+      setFlagged(createEmptyFlags(questions.length));
+      setCurrentQ(0);
+      setIsStarted(initialShowResult);
+      setShowResult(initialShowResult);
+      setIsReviewMode(false);
+      setShowGridMobile(false);
+      setRemainingSeconds(
+        timeLimitMinutes && timeLimitMinutes > 0 ? timeLimitMinutes * 60 : null
+      );
+    }, 0);
+
+    return () => window.clearTimeout(timeoutId);
+  }, [questions.length, initialAnswers, initialShowResult, timeLimitMinutes]);
+
+  useEffect(() => {
+    if (!isStarted || showResult || isReviewMode || remainingSeconds === null) {
+      return;
+    }
+
+    const intervalId = window.setInterval(() => {
+      setRemainingSeconds((current) => {
+        if (current === null) return null;
+
+        return Math.max(current - 1, 0);
+      });
+    }, 1000);
+
+    return () => window.clearInterval(intervalId);
+  }, [isStarted, showResult, isReviewMode, remainingSeconds]);
 
   const currentQuestion = questions[currentQ];
 
@@ -37,8 +81,9 @@ export function useQuizSession({
   );
 
   const score = useMemo(() => {
-    return answers.filter((answer, index) => answer === questions[index]?.correct)
-      .length;
+    return answers.filter(
+      (answer, index) => answer === questions[index]?.correct
+    ).length;
   }, [answers, questions]);
 
   const percentage = questions.length
@@ -49,6 +94,15 @@ export function useQuizSession({
   const isSubmitDisabled = answers.includes(null);
 
   const startQuiz = () => {
+    setAnswers(createEmptyAnswers(questions.length));
+    setFlagged(createEmptyFlags(questions.length));
+    setCurrentQ(0);
+    setShowResult(false);
+    setIsReviewMode(false);
+    setShowGridMobile(false);
+    setRemainingSeconds(
+      timeLimitMinutes && timeLimitMinutes > 0 ? timeLimitMinutes * 60 : null
+    );
     setIsStarted(true);
   };
 
@@ -112,6 +166,7 @@ export function useQuizSession({
     percentage,
     passed,
     isSubmitDisabled,
+    remainingSeconds,
 
     startQuiz,
     selectOption,

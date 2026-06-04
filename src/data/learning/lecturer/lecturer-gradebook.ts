@@ -20,31 +20,7 @@ export interface LecturerGradebookDetail {
 
 export interface LecturerGradebookRow extends LecturerGradebookStudent {
   average: number;
-  status: "Lulus" | "Mengulang";
 }
-
-export const PASS_THRESHOLD = 70;
-
-export const lecturerGradebookModules: LecturerGradebookModule[] = [
-  {
-    id: 1,
-    title: "ANC Terpadu Trimester 1",
-    studentCount: 45,
-    quizCount: 3,
-  },
-  {
-    id: 2,
-    title: "APGAR Score & Resusitasi",
-    studentCount: 38,
-    quizCount: 2,
-  },
-  {
-    id: 3,
-    title: "Inisiasi Menyusu Dini",
-    studentCount: 27,
-    quizCount: 2,
-  },
-];
 
 export const lecturerGradebookDetails: Record<string, LecturerGradebookDetail> =
   {
@@ -104,13 +80,9 @@ export function getLecturerGradebookRows(
           validScores.length
         : 0;
 
-      const status: LecturerGradebookRow["status"] =
-        average >= PASS_THRESHOLD ? "Lulus" : "Mengulang";
-
       return {
         ...student,
         average,
-        status,
       };
     })
     .filter((student) => {

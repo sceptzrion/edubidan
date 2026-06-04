@@ -4,24 +4,24 @@ import { useState } from "react";
 import { Menu } from "lucide-react";
 
 import { LecturerAccountMenu } from "@/components/dashboard/lecturer/layout/LecturerAccountMenu";
-import { LecturerNotificationMenu } from "@/components/dashboard/lecturer/layout/LecturerNotificationMenu";
+import { DashboardNotificationMenu } from "@/components/dashboard/shared/DashboardNotificationMenu";
 import { EduBidanLogo } from "@/components/ui/EduBidanLogo";
 import { ThemeToggle } from "@/components/ui/ThemeToggle";
-import { getLecturerNotifications } from "@/data/learning/lecturer/lecturer-notifications";
+import type { DashboardSessionUser } from "@/lib/auth/session-user";
 
 interface LecturerTopbarProps {
+  currentUser: DashboardSessionUser;
   sidebarOpen: boolean;
   setSidebarOpen: (value: boolean) => void;
 }
 
 export function LecturerTopbar({
+  currentUser,
   sidebarOpen,
   setSidebarOpen,
 }: LecturerTopbarProps) {
   const [showAccount, setShowAccount] = useState(false);
   const [showNotif, setShowNotif] = useState(false);
-
-  const notifications = getLecturerNotifications();
 
   return (
     <header className="h-16 md:h-18 shrink-0 border-b border-border bg-card/80 backdrop-blur-md flex items-center justify-between px-4 md:px-8 z-30 sticky top-0">
@@ -46,9 +46,11 @@ export function LecturerTopbar({
       <div className="flex items-center gap-2 md:gap-4">
         <ThemeToggle />
 
-        <LecturerNotificationMenu
+        <DashboardNotificationMenu
+          title="Notifikasi Dosen"
+          emptyTitle="Belum ada notifikasi"
+          emptyDescription="Aktivitas modul dan kuis mahasiswa akan muncul di sini."
           isOpen={showNotif}
-          notifications={notifications}
           onToggle={() => {
             setShowNotif((current) => !current);
             setShowAccount(false);
@@ -57,6 +59,7 @@ export function LecturerTopbar({
         />
 
         <LecturerAccountMenu
+          currentUser={currentUser}
           isOpen={showAccount}
           onToggle={() => {
             setShowAccount((current) => !current);
