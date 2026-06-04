@@ -1,7 +1,8 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useMemo, useState, useTransition } from "react";
 import { useRouter } from "next/navigation";
+import { Loader2 } from "lucide-react";
 
 import { JoinModuleModal } from "@/components/dashboard/student/modules/JoinModuleModal";
 import { StudentModulesHeader } from "@/components/dashboard/student/modules/list/StudentModulesHeader";
@@ -20,6 +21,7 @@ export function StudentModulesClient({
   initialModules,
 }: StudentModulesClientProps) {
   const router = useRouter();
+  const [isRefreshing, startRefreshTransition] = useTransition();
 
   const [search, setSearch] = useState("");
   const [layout, setLayout] = useState<StudentModulesLayout>("grid");
@@ -41,32 +43,55 @@ export function StudentModulesClient({
 
   const handleJoined = () => {
     setJoinOpen(false);
-    router.refresh();
+
+    startRefreshTransition(() => {
+      router.refresh();
+    });
   };
 
   return (
-    <div className="animate-in fade-in slide-in-from-bottom-4 duration-500 pb-10 sm:pb-12">
-      <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-4 sm:gap-6 mb-6 sm:mb-8">
-        <StudentModulesHeader totalModules={initialModules.length} />
+    <div className="relative animate-in fade-in slide-in-from-bottom-4 duration-500 pb-10 sm:pb-12">
+      {isRefreshing && (
+        <div className="fixed inset-x-0 top-4 z-80 mx-auto flex w-fit items-center gap-2 rounded-full border border-border bg-card/95 px-4 py-2 text-xs font-extrabold text-primary shadow-lg shadow-black/5 backdrop-blur-md">
+          <Loader2 size={14} className="animate-spin" />
+          Memuat ulang modul...
+        </div>
+      )}
 
-        <StudentModulesToolbar
-          search={search}
+      <div
+        className={`transition-opacity duration-200 ${
+          isRefreshing ? "opacity-70" : "opacity-100"
+        }`}
+        aria-busy={isRefreshing}
+      >
+        <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-4 sm:gap-6 mb-6 sm:mb-8">
+          <StudentModulesHeader totalModules={initialModules.length} />
+
+          <StudentModulesToolbar
+            search={search}
+            layout={layout}
+            onSearchChange={setSearch}
+            onLayoutChange={setLayout}
+            onJoinModule={() => {
+              if (isRefreshing) return;
+              setJoinOpen(true);
+            }}
+          />
+        </div>
+
+        <StudentModulesList
+          modules={filteredModules}
           layout={layout}
-          onSearchChange={setSearch}
-          onLayoutChange={setLayout}
-          onJoinModule={() => setJoinOpen(true)}
+          search={search}
         />
       </div>
 
-      <StudentModulesList
-        modules={filteredModules}
-        layout={layout}
-        search={search}
-      />
-
       <JoinModuleModal
         isOpen={joinOpen}
-        onClose={() => setJoinOpen(false)}
+        onClose={() => {
+          if (isRefreshing) return;
+          setJoinOpen(false);
+        }}
         onJoined={handleJoined}
       />
     </div>

@@ -56,21 +56,29 @@ export function JoinModuleModal({
   const [joinState, setJoinState] = useState<JoinState>("idle");
   const [message, setMessage] = useState("");
   const [joinedModuleTitle, setJoinedModuleTitle] = useState("");
+  const [isRefreshingModules, setIsRefreshingModules] = useState(false);
 
   if (!isOpen) return null;
 
-  const handleClose = () => {
+  const resetState = () => {
     setJoinCode("");
     setJoinState("idle");
     setMessage("");
     setJoinedModuleTitle("");
+    setIsRefreshingModules(false);
+  };
+
+  const handleClose = () => {
+    if (joinState === "loading" || isRefreshingModules) return;
+
+    resetState();
     onClose();
   };
 
   const handleSubmit = async () => {
     const accessCode = joinCode.trim().toUpperCase();
 
-    if (!accessCode || joinState === "loading") return;
+    if (!accessCode || joinState === "loading" || isRefreshingModules) return;
 
     setJoinState("loading");
     setMessage("");
@@ -106,10 +114,9 @@ export function JoinModuleModal({
   };
 
   const handleSuccessClose = () => {
-    setJoinCode("");
-    setJoinState("idle");
-    setMessage("");
-    setJoinedModuleTitle("");
+    if (isRefreshingModules) return;
+
+    setIsRefreshingModules(true);
     onJoined();
   };
 
@@ -121,7 +128,7 @@ export function JoinModuleModal({
           <button
             type="button"
             onClick={handleClose}
-            disabled={joinState === "loading"}
+            disabled={joinState === "loading" || isRefreshingModules}
             className="absolute top-4 right-4 p-2 rounded-full bg-black/10 hover:bg-black/20 backdrop-blur-sm transition-colors disabled:cursor-not-allowed disabled:opacity-60"
             aria-label="Tutup modal gabung kelas"
           >
@@ -155,6 +162,13 @@ export function JoinModuleModal({
                 </span>{" "}
                 telah ditambahkan ke daftar belajar Anda.
               </p>
+
+              {isRefreshingModules && (
+                <div className="mt-5 inline-flex items-center gap-2 rounded-xl bg-primary/10 px-4 py-2 text-xs font-extrabold text-primary">
+                  <Loader2 size={15} className="animate-spin" />
+                  Memuat ulang daftar modul...
+                </div>
+              )}
             </div>
           ) : (
             <div className="space-y-5 sm:space-y-6">
@@ -176,7 +190,7 @@ export function JoinModuleModal({
                     }
                   }}
                   placeholder="Contoh: A1B2C3"
-                  disabled={joinState === "loading"}
+                  disabled={joinState === "loading" || isRefreshingModules}
                   className={`w-full px-4 py-3.5 sm:px-5 sm:py-4 rounded-xl bg-background border-2 outline-none transition-colors font-mono tracking-[0.15em] sm:tracking-[0.2em] text-center text-base sm:text-lg font-bold text-foreground placeholder:text-muted-foreground/50 placeholder:font-sans placeholder:tracking-normal placeholder:font-medium disabled:cursor-not-allowed disabled:opacity-60 ${
                     joinState === "error"
                       ? "border-red-500 focus:border-red-500 focus:ring-4 focus:ring-red-500/10"
@@ -208,23 +222,33 @@ export function JoinModuleModal({
             <button
               type="button"
               onClick={handleSuccessClose}
-              className="w-full py-3 sm:py-3.5 rounded-xl bg-primary text-primary-foreground text-xs sm:text-sm font-bold shadow-md shadow-primary/20 hover:opacity-90 transition-opacity"
+              disabled={isRefreshingModules}
+              className="w-full py-3 sm:py-3.5 rounded-xl bg-primary text-primary-foreground text-xs sm:text-sm font-bold shadow-md shadow-primary/20 hover:opacity-90 transition-opacity disabled:cursor-wait disabled:opacity-70 flex items-center justify-center gap-2"
             >
-              Tutup & Mulai Belajar
+              {isRefreshingModules && (
+                <Loader2 size={16} className="animate-spin" />
+              )}
+              {isRefreshingModules
+                ? "Memuat Modul..."
+                : "Tutup & Mulai Belajar"}
             </button>
           ) : (
             <>
               <button
                 type="button"
                 onClick={handleClose}
-                disabled={joinState === "loading"}
+                disabled={joinState === "loading" || isRefreshingModules}
                 className="flex-1 py-3 sm:py-3.5 rounded-xl border border-border text-xs sm:text-sm font-bold text-foreground hover:bg-muted transition-colors disabled:cursor-not-allowed disabled:opacity-60"
               >
                 Batal
               </button>
               <button
                 type="button"
-                disabled={joinCode.trim().length < 4 || joinState === "loading"}
+                disabled={
+                  joinCode.trim().length < 4 ||
+                  joinState === "loading" ||
+                  isRefreshingModules
+                }
                 onClick={() => void handleSubmit()}
                 className="flex-1 py-3 sm:py-3.5 rounded-xl bg-primary text-primary-foreground text-xs sm:text-sm font-bold hover:opacity-90 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-1.5 sm:gap-2 transition-all shadow-md shadow-primary/20"
               >

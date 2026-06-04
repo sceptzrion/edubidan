@@ -1,12 +1,14 @@
 "use client";
 
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
-import { Loader2, RefreshCw } from "lucide-react";
+import { RefreshCw } from "lucide-react";
 
 import { DeleteUserConfirmModal } from "@/components/dashboard/admin/users/DeleteUserConfirmModal";
 import { UserDetailModal } from "@/components/dashboard/admin/users/UserDetailModal";
 import { UserFormModal } from "@/components/dashboard/admin/users/UserFormModal";
+import { AdminUsersErrorState } from "@/components/dashboard/admin/users/AdminUsersErrorState";
 import { AdminUsersHeader } from "@/components/dashboard/admin/users/AdminUsersHeader";
+import { AdminUsersLoadingState } from "@/components/dashboard/admin/users/AdminUsersLoadingState";
 import { AdminUsersTable } from "@/components/dashboard/admin/users/AdminUsersTable";
 import { AdminUsersToolbar } from "@/components/dashboard/admin/users/AdminUsersToolbar";
 import { AppToast, type AppToastState } from "@/components/ui/AppToast";
@@ -529,19 +531,22 @@ export default function AdminUsersPage() {
         />
 
         {isLoading ? (
-          <div className="flex flex-col items-center justify-center py-20 text-muted-foreground">
-            <Loader2 className="mb-3 animate-spin" size={28} />
-            <p className="text-sm font-semibold">Memuat data pengguna...</p>
-          </div>
-        ) : (
-          <AdminUsersTable
-            users={filteredUsers}
-            onView={(user) => setModal({ mode: "detail", user })}
-            onEdit={(user) => setModal({ mode: "edit", user })}
-            onToggleStatus={handleToggleUserStatus}
-            onDelete={(user) => setDeleteTarget(user)}
-          />
-        )}
+            <AdminUsersLoadingState />
+          ) : errorMessage ? (
+            <AdminUsersErrorState
+              message={errorMessage}
+              isRetrying={isLoading}
+              onRetry={() => void loadUsers()}
+            />
+          ) : (
+            <AdminUsersTable
+              users={filteredUsers}
+              onView={(user) => setModal({ mode: "detail", user })}
+              onEdit={(user) => setModal({ mode: "edit", user })}
+              onToggleStatus={handleToggleUserStatus}
+              onDelete={(user) => setDeleteTarget(user)}
+            />
+          )}
       </div>
 
       <div className="mt-4 flex justify-end">

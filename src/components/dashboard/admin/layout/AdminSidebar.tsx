@@ -1,6 +1,7 @@
 "use client";
 
-import { LogOut } from "lucide-react";
+import { useState, useTransition } from "react";
+import { Loader2, LogOut } from "lucide-react";
 import { usePathname, useRouter } from "next/navigation";
 
 import { EduBidanLogo } from "@/components/ui/EduBidanLogo";
@@ -14,10 +15,32 @@ interface AdminSidebarProps {
 export function AdminSidebar({ sidebarOpen, menuItems }: AdminSidebarProps) {
   const router = useRouter();
   const pathname = usePathname();
+  const [isPending, startTransition] = useTransition();
+  const [openingPath, setOpeningPath] = useState<string | null>(null);
 
   const isActive = (path: string) => {
     if (path === "/dashboard/admin") return pathname === "/dashboard/admin";
     return pathname.startsWith(path);
+  };
+
+  const handleNavigate = (path: string) => {
+    if (path === pathname || isPending) return;
+
+    setOpeningPath(path);
+
+    startTransition(() => {
+      router.push(path);
+    });
+  };
+
+  const handleLogoutNavigate = () => {
+    if (isPending) return;
+
+    setOpeningPath("/");
+
+    startTransition(() => {
+      router.push("/");
+    });
   };
 
   return (
@@ -40,19 +63,26 @@ export function AdminSidebar({ sidebarOpen, menuItems }: AdminSidebarProps) {
         {menuItems.map((item) => {
           const active = isActive(item.path);
           const Icon = item.icon;
+          const isOpening = isPending && openingPath === item.path;
 
           return (
             <button
               key={item.path}
               type="button"
-              onClick={() => router.push(item.path)}
-              className={`w-full flex items-center gap-3 px-3.5 py-3 rounded-xl text-sm font-bold transition-all group relative overflow-hidden ${
+              onClick={() => handleNavigate(item.path)}
+              disabled={isPending}
+              aria-busy={isOpening}
+              className={`w-full flex items-center gap-3 px-3.5 py-3 rounded-xl text-sm font-bold transition-all group relative overflow-hidden disabled:cursor-wait ${
                 active
                   ? "bg-primary text-primary-foreground shadow-md shadow-primary/20"
-                  : "text-muted-foreground hover:bg-muted hover:text-foreground"
+                  : "text-muted-foreground hover:bg-muted hover:text-foreground disabled:opacity-70"
               }`}
             >
-              <Icon size={20} className="shrink-0" />
+              {isOpening ? (
+                <Loader2 size={20} className="shrink-0 animate-spin" />
+              ) : (
+                <Icon size={20} className="shrink-0" />
+              )}
 
               <span
                 className={`whitespace-nowrap transition-all duration-300 ${
@@ -61,7 +91,7 @@ export function AdminSidebar({ sidebarOpen, menuItems }: AdminSidebarProps) {
                     : "opacity-0 -translate-x-4"
                 }`}
               >
-                {item.label}
+                {isOpening ? "Membuka..." : item.label}
               </span>
             </button>
           );
@@ -71,17 +101,23 @@ export function AdminSidebar({ sidebarOpen, menuItems }: AdminSidebarProps) {
       <div className="p-4 border-t border-border shrink-0">
         <button
           type="button"
-          onClick={() => router.push("/")}
-          className="w-full flex items-center gap-3 px-3.5 py-3 rounded-xl text-sm font-bold text-red-500 hover:bg-red-500/10 hover:text-red-600 transition-all overflow-hidden"
+          onClick={handleLogoutNavigate}
+          disabled={isPending}
+          aria-busy={isPending && openingPath === "/"}
+          className="w-full flex items-center gap-3 px-3.5 py-3 rounded-xl text-sm font-bold text-red-500 hover:bg-red-500/10 hover:text-red-600 transition-all overflow-hidden disabled:cursor-wait disabled:opacity-70"
         >
-          <LogOut size={20} className="shrink-0" />
+          {isPending && openingPath === "/" ? (
+            <Loader2 size={20} className="shrink-0 animate-spin" />
+          ) : (
+            <LogOut size={20} className="shrink-0" />
+          )}
 
           <span
             className={`whitespace-nowrap transition-all duration-300 ${
               sidebarOpen ? "opacity-100" : "opacity-0"
             }`}
           >
-            Keluar
+            {isPending && openingPath === "/" ? "Keluar..." : "Keluar"}
           </span>
         </button>
       </div>
