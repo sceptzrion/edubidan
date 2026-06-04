@@ -1,5 +1,6 @@
 "use client";
 
+import { useState, useTransition } from "react";
 import { useRouter } from "next/navigation";
 
 import { ModuleCard } from "@/components/dashboard/student/modules/ModuleCard";
@@ -30,6 +31,16 @@ export function StudentModulesList({
   search,
 }: StudentModulesListProps) {
   const router = useRouter();
+  const [isPending, startTransition] = useTransition();
+  const [openingModuleId, setOpeningModuleId] = useState<number | null>(null);
+
+  const handleOpenModule = (moduleId: number) => {
+    setOpeningModuleId(moduleId);
+
+    startTransition(() => {
+      router.push(`/dashboard/modules/${moduleId}`);
+    });
+  };
 
   return (
     <div
@@ -45,7 +56,8 @@ export function StudentModulesList({
             key={module.id}
             data={module}
             layout={layout}
-            onClick={() => router.push(`/dashboard/modules/${module.id}`)}
+            isOpening={isPending && openingModuleId === module.id}
+            onClick={() => handleOpenModule(module.id)}
           />
         ))
       ) : (

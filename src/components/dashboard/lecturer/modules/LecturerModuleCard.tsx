@@ -1,12 +1,13 @@
 "use client";
 
 import { useState, type MouseEvent } from "react";
-import { BookOpen, Check, Copy, Edit3, Eye, Trash2 } from "lucide-react";
+import { BookOpen, Check, Copy, Edit3, Eye, Loader2, Trash2 } from "lucide-react";
 
 import type { LecturerModule } from "@/data/learning/lecturer/lecturer-modules";
 
 interface LecturerModuleCardProps {
   module: LecturerModule;
+  isOpening?: boolean;
   onManage: (id: number) => void;
   onEdit: (module: LecturerModule) => void;
   onRemove: (id: number) => void;
@@ -17,6 +18,7 @@ const fallbackCoverImage =
 
 export function LecturerModuleCard({
   module,
+  isOpening = false,
   onManage,
   onEdit,
   onRemove,
@@ -38,7 +40,10 @@ export function LecturerModuleCard({
   };
 
   return (
-    <article className="bg-card rounded-2xl sm:rounded-3xl border border-border overflow-hidden hover:shadow-lg hover:border-primary/30 transition-all group flex flex-col h-full">
+    <article
+      aria-busy={isOpening}
+      className="bg-card rounded-2xl sm:rounded-3xl border border-border overflow-hidden hover:shadow-lg hover:border-primary/30 transition-all group flex flex-col h-full"
+    >
       <div className="relative aspect-4/3 sm:aspect-video overflow-hidden shrink-0 border-b border-border/50">
         <img
           src={coverImage}
@@ -103,16 +108,22 @@ export function LecturerModuleCard({
           <button
             type="button"
             onClick={() => onManage(module.id)}
-            className="flex-1 py-2.5 sm:py-3 rounded-xl border border-primary bg-primary/5 text-primary text-xs sm:text-sm font-extrabold hover:bg-primary hover:text-white transition-colors flex items-center justify-center gap-2 shadow-sm hover:shadow-md"
+            disabled={isOpening}
+            className="flex-1 py-2.5 sm:py-3 rounded-xl border border-primary bg-primary/5 text-primary text-xs sm:text-sm font-extrabold hover:bg-primary hover:text-white transition-colors flex items-center justify-center gap-2 shadow-sm hover:shadow-md disabled:cursor-wait disabled:opacity-70 disabled:hover:bg-primary/5 disabled:hover:text-primary"
           >
-            <Eye size={16} />
-            Kelola Isi
+            {isOpening ? (
+              <Loader2 size={16} className="animate-spin" />
+            ) : (
+              <Eye size={16} />
+            )}
+            {isOpening ? "Membuka..." : "Kelola Isi"}
           </button>
 
           <button
             type="button"
             onClick={() => onEdit(module)}
-            className="p-2.5 sm:p-3 rounded-xl border border-border text-muted-foreground hover:text-foreground hover:bg-muted transition-colors flex items-center justify-center shadow-sm"
+            disabled={isOpening}
+            className="p-2.5 sm:p-3 rounded-xl border border-border text-muted-foreground hover:text-foreground hover:bg-muted transition-colors flex items-center justify-center shadow-sm disabled:cursor-not-allowed disabled:opacity-60"
             title="Edit modul"
             aria-label="Edit modul"
           >
@@ -122,7 +133,8 @@ export function LecturerModuleCard({
           <button
             type="button"
             onClick={() => onRemove(module.id)}
-            className="p-2.5 sm:p-3 rounded-xl border border-red-500/20 text-red-500 hover:bg-red-500/10 transition-colors flex items-center justify-center shadow-sm"
+            disabled={isOpening}
+            className="p-2.5 sm:p-3 rounded-xl border border-red-500/20 text-red-500 hover:bg-red-500/10 transition-colors flex items-center justify-center shadow-sm disabled:cursor-not-allowed disabled:opacity-60"
             title="Hapus modul"
             aria-label="Hapus modul"
           >

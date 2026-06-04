@@ -1,4 +1,4 @@
-import { BookOpen, Clock, User } from "lucide-react";
+import { BookOpen, Clock, Loader2, User } from "lucide-react";
 
 interface ModuleCardData {
   id: number;
@@ -15,17 +15,26 @@ interface ModuleCardData {
 interface ModuleCardProps {
   data: ModuleCardData;
   layout: "grid" | "list";
+  isOpening?: boolean;
   onClick: () => void;
 }
 
-export function ModuleCard({ data, layout, onClick }: ModuleCardProps) {
+export function ModuleCard({
+  data,
+  layout,
+  isOpening = false,
+  onClick,
+}: ModuleCardProps) {
   const contentLabel = `${data.lessons} Materi • ${data.quizzes} Kuis`;
 
   if (layout === "list") {
     return (
       <div
-        onClick={onClick}
-        className="w-full bg-card rounded-2xl border border-border p-3 sm:p-0 flex flex-row items-center sm:items-stretch hover:shadow-md hover:border-primary/40 transition-all cursor-pointer group overflow-hidden sm:h-44"
+        onClick={isOpening ? undefined : onClick}
+        aria-busy={isOpening}
+        className={`w-full bg-card rounded-2xl border border-border p-3 sm:p-0 flex flex-row items-center sm:items-stretch hover:shadow-md hover:border-primary/40 transition-all group overflow-hidden sm:h-44 ${
+          isOpening ? "cursor-wait opacity-80" : "cursor-pointer"
+        }`}
       >
         <div className="relative shrink-0 w-24 h-24 sm:w-64 sm:h-full rounded-xl sm:rounded-none sm:rounded-l-2xl overflow-hidden sm:border-r border-border/50">
           <img
@@ -62,11 +71,17 @@ export function ModuleCard({ data, layout, onClick }: ModuleCardProps) {
 
           <div className="flex items-center gap-3 sm:gap-6 mt-3 sm:mt-4 text-[10px] sm:text-xs font-bold text-muted-foreground">
             <span className="flex items-center gap-1 sm:gap-1.5">
-              <BookOpen size={12} className="sm:w-4 sm:h-4 text-primary/70 shrink-0" />
+              <BookOpen
+                size={12}
+                className="sm:w-4 sm:h-4 text-primary/70 shrink-0"
+              />
               <span className="truncate">{contentLabel}</span>
             </span>
             <span className="flex items-center gap-1 sm:gap-1.5">
-              <Clock size={12} className="sm:w-4 sm:h-4 text-primary/70 shrink-0" />
+              <Clock
+                size={12}
+                className="sm:w-4 sm:h-4 text-primary/70 shrink-0"
+              />
               {data.duration}
             </span>
             {data.progress > 0 && (
@@ -84,6 +99,13 @@ export function ModuleCard({ data, layout, onClick }: ModuleCardProps) {
               />
             </div>
           )}
+
+          {isOpening && (
+            <div className="mt-3 inline-flex items-center gap-2 text-[10px] sm:text-xs font-extrabold text-primary">
+              <Loader2 size={13} className="animate-spin" />
+              Membuka modul...
+            </div>
+          )}
         </div>
       </div>
     );
@@ -91,8 +113,11 @@ export function ModuleCard({ data, layout, onClick }: ModuleCardProps) {
 
   return (
     <div
-      onClick={onClick}
-      className="bg-card rounded-2xl border border-border overflow-hidden hover:shadow-lg hover:border-primary/40 transition-all cursor-pointer group flex flex-col"
+      onClick={isOpening ? undefined : onClick}
+      aria-busy={isOpening}
+      className={`bg-card rounded-2xl border border-border overflow-hidden hover:shadow-lg hover:border-primary/40 transition-all group flex flex-col ${
+        isOpening ? "cursor-wait opacity-80" : "cursor-pointer"
+      }`}
     >
       <div className="relative aspect-4/3 sm:aspect-video overflow-hidden">
         <img
@@ -101,6 +126,15 @@ export function ModuleCard({ data, layout, onClick }: ModuleCardProps) {
           className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
         />
         <div className="absolute inset-0 bg-linear-to-t from-black/50 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
+
+        {isOpening && (
+          <div className="absolute inset-0 z-10 flex items-center justify-center bg-black/45 text-white backdrop-blur-[1px]">
+            <div className="inline-flex items-center gap-2 rounded-xl bg-black/45 px-4 py-2 text-xs font-extrabold">
+              <Loader2 size={15} className="animate-spin" />
+              Membuka...
+            </div>
+          </div>
+        )}
 
         {data.progress >= 0 && (
           <div className="absolute bottom-0 left-0 right-0 h-1.5 bg-muted-foreground/30">
@@ -142,11 +176,16 @@ export function ModuleCard({ data, layout, onClick }: ModuleCardProps) {
             </span>
           </div>
 
-          {data.progress > 0 && (
+          {isOpening ? (
+            <p className="inline-flex items-center gap-2 text-xs font-extrabold text-primary pt-3 border-t border-border/50 w-full">
+              <Loader2 size={14} className="animate-spin" />
+              Membuka modul...
+            </p>
+          ) : data.progress > 0 ? (
             <p className="text-xs font-extrabold text-primary pt-3 border-t border-border/50">
               {data.progress}% Selesai
             </p>
-          )}
+          ) : null}
         </div>
       </div>
     </div>

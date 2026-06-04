@@ -1,5 +1,6 @@
 "use client";
 
+import { useState, useTransition } from "react";
 import { useRouter } from "next/navigation";
 
 import { LecturerModuleCard } from "@/components/dashboard/lecturer/modules/LecturerModuleCard";
@@ -20,6 +21,16 @@ export function LecturerModulesGrid({
   onRemove,
 }: LecturerModulesGridProps) {
   const router = useRouter();
+  const [isPending, startTransition] = useTransition();
+  const [openingModuleId, setOpeningModuleId] = useState<number | null>(null);
+
+  const handleManage = (id: number) => {
+    setOpeningModuleId(id);
+
+    startTransition(() => {
+      router.push(`/dashboard/lecturer/modules/${id}`);
+    });
+  };
 
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-5 sm:gap-6">
@@ -28,7 +39,8 @@ export function LecturerModulesGrid({
           <LecturerModuleCard
             key={module.id}
             module={module}
-            onManage={(id) => router.push(`/dashboard/lecturer/modules/${id}`)}
+            isOpening={isPending && openingModuleId === module.id}
+            onManage={handleManage}
             onEdit={onEdit}
             onRemove={onRemove}
           />
