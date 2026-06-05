@@ -64,10 +64,13 @@ export function LoginForm() {
   const [password, setPassword] = useState("");
 
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [isRedirecting, setIsRedirecting] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
   const [reasonMessage, setReasonMessage] = useState(() =>
     getReasonMessage(searchParams.get("reason"))
   );
+
+  const isBusy = isSubmitting || isRedirecting;
 
   const isFormValid = useMemo(() => {
     return email.trim().length > 0 && password.trim().length > 0;
@@ -81,10 +84,11 @@ export function LoginForm() {
   const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
-    if (!isFormValid || isSubmitting) return;
+    if (!isFormValid || isBusy) return;
 
     clearMessages();
     setIsSubmitting(true);
+    setIsRedirecting(false);
 
     try {
       const response = await fetch("/api/auth/login", {
@@ -102,10 +106,14 @@ export function LoginForm() {
 
       if (!response.ok || !result.success || !result.data) {
         setErrorMessage(getFriendlyLoginError(result.message));
+        setIsSubmitting(false);
         return;
       }
 
       setStoredUser(result.data.user, remember);
+
+      setIsSubmitting(false);
+      setIsRedirecting(true);
 
       router.push(
         isSafeRedirectPath(nextPath) ? nextPath : result.data.redirectTo
@@ -114,8 +122,8 @@ export function LoginForm() {
     } catch (error) {
       console.error("Login error:", error);
       setErrorMessage("Terjadi kesalahan koneksi. Silakan coba lagi.");
-    } finally {
       setIsSubmitting(false);
+      setIsRedirecting(false);
     }
   };
 
@@ -143,6 +151,13 @@ export function LoginForm() {
           </div>
         )}
 
+        {isRedirecting && (
+          <div className="mb-6 rounded-xl border border-primary/20 bg-primary/10 px-4 py-3 text-sm font-semibold text-primary flex items-center gap-2">
+            <Loader2 size={16} className="animate-spin shrink-0" />
+            <span>Login berhasil. Menyiapkan dashboard Anda...</span>
+          </div>
+        )}
+
         <div className="space-y-5">
           <div>
             <label
@@ -167,8 +182,8 @@ export function LoginForm() {
                   clearMessages();
                 }}
                 placeholder="Masukkan email"
-                className="w-full pl-11 pr-4 py-3.5 rounded-xl bg-card border border-border focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none transition-all text-sm"
-                disabled={isSubmitting}
+                className="w-full pl-11 pr-4 py-3.5 rounded-xl bg-card border border-border focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none transition-all text-sm disabled:opacity-60 disabled:cursor-not-allowed"
+                disabled={isBusy}
               />
             </div>
           </div>
@@ -187,7 +202,7 @@ export function LoginForm() {
             iconClassName="left-4"
             buttonClassName="right-4"
             labelClassName="text-sm font-medium"
-            disabled={isSubmitting}
+            disabled={isBusy}
           />
 
           {errorMessage && (
@@ -200,8 +215,8 @@ export function LoginForm() {
             <button
               type="button"
               onClick={() => setRemember((current) => !current)}
-              className="flex items-center gap-2.5 select-none group"
-              disabled={isSubmitting}
+              className="flex items-center gap-2.5 select-none group disabled:opacity-60 disabled:cursor-not-allowed"
+              disabled={isBusy}
             >
               <span
                 className={`w-5 h-5 rounded-sm border-2 flex items-center justify-center transition-all ${
@@ -231,8 +246,8 @@ export function LoginForm() {
             <button
               type="button"
               onClick={() => router.push("/forgot-password")}
-              className="text-sm text-primary font-semibold hover:underline whitespace-nowrap"
-              disabled={isSubmitting}
+              className="text-sm text-primary font-semibold hover:underline whitespace-nowrap disabled:opacity-60 disabled:cursor-not-allowed"
+              disabled={isBusy}
             >
               Lupa kata sandi?
             </button>
@@ -240,11 +255,15 @@ export function LoginForm() {
 
           <button
             type="submit"
-            disabled={!isFormValid || isSubmitting}
-            className="w-full bg-primary text-primary-foreground py-3.5 mt-4 rounded-xl hover:opacity-90 transition-all font-bold text-base shadow-lg shadow-primary/20 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
+            disabled={!isFormValid || isBusy}
+            className="w-full bg-primary text-primary-foreground py-3.5 mt-4 rounded-xl hover:opacity-90 transition-all font-bold text-base shadow-lg shadow-primary/20 disabled:opacity-70 disabled:cursor-not-allowed flex items-center justify-center gap-2"
           >
-            {isSubmitting && <Loader2 size={18} className="animate-spin" />}
-            {isSubmitting ? "Memproses..." : "Masuk"}
+            {isBusy && <Loader2 size={18} className="animate-spin" />}
+            {isRedirecting
+              ? "Menyiapkan dashboard..."
+              : isSubmitting
+                ? "Memproses login..."
+                : "Masuk"}
           </button>
         </div>
 
@@ -253,8 +272,8 @@ export function LoginForm() {
           <button
             type="button"
             onClick={() => router.push("/register")}
-            className="text-primary font-bold hover:underline"
-            disabled={isSubmitting}
+            className="text-primary font-bold hover:underline disabled:opacity-60 disabled:cursor-not-allowed"
+            disabled={isBusy}
           >
             Daftar Sekarang
           </button>
