@@ -1,7 +1,7 @@
 "use client";
 
 import { useCallback, useEffect, useRef, useState } from "react";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 
 import { AuthShell } from "@/components/auth/shared/AuthShell";
 import { ForgotPasswordEmailStep } from "@/components/auth/forgot-password/ForgotPasswordEmailStep";
@@ -54,7 +54,9 @@ function getFriendlyForgotPasswordError(message: string) {
   return messages[message] ?? "Terjadi kesalahan. Silakan coba lagi.";
 }
 
-function getRequestOtpToast(emailMeta?: EmailDeliveryMeta): NonNullable<AppToastState> {
+function getRequestOtpToast(
+  emailMeta?: EmailDeliveryMeta
+): NonNullable<AppToastState> {
   const hasDeliveryProblem =
     Boolean(emailMeta) && (!emailMeta?.sent || emailMeta.error !== null);
 
@@ -77,9 +79,10 @@ function getRequestOtpToast(emailMeta?: EmailDeliveryMeta): NonNullable<AppToast
 
 export function ForgotPasswordFlow() {
   const router = useRouter();
+  const searchParams = useSearchParams();
 
   const [step, setStep] = useState<ForgotPasswordStep>("email");
-  const [email, setEmail] = useState("");
+  const [email, setEmail] = useState(() => searchParams.get("email") ?? "");
   const [otp, setOtp] = useState(["", "", "", ""]);
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
@@ -87,6 +90,7 @@ export function ForgotPasswordFlow() {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [resendCooldown, setResendCooldown] = useState(0);
   const [toast, setToast] = useState<AppToastState>(null);
+  const [emailErrorMessage, setEmailErrorMessage] = useState("");
 
   const toastTimeoutRef = useRef<number | null>(null);
   const otpCode = otp.join("");
@@ -129,6 +133,11 @@ export function ForgotPasswordFlow() {
     };
   }, []);
 
+  const handleEmailChange = (nextEmail: string) => {
+    setEmail(nextEmail);
+    setEmailErrorMessage("");
+  };
+
   const handleBack = () => {
     if (isSubmitting) return;
 
@@ -151,6 +160,7 @@ export function ForgotPasswordFlow() {
     if (isSubmitting) return;
 
     setIsSubmitting(true);
+    setEmailErrorMessage("");
 
     try {
       const response = await fetch("/api/auth/forgot-password/request-otp", {
@@ -166,6 +176,11 @@ export function ForgotPasswordFlow() {
       const result = (await response.json()) as ForgotPasswordApiResponse;
 
       if (!response.ok || !result.success) {
+        if (result.message === "User not found") {
+          setEmailErrorMessage("Email belum terdaftar di sistem.");
+          return;
+        }
+
         showToast({
           type: "error",
           title: "Kode verifikasi gagal dikirim",
@@ -310,7 +325,8 @@ export function ForgotPasswordFlow() {
         <ForgotPasswordEmailStep
           email={email}
           isSubmitting={isSubmitting}
-          onEmailChange={setEmail}
+          errorMessage={emailErrorMessage}
+          onEmailChange={handleEmailChange}
           onSubmit={requestOtp}
         />
       )}

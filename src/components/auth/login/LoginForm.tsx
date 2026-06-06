@@ -81,6 +81,15 @@ export function LoginForm() {
     setReasonMessage("");
   };
 
+  const handleForgotPassword = () => {
+    const trimmedEmail = email.trim();
+    const targetPath = trimmedEmail
+      ? `/forgot-password?email=${encodeURIComponent(trimmedEmail)}`
+      : "/forgot-password";
+
+    router.push(targetPath);
+  };
+
   const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
@@ -245,7 +254,7 @@ export function LoginForm() {
 
             <button
               type="button"
-              onClick={() => router.push("/forgot-password")}
+              onClick={handleForgotPassword}
               className="text-sm text-primary font-semibold hover:underline whitespace-nowrap disabled:opacity-60 disabled:cursor-not-allowed"
               disabled={isBusy}
             >

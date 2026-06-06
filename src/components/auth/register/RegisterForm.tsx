@@ -1,7 +1,7 @@
 "use client";
 
 import { FormEvent, useMemo, useState } from "react";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { Hash, Loader2, Mail, User } from "lucide-react";
 
 import { AuthShell } from "@/components/auth/shared/AuthShell";
@@ -45,12 +45,29 @@ function getFriendlyRegisterError(message: string) {
   return messages[message] ?? "Registrasi gagal. Silakan periksa kembali data Anda.";
 }
 
+function getInitialEmail(searchParams: URLSearchParams) {
+  return searchParams.get("email") ?? "";
+}
+
+function getInitialNpm(email: string) {
+  const normalizedEmail = email.trim().toLowerCase();
+
+  if (!normalizedEmail.endsWith("@student.unsika.ac.id")) {
+    return "";
+  }
+
+  return normalizedEmail.split("@")[0] ?? "";
+}
+
 export function RegisterForm() {
   const router = useRouter();
+  const searchParams = useSearchParams();
+
+  const initialEmail = getInitialEmail(searchParams);
 
   const [fullName, setFullName] = useState("");
-  const [npm, setNpm] = useState("");
-  const [email, setEmail] = useState("");
+  const [npm, setNpm] = useState(() => getInitialNpm(initialEmail));
+  const [email, setEmail] = useState(initialEmail);
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
 
@@ -91,6 +108,27 @@ export function RegisterForm() {
     if (errorMessage) {
       setErrorMessage("");
     }
+  };
+
+  const handleEmailChange = (nextEmail: string) => {
+    setEmail(nextEmail);
+
+    const nextNpm = getInitialNpm(nextEmail);
+
+    if (nextNpm) {
+      setNpm(nextNpm);
+    }
+
+    clearError();
+  };
+
+  const handleLoginClick = () => {
+    const trimmedEmail = email.trim();
+    const targetPath = trimmedEmail
+      ? `/login?email=${encodeURIComponent(trimmedEmail)}`
+      : "/login";
+
+    router.push(targetPath);
   };
 
   const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
@@ -236,10 +274,7 @@ export function RegisterForm() {
                   id="email"
                   type="email"
                   value={email}
-                  onChange={(event) => {
-                    setEmail(event.target.value);
-                    clearError();
-                  }}
+                  onChange={(event) => handleEmailChange(event.target.value)}
                   placeholder="npm@student.unsika.ac.id"
                   disabled={isSubmitting}
                   className="w-full pl-10 pr-3 py-3 rounded-xl bg-card border border-border focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none transition-all text-sm disabled:opacity-60 disabled:cursor-not-allowed"
@@ -365,7 +400,7 @@ export function RegisterForm() {
             Sudah punya akun?{" "}
             <button
               type="button"
-              onClick={() => router.push("/login")}
+              onClick={handleLoginClick}
               className="text-primary font-bold hover:underline disabled:opacity-60 disabled:cursor-not-allowed"
               disabled={isSubmitting}
             >

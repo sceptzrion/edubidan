@@ -1,11 +1,13 @@
 "use client";
 
 import { FormEvent } from "react";
-import { ArrowRight, Loader2, Mail } from "lucide-react";
+import { useRouter } from "next/navigation";
+import { AlertCircle, ArrowRight, Loader2, Mail } from "lucide-react";
 
 interface ForgotPasswordEmailStepProps {
   email: string;
   isSubmitting: boolean;
+  errorMessage: string;
   onEmailChange: (email: string) => void;
   onSubmit: () => void;
 }
@@ -13,9 +15,11 @@ interface ForgotPasswordEmailStepProps {
 export function ForgotPasswordEmailStep({
   email,
   isSubmitting,
+  errorMessage,
   onEmailChange,
   onSubmit,
 }: ForgotPasswordEmailStepProps) {
+  const router = useRouter();
   const isEmailFilled = email.trim().length > 0;
 
   const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
@@ -24,6 +28,15 @@ export function ForgotPasswordEmailStep({
     if (!isEmailFilled || isSubmitting) return;
 
     onSubmit();
+  };
+
+  const handleRegisterClick = () => {
+    const trimmedEmail = email.trim();
+    const targetPath = trimmedEmail
+      ? `/register?email=${encodeURIComponent(trimmedEmail)}`
+      : "/register";
+
+    router.push(targetPath);
   };
 
   return (
@@ -70,6 +83,28 @@ export function ForgotPasswordEmailStep({
             />
           </div>
         </div>
+
+        {errorMessage && (
+          <div className="rounded-xl border border-destructive/20 bg-destructive/10 px-4 py-3 text-sm text-destructive flex items-start gap-3">
+            <AlertCircle size={18} className="shrink-0 mt-0.5" />
+
+            <div className="space-y-1">
+              <p className="font-semibold">{errorMessage}</p>
+
+              <p className="text-destructive/90">
+                Belum punya akun?{" "}
+                <button
+                  type="button"
+                  onClick={handleRegisterClick}
+                  className="font-bold underline underline-offset-2 hover:opacity-80"
+                  disabled={isSubmitting}
+                >
+                  Buat akun
+                </button>
+              </p>
+            </div>
+          </div>
+        )}
 
         <button
           type="submit"
