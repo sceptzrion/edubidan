@@ -1,13 +1,18 @@
 import type { Metadata } from "next";
+import { Suspense } from "react";
 
 import { RegisterForm } from "@/components/auth/register/RegisterForm";
 
 export const metadata: Metadata = {
-  title: "Daftar Akun Mahasiswa | EduBidan",
+  title: "Daftar | EduBidan",
   description:
-    "Buat akun mahasiswa EduBidan untuk mengakses modul pembelajaran, materi video, dan kuis evaluasi.",
+    "Buat akun mahasiswa EduBidan untuk mengakses modul pembelajaran kebidanan.",
 };
 
 export default function RegisterPage() {
-  return <RegisterForm />;
+  return (
+    <Suspense fallback={null}>
+      <RegisterForm />
+    </Suspense>
+  );
 }
