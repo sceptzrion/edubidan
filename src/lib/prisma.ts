@@ -24,6 +24,8 @@ const adapter = new PrismaMariaDb({
   },
   allowPublicKeyRetrieval: true,
   connectionLimit: 5,
+  connectTimeout: 10000,
+  acquireTimeout: 10000,
 });
 
 export const prisma =
