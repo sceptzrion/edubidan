@@ -11,7 +11,20 @@ if (!databaseUrl) {
   throw new Error("DATABASE_URL is not defined");
 }
 
-const adapter = new PrismaMariaDb(databaseUrl);
+const url = new URL(databaseUrl);
+
+const adapter = new PrismaMariaDb({
+  host: url.hostname,
+  port: Number(url.port || 3306),
+  user: decodeURIComponent(url.username),
+  password: decodeURIComponent(url.password),
+  database: url.pathname.replace("/", ""),
+  ssl: {
+    rejectUnauthorized: false,
+  },
+  allowPublicKeyRetrieval: true,
+  connectionLimit: 5,
+});
 
 export const prisma =
   globalForPrisma.prisma ??
