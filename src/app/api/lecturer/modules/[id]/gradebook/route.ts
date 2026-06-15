@@ -1,5 +1,7 @@
 import { NextResponse } from "next/server";
 
+import { requireApiDosenProfile } from "@/lib/auth/api-guards";
+import { prisma } from "@/lib/prisma";
 import { getModuleGradebook } from "@/services/lecturer-analytics.service";
 
 export const dynamic = "force-dynamic";
@@ -22,6 +24,12 @@ function parseModuleId(id: string) {
 
 export async function GET(_request: Request, context: RouteContext) {
   try {
+    const auth = await requireApiDosenProfile();
+
+    if (!auth.success) {
+      return auth.response;
+    }
+
     const { id } = await context.params;
     const moduleId = parseModuleId(id);
 
@@ -34,6 +42,29 @@ export async function GET(_request: Request, context: RouteContext) {
         },
         {
           status: 400,
+        }
+      );
+    }
+
+    const ownedModule = await prisma.module.findFirst({
+      where: {
+        id: moduleId,
+        dosenProfileId: auth.dosenProfileId,
+      },
+      select: {
+        id: true,
+      },
+    });
+
+    if (!ownedModule) {
+      return NextResponse.json(
+        {
+          success: false,
+          message: "Module not found or not owned by lecturer",
+          data: null,
+        },
+        {
+          status: 404,
         }
       );
     }

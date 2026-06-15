@@ -1,5 +1,7 @@
+import { Role } from "@prisma/client";
 import { NextRequest, NextResponse } from "next/server";
 
+import { requireApiRole } from "@/lib/auth/api-guards";
 import {
   deleteUserByAdmin,
   getUserById,
@@ -80,6 +82,12 @@ function getDeleteUserStatusCode(
 
 export async function GET(_request: Request, context: RouteContext) {
   try {
+    const auth = await requireApiRole([Role.ADMIN]);
+
+    if (!auth.success) {
+      return auth.response;
+    }
+
     const { id } = await context.params;
     const userId = parseUserId(id);
 
@@ -134,6 +142,12 @@ export async function GET(_request: Request, context: RouteContext) {
 
 export async function PATCH(request: NextRequest, context: RouteContext) {
   try {
+    const auth = await requireApiRole([Role.ADMIN]);
+
+    if (!auth.success) {
+      return auth.response;
+    }
+
     const { id } = await context.params;
     const userId = parseUserId(id);
 
@@ -197,6 +211,12 @@ export async function PATCH(request: NextRequest, context: RouteContext) {
 
 export async function DELETE(_request: Request, context: RouteContext) {
   try {
+    const auth = await requireApiRole([Role.ADMIN]);
+
+    if (!auth.success) {
+      return auth.response;
+    }
+
     const { id } = await context.params;
     const userId = parseUserId(id);
 

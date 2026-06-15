@@ -1,5 +1,7 @@
+import { Role } from "@prisma/client";
 import { NextResponse } from "next/server";
 
+import { requireApiRole } from "@/lib/auth/api-guards";
 import { resetUserPasswordByAdmin } from "@/services/user.service";
 
 export const dynamic = "force-dynamic";
@@ -35,6 +37,12 @@ function getResetPasswordErrorMessage(
 
 export async function POST(_request: Request, context: RouteContext) {
   try {
+    const auth = await requireApiRole([Role.ADMIN]);
+
+    if (!auth.success) {
+      return auth.response;
+    }
+
     const { id } = await context.params;
     const userId = parseUserId(id);
 

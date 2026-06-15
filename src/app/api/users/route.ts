@@ -1,5 +1,7 @@
+import { Role } from "@prisma/client";
 import { NextRequest, NextResponse } from "next/server";
 
+import { requireApiRole } from "@/lib/auth/api-guards";
 import { createUserByAdmin, getUsers } from "@/services/user.service";
 
 export const dynamic = "force-dynamic";
@@ -30,6 +32,12 @@ function getCreateUserErrorMessage(
 
 export async function GET() {
   try {
+    const auth = await requireApiRole([Role.ADMIN]);
+
+    if (!auth.success) {
+      return auth.response;
+    }
+
     const users = await getUsers();
 
     return NextResponse.json({
@@ -55,6 +63,12 @@ export async function GET() {
 
 export async function POST(request: NextRequest) {
   try {
+    const auth = await requireApiRole([Role.ADMIN]);
+
+    if (!auth.success) {
+      return auth.response;
+    }
+
     const body = await request.json();
 
     const result = await createUserByAdmin({
