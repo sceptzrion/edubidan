@@ -8,6 +8,10 @@ interface LecturerQuestionAnalysisCardProps {
   totalQuestions: number;
 }
 
+function getOptionLabel(index: number) {
+  return String.fromCharCode(65 + index);
+}
+
 export function LecturerQuestionAnalysisCard({
   question,
   questionIndex,
@@ -50,8 +54,9 @@ export function LecturerQuestionAnalysisCard({
           Distribusi Jawaban Mahasiswa
         </p>
 
-        {question.options.map((option) => {
+        {question.options.map((option, optionIndex) => {
           const isCorrect = option.id === question.correctOptionId;
+          const optionLabel = getOptionLabel(optionIndex);
 
           return (
             <div
@@ -77,7 +82,7 @@ export function LecturerQuestionAnalysisCard({
                       : "bg-muted text-muted-foreground"
                   }`}
                 >
-                  {option.id.toUpperCase()}
+                  {optionLabel}
                 </div>
 
                 <div className="flex-1 min-w-0 pr-4">
