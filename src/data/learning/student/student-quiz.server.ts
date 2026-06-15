@@ -1,6 +1,7 @@
 import { ContentType } from "@prisma/client";
 
 import { prisma } from "@/lib/prisma";
+import { fisherYatesShuffle } from "@/lib/quiz/fisher-yates";
 
 export interface StudentQuizOptionData {
   id: number;
@@ -146,6 +147,11 @@ export async function getStudentQuizData(params: {
 
   const latestAttempt = quiz.attempts[0] ?? null;
 
+  const shuffledQuestions = fisherYatesShuffle(
+    quiz.soals,
+    `student:${params.userId}:module:${params.moduleId}:quiz:${params.quizId}:questions`
+  );
+
   return {
     module: {
       id: enrollment.module.id,
@@ -157,14 +163,21 @@ export async function getStudentQuizData(params: {
       description: quiz.description ?? "",
       hasTimeLimit: quiz.hasTimeLimit,
       timeLimitMinutes: quiz.timeLimitMinutes,
-      questions: quiz.soals.map((soal) => {
-        const correctIndex = soal.options.findIndex((option) => option.isCorrect);
+      questions: shuffledQuestions.map((soal) => {
+        const shuffledOptions = fisherYatesShuffle(
+          soal.options,
+          `student:${params.userId}:quiz:${params.quizId}:soal:${soal.id}:options`
+        );
+
+        const correctIndex = shuffledOptions.findIndex(
+          (option) => option.isCorrect
+        );
 
         return {
           id: soal.id,
           question: soal.questionText,
           mediaUrl: soal.mediaUrl ?? undefined,
-          options: soal.options.map((option) => ({
+          options: shuffledOptions.map((option) => ({
             id: option.id,
             text: option.text,
           })),
@@ -173,15 +186,15 @@ export async function getStudentQuizData(params: {
       }),
     },
     latestAttempt: latestAttempt
-    ? {
-        id: latestAttempt.id,
-        score: latestAttempt.score,
-        totalCorrect: latestAttempt.totalCorrect ?? 0,
-        totalQuestions: latestAttempt.totalQuestions ?? 0,
-        durationSeconds: latestAttempt.durationSeconds,
-        submittedAt: latestAttempt.submittedAt,
-        answers: latestAttempt.answers,
+      ? {
+          id: latestAttempt.id,
+          score: latestAttempt.score,
+          totalCorrect: latestAttempt.totalCorrect ?? 0,
+          totalQuestions: latestAttempt.totalQuestions ?? 0,
+          durationSeconds: latestAttempt.durationSeconds,
+          submittedAt: latestAttempt.submittedAt,
+          answers: latestAttempt.answers,
         }
-    : null,
+      : null,
   };
 }
