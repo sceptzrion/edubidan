@@ -15,7 +15,7 @@ interface LessonSidebarProps {
   item: LearningItem;
   playlistItems: LessonPlaylistItem[];
   activeIndex: number;
-  onNavigate: (targetItemId: number) => void;
+  onNavigate: (targetItem: LessonPlaylistItem) => void;
 }
 
 export function LessonSidebar({

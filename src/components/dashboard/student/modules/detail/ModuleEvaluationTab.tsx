@@ -23,7 +23,7 @@ export function ModuleEvaluationTab({
       {items.length > 0 ? (
         items.map((item) => (
           <TaskItem
-            key={item.id}
+            key={`kuis-${item.id}`}
             item={toModuleTaskItem(item)}
             onClick={() =>
               router.push(`/dashboard/modules/${moduleId}/quiz/${item.id}`)

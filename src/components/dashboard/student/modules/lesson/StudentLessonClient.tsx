@@ -10,6 +10,7 @@ import { LessonSidebar } from "@/components/dashboard/student/modules/lesson/Les
 import { QuizWarning } from "@/components/dashboard/student/modules/lesson/QuizWarning";
 import { toLessonPlaylistItem } from "@/data/learning/shared/learning-modules";
 import type { StudentLessonData } from "@/data/learning/student/student-learning.server";
+import type { LearningItem } from "@/types/learning";
 
 interface StudentLessonClientProps {
   data: StudentLessonData;
@@ -20,6 +21,16 @@ type ProgressApiResponse = {
   message: string;
   data: unknown;
 };
+
+type NavigableLearningItem = Pick<LearningItem, "id" | "kind">;
+
+function getLearningItemHref(moduleId: number, item: NavigableLearningItem) {
+  if (item.kind === "kuis") {
+    return `/dashboard/modules/${moduleId}/quiz/${item.id}`;
+  }
+
+  return `/dashboard/modules/${moduleId}/lesson/${item.id}`;
+}
 
 export function StudentLessonClient({ data }: StudentLessonClientProps) {
   const router = useRouter();
@@ -58,8 +69,8 @@ export function StudentLessonClient({ data }: StudentLessonClientProps) {
     }
   };
 
-  const navigateToItem = (targetItemId: number) => {
-    router.push(`/dashboard/modules/${module.id}/lesson/${targetItemId}`);
+  const navigateToItem = (targetItem: NavigableLearningItem) => {
+    router.push(getLearningItemHref(module.id, targetItem));
   };
 
   const handleNext = async () => {
@@ -68,7 +79,7 @@ export function StudentLessonClient({ data }: StudentLessonClientProps) {
     if (!success) return;
 
     if (nextItem) {
-      navigateToItem(nextItem.id);
+      navigateToItem(nextItem);
       router.refresh();
       return;
     }
@@ -80,11 +91,11 @@ export function StudentLessonClient({ data }: StudentLessonClientProps) {
   const handlePrev = () => {
     if (!previousItem) return;
 
-    navigateToItem(previousItem.id);
+    navigateToItem(previousItem);
   };
 
-  const handleNavigate = (targetItemId: number) => {
-    navigateToItem(targetItemId);
+  const handleNavigate = (targetItem: NavigableLearningItem) => {
+    navigateToItem(targetItem);
   };
 
   return (

@@ -12,6 +12,14 @@ interface ModuleLearningTabProps {
   items: LearningItem[];
 }
 
+function getLearningItemHref(moduleId: number, item: LearningItem) {
+  if (item.kind === "kuis") {
+    return `/dashboard/modules/${moduleId}/quiz/${item.id}`;
+  }
+
+  return `/dashboard/modules/${moduleId}/lesson/${item.id}`;
+}
+
 export function ModuleLearningTab({ moduleId, items }: ModuleLearningTabProps) {
   const router = useRouter();
 
@@ -20,11 +28,9 @@ export function ModuleLearningTab({ moduleId, items }: ModuleLearningTabProps) {
       {items.length > 0 ? (
         items.map((item) => (
           <PlaylistItem
-            key={item.id}
+            key={`${item.kind}-${item.id}`}
             item={toModulePlaylistItem(item)}
-            onClick={() =>
-              router.push(`/dashboard/modules/${moduleId}/lesson/${item.id}`)
-            }
+            onClick={() => router.push(getLearningItemHref(moduleId, item))}
           />
         ))
       ) : (
