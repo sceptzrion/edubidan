@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 
-import { Navbar } from "@/components/layout/public/Navbar";
+import { PublicNavbar } from "@/components/layout/public/PublicNavbar";
 import { Footer } from "@/components/layout/public/Footer";
 import { AboutCard } from "@/components/sections/landing/AboutCard";
 import { FeatureCard } from "@/components/sections/landing/FeatureCard";
@@ -26,7 +26,7 @@ export const metadata: Metadata = {
 export default function LandingPage() {
   return (
     <div className="min-h-screen font-sans transition-colors duration-300 bg-background text-foreground">
-      <Navbar />
+      <PublicNavbar />
 
       <main>
         <section className="relative overflow-hidden">
