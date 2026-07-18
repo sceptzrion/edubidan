@@ -50,7 +50,7 @@ export const helpFaqs = [
   {
     category: "Akun",
     q: "Bagaimana jika saya lupa kata sandi?",
-    a: "Gunakan menu Lupa Kata Sandi pada halaman login. Sistem akan meminta email terdaftar, kode OTP, lalu kata sandi baru.",
+    a: "Gunakan menu Lupa Kata Sandi pada halaman login, lalu masukkan email yang terdaftar. Sistem akan mengirimkan kata sandi sementara melalui email. Gunakan kata sandi tersebut untuk masuk, kemudian segera ubah kata sandi melalui menu Pengaturan Akun pada bagian Keamanan.",
   },
   {
     category: "Akun",
