@@ -53,8 +53,8 @@ export function ForgotPasswordEmailStep({
       </h1>
 
       <p className="text-muted-foreground mb-8 text-sm leading-relaxed">
-        Masukkan email yang terdaftar. Jika email valid, sistem akan mengirimkan
-        kode verifikasi untuk proses pemulihan akun.
+        Masukkan email yang terdaftar. Sistem akan membuat dan mengirimkan kata
+        sandi sementara agar Anda dapat kembali masuk ke akun EduBidan.
       </p>
 
       <div className="space-y-4">
@@ -78,6 +78,7 @@ export function ForgotPasswordEmailStep({
               value={email}
               onChange={(event) => onEmailChange(event.target.value)}
               placeholder="Masukkan email"
+              autoComplete="email"
               disabled={isSubmitting}
               className="w-full pl-11 pr-4 py-3.5 rounded-xl bg-card border border-border focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none transition-all text-sm disabled:opacity-60 disabled:cursor-not-allowed"
             />
@@ -112,7 +113,7 @@ export function ForgotPasswordEmailStep({
           className="w-full bg-primary text-primary-foreground py-3.5 mt-2 rounded-xl hover:opacity-90 transition-all font-bold text-base shadow-lg shadow-primary/20 flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
         >
           {isSubmitting && <Loader2 size={18} className="animate-spin" />}
-          {isSubmitting ? "Mengirim..." : "Kirim Kode Verifikasi"}
+          {isSubmitting ? "Mengirim..." : "Kirim Kata Sandi Sementara"}
           {!isSubmitting && <ArrowRight size={18} />}
         </button>
       </div>
