@@ -1,6 +1,6 @@
 const supportEmail = "support@edubidan.my.id";
 const supportPhone = "+62 812 3456 7890";
-const supportWhatsapp = "6281234567890";
+const supportWhatsapp = "6285111452050";
 
 export const siteConfig = {
   name: "EduBidan",
